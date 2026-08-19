@@ -3,6 +3,7 @@
 #include "types.hpp"
 #include <optional>
 #include <list>
+#include <map>
 
 // Aliases
 using Events = std::vector<Event>;
@@ -26,6 +27,11 @@ class Engine final {
         SignedLong orderPrice;
         std::list<LevelOrder>::iterator levelItr;
     };
+
+    // Internal Data Members, private by default.
+    std::map<SignedLong, PriceLevel, std::greater<SignedLong>> bids;
+    std::map<SignedLong, PriceLevel, std::less<SignedLong>> asks;
+    std::unordered_map<UnsignedLong, Locator> orderLocator;
 
     public:
         Engine() = default;

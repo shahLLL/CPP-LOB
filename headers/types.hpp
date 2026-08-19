@@ -29,13 +29,13 @@ enum class CancelReason : UnsignedChar {
     ENGINE_SHUTDOWN
 };
 /*
-    Timing Restrictions.
+    Time-In-Force.
     GTC: Good Till Cancelled
     IOC: Immediate or Cancelled
     FOK: Fill or Cancel
     DAY: End of Session Cancel
 */
-enum class TimeResc : UnsignedChar { GTC, IOC, FOK, DAY };
+enum class TimeInForce : UnsignedChar { GTC, IOC, FOK, DAY };
 
 // Structs. Sorted from largest data type to smallest for memory optimisation.
 struct Order {
@@ -44,7 +44,7 @@ struct Order {
     UnsignedLong orderQuantity;
     Side orderSide;
     OrderType orderType;
-    TimeResc orderTimeResc;
+    TimeInForce orderTimeInForce;
     TimeStamp orderTimeStamp;
 };
 struct Event {

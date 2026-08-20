@@ -4,16 +4,17 @@
 #include <chrono>
 
 // Type Aliases
-using UnsignedChar = std::uint8_t;
-using UnsignedLong = std::uint64_t;
-using SignedLong = std::int64_t;
+using ID = std::uint64_t;
+using Quantity = std::uint64_t;
+using Price = double;
+using EnumType = std::uint8_t;
 using TimeStamp = std::chrono::system_clock::time_point;
 
 // Enums
-enum class Side : UnsignedChar { BUY, SELL };
-enum class OrderType : UnsignedChar { LIMIT, MARKET };
-enum class EventType : UnsignedChar { ACCEPT, EXECUTE, CANCEL, REJECT };
-enum class RejectReason : UnsignedChar { 
+enum class Side : EnumType { BUY, SELL };
+enum class OrderType : EnumType { LIMIT, MARKET };
+enum class EventType : EnumType { ACCEPT, EXECUTE, CANCEL, REJECT };
+enum class RejectReason : EnumType { 
     DUPLICATE, 
     UNKOWN, 
     INVALID_PRICE, 
@@ -22,7 +23,7 @@ enum class RejectReason : UnsignedChar {
     IOC_NO_FILL, 
     FOK_INSUFFICIENT_LIQUIDITY 
 };
-enum class CancelReason : UnsignedChar {
+enum class CancelReason : EnumType {
     USER_REQUESTED,
     IOC_REMAINDER,
     DAY_EXPIRY,
@@ -35,26 +36,26 @@ enum class CancelReason : UnsignedChar {
     FOK: Fill or Cancel
     DAY: End of Session Cancel
 */
-enum class TimeInForce : UnsignedChar { GTC, IOC, FOK, DAY };
+enum class TimeInForce : EnumType { GTC, IOC, FOK, DAY };
 
 // Structs. Sorted from largest data type to smallest for memory optimisation.
 struct Order {
-    UnsignedLong orderID;
-    SignedLong orderPrice;
-    UnsignedLong orderQuantity;
+    ID orderID;
+    Price orderPrice;
+    Quantity orderQuantity;
     Side orderSide;
     OrderType orderType;
     TimeInForce orderTimeInForce;
     TimeStamp orderTimeStamp;
 };
 struct Event {
-    UnsignedLong eventOrderID;
-    UnsignedLong counterOrderID;
-    SignedLong eventPrice;
-    UnsignedLong eventQuantity;
+    ID eventOrderID;
+    ID counterOrderID;
+    Price eventPrice;
+    Quantity eventQuantity;
     EventType eventType;
     TimeStamp eventTimeStamp;
     RejectReason rejectReason;
     CancelReason cancelReason;
 };
-struct Level { SignedLong price; UnsignedLong quantity; };
+struct Level { Price price; Quantity quantity; };

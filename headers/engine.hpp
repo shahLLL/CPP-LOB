@@ -6,6 +6,7 @@
 #include <map>
 
 // Aliases
+using SizeT = std::size_t;
 using Events = std::vector<Event>;
 using Levels = std::vector<Level>;
 using TOB = std::optional<Level>;
@@ -13,33 +14,33 @@ using TOB = std::optional<Level>;
 class Engine final {
     // Internal Types, private by default.
     struct LevelOrder {
-        UnsignedLong orderID;
-        UnsignedLong orderPrice;
-        UnsignedLong orderQuantity;
+        ID orderID;
+        Price orderPrice;
+        Quantity orderQuantity;
         TimeStamp orderTimeStamp;
     };
     struct PriceLevel {
         std::list<LevelOrder> level;
-        UnsignedLong totalQuantity;
+        Quantity totalQuantity;
     };
     struct Locator {
         Side orderSide;
-        SignedLong orderPrice;
+        Price orderPrice;
         std::list<LevelOrder>::iterator levelItr;
     };
 
     // Internal Data Members, private by default.
-    std::map<SignedLong, PriceLevel, std::greater<SignedLong>> bids;
-    std::map<SignedLong, PriceLevel, std::less<SignedLong>> asks;
-    std::unordered_map<UnsignedLong, Locator> orderLocator;
+    std::map<Price, PriceLevel, std::greater<Price>> bids;
+    std::map<Price, PriceLevel, std::less<Price>> asks;
+    std::unordered_map<ID, Locator> orderLocator;
 
     public:
         Engine() = default;
         Events submitOrder(const Order& order);
-        Events cancelOrder(UnsignedLong orderID);
+        Events cancelOrder(ID orderID);
         TOB getBestBid() const noexcept;
         TOB getBestAsk() const noexcept;
-        Levels getBids(UnsignedLong n) const;
-        Levels getAsks(UnsignedLong n) const;
+        Levels getBids(SizeT n) const;
+        Levels getAsks(SizeT n) const;
         ~Engine() = default;
 };

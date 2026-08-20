@@ -40,7 +40,7 @@ class Engine final {
         Events cancelOrder(ID orderID);
         TOB getBestBid() const noexcept;
         TOB getBestAsk() const noexcept;
-        Levels getBids(SizeT n) const;
-        Levels getAsks(SizeT n) const;
+        Levels getBidOrderDepths(SizeT n) const;
+        Levels getAskOrderDepths(SizeT n) const;
         ~Engine() = default;
 };

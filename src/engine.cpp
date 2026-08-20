@@ -11,3 +11,23 @@ TOB Engine::getBestAsk() const noexcept {
     if(asks.empty()) return std::nullopt;
     return Level{ asksItr->first, asksItr->second.totalQuantity };
 }
+
+Levels Engine::getBidOrderDepths(SizeT n) const {
+    Levels bidDepths;
+    bidDepths.reserve(n);
+    for(auto& [price, priceLevel] : bids) {
+        if(bidDepths.size() >= n) break;
+        bidDepths.push_back(Level{ price, priceLevel.totalQuantity });
+    }
+    return bidDepths;
+}
+
+Levels Engine::getAskOrderDepths(SizeT n) const {
+    Levels askDepths;
+    askDepths.reserve(n);
+    for(auto& [price, priceLevel] : asks) {
+        if(askDepths.size() >= n) break;
+        askDepths.push_back(Level{ price, priceLevel.totalQuantity });
+    }
+    return askDepths;
+}

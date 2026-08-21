@@ -43,5 +43,6 @@ class Engine final {
         Levels getBidOrderDepths(SizeT n) const;
         Levels getAskOrderDepths(SizeT n) const;
         Price getBidAskSpread() const;
+        Price getMidPrice() const;
         ~Engine() = default;
 };

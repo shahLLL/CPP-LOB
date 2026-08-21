@@ -38,3 +38,10 @@ Price Engine::getBidAskSpread() const {
     if(!bids.empty() && asks.empty()) return (bids.begin()->first) * -1.0;
     return (asks.begin()->first) - (bids.begin()->first);
 }
+
+Price Engine::getMidPrice() const {
+    if(bids.empty() && asks.empty()) return 0.0;
+    if(bids.empty() && !asks.empty()) return asks.begin()->first;
+    if(!bids.empty() && asks.empty()) return bids.begin()->first;
+    return ((bids.begin()->first) + (asks.begin()->first) / 2.0);
+}

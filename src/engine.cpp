@@ -45,3 +45,16 @@ Price Engine::getMidPrice() const {
     if(!bids.empty() && asks.empty()) return bids.begin()->first;
     return ((bids.begin()->first) + (asks.begin()->first) / 2.0);
 }
+
+Double Engine::getOrderImbalance() const {
+    Double bidTotal = 0.0;
+    Double askTotal = 0.0;
+    for(auto& [price, priceLevel] : bids) { 
+        bidTotal += static_cast<Double>(priceLevel.totalQuantity);
+    }
+    for(auto& [price, priceLevel] : asks) { 
+        askTotal += static_cast<Double>(priceLevel.totalQuantity);
+    }
+    if(bidTotal + askTotal == 0.0) return 0.0;
+    return (bidTotal - askTotal) / (bidTotal + askTotal);
+}

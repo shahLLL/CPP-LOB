@@ -7,6 +7,7 @@
 
 // Aliases
 using SizeT = std::size_t;
+using Double = double;
 using Events = std::vector<Event>;
 using Levels = std::vector<Level>;
 using TOB = std::optional<Level>;
@@ -44,5 +45,6 @@ class Engine final {
         Levels getAskOrderDepths(SizeT n) const;
         Price getBidAskSpread() const;
         Price getMidPrice() const;
+        Double getOrderImbalance() const;
         ~Engine() = default;
 };

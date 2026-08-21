@@ -42,5 +42,6 @@ class Engine final {
         TOB getBestAsk() const noexcept;
         Levels getBidOrderDepths(SizeT n) const;
         Levels getAskOrderDepths(SizeT n) const;
+        Price getBidAskSpread() const;
         ~Engine() = default;
 };

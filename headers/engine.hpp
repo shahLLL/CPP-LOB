@@ -17,7 +17,7 @@ class Engine final {
     struct LevelOrder {
         ID orderID;
         Price orderPrice;
-        Quantity orderQuantity;
+        Quantity currentQuantity;
         TimeStamp orderTimeStamp;
     };
     struct PriceLevel {

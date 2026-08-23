@@ -5,7 +5,7 @@
 
 // Type Aliases
 using ID = std::uint64_t;
-using Quantity = std::uint64_t;
+using Quantity = std::int64_t;
 using Price = double;
 using EnumType = std::uint8_t;
 using TimeStamp = std::chrono::system_clock::time_point;
@@ -13,21 +13,23 @@ using TimeStamp = std::chrono::system_clock::time_point;
 // Enums
 enum class Side : EnumType { BUY, SELL };
 enum class OrderType : EnumType { LIMIT, MARKET };
-enum class EventType : EnumType { ACCEPT, EXECUTE, CANCEL, REJECT };
+enum class EventType : EnumType { REST, FILL, CANCEL, REJECT };
 enum class RejectReason : EnumType { 
-    DUPLICATE, 
-    UNKOWN, 
-    INVALID_PRICE, 
+    DUPLICATE,
+    UNKOWN,
+    INVALID_PRICE,
     INVALID_QUANTITY, 
-    ALREADY_TERMINAL, 
-    IOC_NO_FILL, 
-    FOK_INSUFFICIENT_LIQUIDITY 
+    ALREADY_TERMINAL,
+    IOC_NO_FILL,
+    FOK_INSUFFICIENT_LIQUIDITY,
+    NOT_APPLICABLE
 };
 enum class CancelReason : EnumType {
     USER_REQUESTED,
     IOC_REMAINDER,
     DAY_EXPIRY,
-    ENGINE_SHUTDOWN
+    ENGINE_SHUTDOWN,
+    NOT_APPLICABLE
 };
 /*
     Time-In-Force.
@@ -46,7 +48,6 @@ struct Order {
     Side orderSide;
     OrderType orderType;
     TimeInForce orderTimeInForce;
-    TimeStamp orderTimeStamp;
 };
 struct Event {
     ID eventOrderID;

@@ -38,7 +38,7 @@ class Engine final {
     public:
         Engine() = default;
         Events submitOrder(const Order& order);
-        Events cancelOrder(ID orderID);
+        Event cancelOrder(ID orderID);
         TOB getBestBid() const noexcept;
         TOB getBestAsk() const noexcept;
         Levels getBidOrderDepths(SizeT n) const;

@@ -333,3 +333,48 @@ Events Engine::submitOrder(const Order& order) {
 
     return events;
 }
+
+Event Engine::cancelOrder(ID orderID) {
+    auto itr = orderLocator.find(orderID);
+    if(itr == orderLocator.end()) {
+        return {
+            orderID,
+            0,
+            0.0,
+            0,
+            EventType::REJECT,
+            std::chrono::system_clock::now(),
+            RejectReason::UNKOWN,
+            CancelReason::NOT_APPLICABLE
+        };
+    }
+
+    const Locator& locatorRef = itr->second;
+    if(locatorRef.orderSide == Side::BUY) {
+        auto mapItr = bids.find(locatorRef.orderPrice);
+        auto& priceLevel = mapItr->second;
+        priceLevel.totalQuantity = 
+            priceLevel.totalQuantity - locatorRef.levelItr->currentQuantity;
+        priceLevel.level.erase(locatorRef.levelItr);
+        if(priceLevel.level.empty()) bids.erase(mapItr);
+    } else {
+        auto mapItr = asks.find(locatorRef.orderPrice);
+        auto& priceLevel = mapItr->second;
+        priceLevel.totalQuantity = 
+            priceLevel.totalQuantity - locatorRef.levelItr->currentQuantity;
+        priceLevel.level.erase(locatorRef.levelItr);
+        if(priceLevel.level.empty()) asks.erase(mapItr);
+    }
+    orderLocator.erase(itr);
+
+    return {
+        orderID,
+        0,
+        0.0,
+        0,
+        EventType::CANCEL,
+        std::chrono::system_clock::now(),
+        RejectReason::NOT_APPLICABLE,
+        CancelReason::USER_REQUESTED
+    };
+}

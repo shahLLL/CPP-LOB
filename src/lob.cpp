@@ -1,18 +1,18 @@
-#include "../headers/engine.hpp"
+#include "../headers/lob.hpp"
 
-TOB Engine::getBestBid() const noexcept {
+TOB LOB::getBestBid() const noexcept {
     auto bidsItr = bids.begin();
     if(bids.empty()) return std::nullopt;
     return Level{ bidsItr->first, bidsItr->second.totalQuantity };
 }
 
-TOB Engine::getBestAsk() const noexcept {
+TOB LOB::getBestAsk() const noexcept {
     auto asksItr = asks.begin();
     if(asks.empty()) return std::nullopt;
     return Level{ asksItr->first, asksItr->second.totalQuantity };
 }
 
-Levels Engine::getBidOrderDepths(SizeT n) const {
+Levels LOB::getBidOrderDepths(SizeT n) const {
     Levels bidDepths;
     bidDepths.reserve(n);
     for(auto& [price, priceLevel] : bids) {
@@ -22,7 +22,7 @@ Levels Engine::getBidOrderDepths(SizeT n) const {
     return bidDepths;
 }
 
-Levels Engine::getAskOrderDepths(SizeT n) const {
+Levels LOB::getAskOrderDepths(SizeT n) const {
     Levels askDepths;
     askDepths.reserve(n);
     for(auto& [price, priceLevel] : asks) {
@@ -32,21 +32,21 @@ Levels Engine::getAskOrderDepths(SizeT n) const {
     return askDepths;
 }
 
-Price Engine::getBidAskSpread() const {
+Price LOB::getBidAskSpread() const {
     if(bids.empty() && asks.empty()) return 0.0;
     if(bids.empty() && !asks.empty()) return asks.begin()->first;
     if(!bids.empty() && asks.empty()) return (bids.begin()->first) * -1.0;
     return (asks.begin()->first) - (bids.begin()->first);
 }
 
-Price Engine::getMidPrice() const {
+Price LOB::getMidPrice() const {
     if(bids.empty() && asks.empty()) return 0.0;
     if(bids.empty() && !asks.empty()) return asks.begin()->first;
     if(!bids.empty() && asks.empty()) return bids.begin()->first;
     return ((bids.begin()->first) + (asks.begin()->first) / 2.0);
 }
 
-Double Engine::getOrderImbalance() const {
+Double LOB::getOrderImbalance() const {
     Double bidTotal = 0.0;
     Double askTotal = 0.0;
     for(auto& [price, priceLevel] : bids) { 
@@ -59,7 +59,7 @@ Double Engine::getOrderImbalance() const {
     return (bidTotal - askTotal) / (bidTotal + askTotal);
 }
 
-Events Engine::submitOrder(const Order& order) {
+Events LOB::submitOrder(const Order& order) {
     Events events;
 
     // Validation
@@ -334,7 +334,7 @@ Events Engine::submitOrder(const Order& order) {
     return events;
 }
 
-Event Engine::cancelOrder(ID orderID) {
+Event LOB::cancelOrder(ID orderID) {
     auto itr = orderLocator.find(orderID);
     if(itr == orderLocator.end()) {
         return {

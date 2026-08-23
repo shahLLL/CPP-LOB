@@ -12,7 +12,7 @@ using Events = std::vector<Event>;
 using Levels = std::vector<Level>;
 using TOB = std::optional<Level>;
 
-class Engine final {
+class LOB final {
     // Internal Types, private by default.
     struct LevelOrder {
         ID orderID;
@@ -36,7 +36,7 @@ class Engine final {
     std::unordered_map<ID, Locator> orderLocator;
 
     public:
-        Engine() = default;
+        LOB() = default;
         Events submitOrder(const Order& order);
         Event cancelOrder(ID orderID);
         TOB getBestBid() const noexcept;
@@ -46,5 +46,5 @@ class Engine final {
         Price getBidAskSpread() const;
         Price getMidPrice() const;
         Double getOrderImbalance() const;
-        ~Engine() = default;
+        ~LOB() = default;
 };

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(matching_engine LANGUAGES CXX)
+project(lob LANGUAGES CXX)
 
 # Require C++17
 set(CMAKE_CXX_STANDARD 17)

@@ -65,42 +65,48 @@ Events LOB::submitOrder(const Order& order) {
     // Validation
     if(order.orderQuantity <= 0) {
         events.emplace_back(
-            order.orderID, 
-            0, 
-            order.orderPrice, 
-            order.orderQuantity,
-            EventType::REJECT,
-            std::chrono::system_clock::now(),
-            RejectReason::INVALID_QUANTITY,
-            CancelReason::NOT_APPLICABLE
+            Event {
+                order.orderID, 
+                0, 
+                order.orderPrice, 
+                order.orderQuantity,
+                EventType::REJECT,
+                std::chrono::system_clock::now(),
+                RejectReason::INVALID_QUANTITY,
+                CancelReason::NOT_APPLICABLE
+            }
         );
         return events;
     }
 
     if((order.orderType == OrderType::LIMIT) && (order.orderPrice <= 0.0)) {
         events.emplace_back(
-            order.orderID,
-            0,
-            order.orderPrice,
-            order.orderQuantity,
-            EventType::REJECT,
-            std::chrono::system_clock::now(),
-            RejectReason::INVALID_PRICE,
-            CancelReason::NOT_APPLICABLE
+            Event {
+                order.orderID,
+                0,
+                order.orderPrice,
+                order.orderQuantity,
+                EventType::REJECT,
+                std::chrono::system_clock::now(),
+                RejectReason::INVALID_PRICE,
+                CancelReason::NOT_APPLICABLE
+            }
         );
         return events;
     }
 
     if(orderLocator.find(order.orderID) != orderLocator.end()) {
         events.emplace_back(
-            order.orderID,
-            0,
-            order.orderPrice,
-            order.orderQuantity,
-            EventType::REJECT,
-            std::chrono::system_clock::now(),
-            RejectReason::DUPLICATE,
-            CancelReason::NOT_APPLICABLE
+            Event {
+                order.orderID,
+                0,
+                order.orderPrice,
+                order.orderQuantity,
+                EventType::REJECT,
+                std::chrono::system_clock::now(),
+                RejectReason::DUPLICATE,
+                CancelReason::NOT_APPLICABLE
+            }
         );
         return events;
     }
@@ -122,14 +128,16 @@ Events LOB::submitOrder(const Order& order) {
 
         if(requestedQuantity > 0) {
             events.emplace_back(
-                order.orderID,
-                0,
-                order.orderPrice,
-                order.orderQuantity,
-                EventType::REJECT,
-                std::chrono::system_clock::now(),
-                RejectReason::FOK_INSUFFICIENT_LIQUIDITY,
-                CancelReason::NOT_APPLICABLE
+                Event {
+                    order.orderID,
+                    0,
+                    order.orderPrice,
+                    order.orderQuantity,
+                    EventType::REJECT,
+                    std::chrono::system_clock::now(),
+                    RejectReason::FOK_INSUFFICIENT_LIQUIDITY,
+                    CancelReason::NOT_APPLICABLE
+                }
             );
             return events;
         }
@@ -156,14 +164,16 @@ Events LOB::submitOrder(const Order& order) {
                 tradeExecuted = true;
 
                 events.emplace_back(
-                    order.orderID,
-                    queueItr->orderID,
-                    asksItr->first,
-                    fillQuantity,
-                    EventType::FILL,
-                    std::chrono::system_clock::now(),
-                    RejectReason::NOT_APPLICABLE,
-                    CancelReason::NOT_APPLICABLE
+                    Event {
+                        order.orderID,
+                        queueItr->orderID,
+                        asksItr->first,
+                        fillQuantity,
+                        EventType::FILL,
+                        std::chrono::system_clock::now(),
+                        RejectReason::NOT_APPLICABLE,
+                        CancelReason::NOT_APPLICABLE
+                    }
                 );
 
                 if(queueItr->currentQuantity == fillQuantity) {
@@ -192,14 +202,16 @@ Events LOB::submitOrder(const Order& order) {
                 tradeExecuted = true;
 
                 events.emplace_back(
-                    order.orderID,
-                    queueItr->orderID,
-                    bidsItr->first,
-                    fillQuantity,
-                    EventType::FILL,
-                    std::chrono::system_clock::now(),
-                    RejectReason::NOT_APPLICABLE,
-                    CancelReason::NOT_APPLICABLE
+                    Event {
+                        order.orderID,
+                        queueItr->orderID,
+                        bidsItr->first,
+                        fillQuantity,
+                        EventType::FILL,
+                        std::chrono::system_clock::now(),
+                        RejectReason::NOT_APPLICABLE,
+                        CancelReason::NOT_APPLICABLE
+                    }
                 );
 
                 if(queueItr->currentQuantity == fillQuantity) {
@@ -221,23 +233,29 @@ Events LOB::submitOrder(const Order& order) {
         (order.orderType == OrderType::MARKET)) {
             if(tradeExecuted) {
                 events.emplace_back(
-                    order.orderID,
-                    0,
-                    order.orderPrice,
-                    order.orderQuantity,
-                    EventType::CANCEL,
-                    RejectReason::NOT_APPLICABLE,
-                    CancelReason::IOC_REMAINDER
+                    Event {
+                        order.orderID,
+                        0,
+                        order.orderPrice,
+                        order.orderQuantity,
+                        EventType::CANCEL,
+                        std::chrono::system_clock::now(),
+                        RejectReason::NOT_APPLICABLE,
+                        CancelReason::IOC_REMAINDER
+                    }
                 );
             } else {
                 events.emplace_back(
-                    order.orderID,
-                    0,
-                    order.orderPrice,
-                    order.orderQuantity,
-                    EventType::REJECT,
-                    RejectReason::IOC_NO_FILL,
-                    CancelReason::NOT_APPLICABLE
+                    Event {
+                        order.orderID,
+                        0,
+                        order.orderPrice,
+                        order.orderQuantity,
+                        EventType::REJECT,
+                        std::chrono::system_clock::now(),
+                        RejectReason::IOC_NO_FILL,
+                        CancelReason::NOT_APPLICABLE
+                    }
                 );
             }
             return events;
@@ -249,10 +267,12 @@ Events LOB::submitOrder(const Order& order) {
         if(bidsItr != bids.end()) {
             auto& priceLevel = bids[order.orderPrice];
             priceLevel.level.emplace_back(
-                order.orderID,
-                order.orderPrice,
-                order.orderQuantity,
-                std::chrono::system_clock::now()
+                LevelOrder {
+                    order.orderID,
+                    order.orderPrice,
+                    order.orderQuantity,
+                    std::chrono::system_clock::now()
+                }
             );
             auto locatorRef = std::prev(priceLevel.level.end());
             priceLevel.totalQuantity = priceLevel.totalQuantity + order.orderQuantity;
@@ -268,10 +288,12 @@ Events LOB::submitOrder(const Order& order) {
             );
             auto& priceLevel = it->second;
             priceLevel.level.emplace_back(
-                order.orderID,
-                order.orderPrice,
-                order.orderQuantity,
-                std::chrono::system_clock::now()
+                LevelOrder {
+                    order.orderID,
+                    order.orderPrice,
+                    order.orderQuantity,
+                    std::chrono::system_clock::now()
+                }
             );
             auto locatorRef = std::prev(priceLevel.level.end());
             priceLevel.totalQuantity = order.orderQuantity;
@@ -286,10 +308,12 @@ Events LOB::submitOrder(const Order& order) {
         if(asksItr != asks.end()) {
             auto& priceLevel = asks[order.orderPrice];
             priceLevel.level.emplace_back(
-                order.orderID,
-                order.orderPrice,
-                order.orderQuantity,
-                std::chrono::system_clock::now()
+                LevelOrder {
+                    order.orderID,
+                    order.orderPrice,
+                    order.orderQuantity,
+                    std::chrono::system_clock::now()
+                }
             );
             auto locatorRef = std::prev(priceLevel.level.end());
             priceLevel.totalQuantity = priceLevel.totalQuantity + order.orderQuantity;
@@ -305,10 +329,12 @@ Events LOB::submitOrder(const Order& order) {
             );
             auto& priceLevel = it->second;
             priceLevel.level.emplace_back(
-                order.orderID,
-                order.orderPrice,
-                order.orderQuantity,
-                std::chrono::system_clock::now()
+                LevelOrder {
+                    order.orderID,
+                    order.orderPrice,
+                    order.orderQuantity,
+                    std::chrono::system_clock::now()
+                }
             );
             auto locatorRef = std::prev(priceLevel.level.end());
             priceLevel.totalQuantity = order.orderQuantity;
@@ -321,14 +347,16 @@ Events LOB::submitOrder(const Order& order) {
     }
 
     events.emplace_back(
-        order.orderID,
-        0,
-        order.orderPrice,
-        order.orderQuantity,
-        EventType::REST,
-        std::chrono::system_clock::now(),
-        RejectReason::NOT_APPLICABLE,
-        CancelReason::NOT_APPLICABLE
+        Event {
+            order.orderID,
+            0,
+            order.orderPrice,
+            order.orderQuantity,
+            EventType::REST,
+            std::chrono::system_clock::now(),
+            RejectReason::NOT_APPLICABLE,
+            CancelReason::NOT_APPLICABLE
+        }
     );
 
     return events;
@@ -337,7 +365,7 @@ Events LOB::submitOrder(const Order& order) {
 Event LOB::cancelOrder(ID orderID) {
     auto itr = orderLocator.find(orderID);
     if(itr == orderLocator.end()) {
-        return {
+        return Event {
             orderID,
             0,
             0.0,
@@ -367,7 +395,7 @@ Event LOB::cancelOrder(ID orderID) {
     }
     orderLocator.erase(itr);
 
-    return {
+    return Event {
         orderID,
         0,
         0.0,

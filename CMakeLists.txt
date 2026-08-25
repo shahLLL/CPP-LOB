@@ -17,3 +17,26 @@ add_executable(lob.exe main.cpp ${SOURCES})
 
 # Apply compiler warning flags
 target_compile_options(lob.exe PRIVATE -Wall -Wextra)
+
+# Fetch Catch2 Framework
+include(FetchContent)
+
+FetchContent_Declare(
+  Catch2
+  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+  GIT_TAG        v3.5.2 # Use a stable Catch2 v3 release tag
+)
+FetchContent_MakeAvailable(Catch2)
+
+# Collect all C++ test files in the test/ directory
+file(GLOB TESTS "tests/*.cpp")
+
+# Create the test executable
+add_executable(unit_tests ${TESTS} ${SOURCES})
+
+# Link against the Catch2 v3 main entry point target
+target_link_libraries(unit_tests PRIVATE Catch2::Catch2WithMain)
+
+# Automatically register test cases with CTest
+include(Catch)
+catch_discover_tests(unit_tests)

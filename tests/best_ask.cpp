@@ -10,6 +10,8 @@ TEST_CASE("BEST ASK TEST CASE #1", "[get_best_ask]") {
     Quantity testQuantity2 = testQuantity1 / 2;
     Price testPrice3 = testPrice1 / 2.0;
     Quantity testQuantity3 = testQuantity1 + 2;
+    Price testPrice4 = testPrice1 / 1.5;
+    Quantity testQuantity4 = testQuantity1 + 2;
     
     REQUIRE(!levelOrderBook.getBestAsk().has_value());
 
@@ -51,13 +53,13 @@ TEST_CASE("BEST ASK TEST CASE #1", "[get_best_ask]") {
 
     levelOrderBook.submitOrder(Order {
         4,
-        testPrice3,
-        testQuantity3,
+        testPrice4,
+        testQuantity4,
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
     });
     REQUIRE(levelOrderBook.getBestAsk().has_value());
-    REQUIRE(levelOrderBook.getBestAsk().value().price == testPrice3);
-    REQUIRE(levelOrderBook.getBestAsk().value().quantity == testQuantity3);
+    REQUIRE(levelOrderBook.getBestAsk().value().price == testPrice4);
+    REQUIRE(levelOrderBook.getBestAsk().value().quantity == testQuantity4);
 }

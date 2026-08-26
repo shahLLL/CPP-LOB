@@ -8,8 +8,10 @@ TEST_CASE("BEST BID TEST CASE #1", "[get_best_bid]") {
     Quantity testQuantity1 = 5;
     Price testPrice2 = testPrice1 / 2.0;
     Quantity testQuantity2 = testQuantity1 * 2;
-    Price testPrice3 = testPrice1 * 2.0;
+    Price testPrice3 = testPrice1 * 3.0;
     Quantity testQuantity3 = testQuantity1 - 2;
+    Price testPrice4 = testPrice1 * 2.0;
+    Quantity testQuantity4 = testQuantity1 - 2;
     
     REQUIRE(!levelOrderBook.getBestBid().has_value());
 
@@ -51,13 +53,13 @@ TEST_CASE("BEST BID TEST CASE #1", "[get_best_bid]") {
 
     levelOrderBook.submitOrder(Order {
         4,
-        testPrice3,
-        testQuantity3,
+        testPrice4,
+        testQuantity4,
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
     });
     REQUIRE(levelOrderBook.getBestBid().has_value());
-    REQUIRE(levelOrderBook.getBestBid().value().price == testPrice3);
-    REQUIRE(levelOrderBook.getBestBid().value().quantity == testQuantity3);
+    REQUIRE(levelOrderBook.getBestBid().value().price == testPrice4);
+    REQUIRE(levelOrderBook.getBestBid().value().quantity == testQuantity4);
 }

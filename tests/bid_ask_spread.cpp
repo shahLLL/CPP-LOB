@@ -40,7 +40,7 @@ TEST_CASE("BID ASK SPREAD TESTCASE #3", "[bid_ask_spread]") {
 }
 
 TEST_CASE("BID ASK SPREAD TESTCASE #4", "[bid_ask_spread]") {
-    // Check Bid Ask Spread for asks and no bids.
+    // Check Bid Ask Spread for asks and bids.
     LOB limitOrderBook = LOB();
     Price testPriceBid = 34.9;
     Price testPriceAsk = 54.7;

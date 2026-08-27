@@ -2,6 +2,13 @@
 #include "../headers/lob.hpp"
 
 TEST_CASE("BEST ASK TEST CASE #1", "[get_best_ask]") {
+    /*
+    Check for best ask when:
+    1. There are no asks.
+    2. A new ask added
+    3. An ask better than the best bid (in terms of price) is added
+    4. An ask less than the best bid (in terms of price) is added
+    */
     LOB levelOrderBook = LOB();
 
     Price testPrice1 = 124.51;

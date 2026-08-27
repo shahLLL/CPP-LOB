@@ -2,6 +2,13 @@
 #include "../headers/lob.hpp"
 
 TEST_CASE("BEST BID TEST CASE #1", "[get_best_bid]") {
+    /*
+    Check for best bid when:
+    1. There are no bids.
+    2. A new bid added
+    3. A bid better than the best bid (in terms of price) is added
+    4. A bid less than the best bid (in terms of price) is added
+    */
     LOB levelOrderBook = LOB();
 
     Price testPrice1 = 12.5;

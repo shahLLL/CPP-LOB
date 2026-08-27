@@ -43,7 +43,7 @@ Price LOB::getMidPrice() const {
     if(bids.empty() && asks.empty()) return 0.0;
     if(bids.empty() && !asks.empty()) return asks.begin()->first;
     if(!bids.empty() && asks.empty()) return bids.begin()->first;
-    return ((bids.begin()->first) + (asks.begin()->first) / 2.0);
+    return (((bids.begin()->first) + (asks.begin()->first)) / 2.0);
 }
 
 Double LOB::getOrderImbalance() const {

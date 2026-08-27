@@ -15,9 +15,9 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #1", "[get_ask_order_depths]") {
     Quantity testQuantity5 = 9;
     SizeT numberOfAsks = 5;
 
-    LOB levelOrderBook = LOB();
-    REQUIRE(levelOrderBook.getAskOrderDepths(numberOfAsks).empty());
-    levelOrderBook.submitOrder(Order {
+    LOB limitOrderBook = LOB();
+    REQUIRE(limitOrderBook.getAskOrderDepths(numberOfAsks).empty());
+    limitOrderBook.submitOrder(Order {
         1,
         testPrice1,
         testQuantity1,
@@ -25,7 +25,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #1", "[get_ask_order_depths]") {
         OrderType::LIMIT,
         TimeInForce::GTC
     });
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         2,
         testPrice2,
         testQuantity2,
@@ -33,7 +33,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #1", "[get_ask_order_depths]") {
         OrderType::LIMIT,
         TimeInForce::GTC
     });
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         3,
         testPrice3,
         testQuantity3,
@@ -41,7 +41,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #1", "[get_ask_order_depths]") {
         OrderType::LIMIT,
         TimeInForce::GTC
     });
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         4,
         testPrice4,
         testQuantity4,
@@ -49,7 +49,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #1", "[get_ask_order_depths]") {
         OrderType::LIMIT,
         TimeInForce::GTC
     });
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         5,
         testPrice5,
         testQuantity5,
@@ -58,8 +58,8 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #1", "[get_ask_order_depths]") {
         TimeInForce::GTC
     });
 
-    REQUIRE(!levelOrderBook.getAskOrderDepths(numberOfAsks).empty());
-    Levels askOrderDepth = levelOrderBook.getAskOrderDepths(numberOfAsks);
+    REQUIRE(!limitOrderBook.getAskOrderDepths(numberOfAsks).empty());
+    Levels askOrderDepth = limitOrderBook.getAskOrderDepths(numberOfAsks);
     REQUIRE(askOrderDepth.at(0).price == testPrice1);
     REQUIRE(askOrderDepth.at(0).quantity == testQuantity1);
     REQUIRE(askOrderDepth.at(1).price == testPrice2);
@@ -86,9 +86,9 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #2", "[get_ask_order_depths]") {
     Quantity testQuantity5 = 9;
     SizeT numberOfAsks = 5;
 
-    LOB levelOrderBook = LOB();
-    REQUIRE(levelOrderBook.getAskOrderDepths(numberOfAsks).empty());
-    levelOrderBook.submitOrder(Order {
+    LOB limitOrderBook = LOB();
+    REQUIRE(limitOrderBook.getAskOrderDepths(numberOfAsks).empty());
+    limitOrderBook.submitOrder(Order {
         1,
         testPrice1,
         testQuantity1,
@@ -96,7 +96,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #2", "[get_ask_order_depths]") {
         OrderType::LIMIT,
         TimeInForce::GTC
     });
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         2,
         testPrice2,
         testQuantity2,
@@ -104,7 +104,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #2", "[get_ask_order_depths]") {
         OrderType::LIMIT,
         TimeInForce::GTC
     });
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         3,
         testPrice3,
         testQuantity3,
@@ -112,7 +112,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #2", "[get_ask_order_depths]") {
         OrderType::LIMIT,
         TimeInForce::GTC
     });
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         4,
         testPrice4,
         testQuantity4,
@@ -120,7 +120,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #2", "[get_ask_order_depths]") {
         OrderType::LIMIT,
         TimeInForce::GTC
     });
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         5,
         testPrice5,
         testQuantity5,
@@ -129,7 +129,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #2", "[get_ask_order_depths]") {
         TimeInForce::GTC
     });
 
-    REQUIRE(levelOrderBook.getAskOrderDepths(numberOfAsks).empty());
+    REQUIRE(limitOrderBook.getAskOrderDepths(numberOfAsks).empty());
 }
 
 TEST_CASE("ASK ORDER DEPTHS TESTCASE #3", "[get_ask_order_depths]") {
@@ -146,9 +146,9 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #3", "[get_ask_order_depths]") {
     Quantity testQuantity5 = 9;
     SizeT numberOfAsks = 5;
 
-    LOB levelOrderBook = LOB();
-    REQUIRE(levelOrderBook.getAskOrderDepths(numberOfAsks).empty());
-    levelOrderBook.submitOrder(Order {
+    LOB limitOrderBook = LOB();
+    REQUIRE(limitOrderBook.getAskOrderDepths(numberOfAsks).empty());
+    limitOrderBook.submitOrder(Order {
         1,
         testPrice1,
         testQuantity1,
@@ -156,7 +156,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #3", "[get_ask_order_depths]") {
         OrderType::LIMIT,
         TimeInForce::GTC
     });
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         2,
         testPrice2,
         testQuantity2,
@@ -164,7 +164,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #3", "[get_ask_order_depths]") {
         OrderType::LIMIT,
         TimeInForce::GTC
     });
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         3,
         testPrice3,
         testQuantity3,
@@ -172,7 +172,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #3", "[get_ask_order_depths]") {
         OrderType::LIMIT,
         TimeInForce::GTC
     });
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         4,
         testPrice4,
         testQuantity4,
@@ -180,7 +180,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #3", "[get_ask_order_depths]") {
         OrderType::LIMIT,
         TimeInForce::GTC
     });
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         5,
         testPrice5,
         testQuantity5,
@@ -189,8 +189,8 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #3", "[get_ask_order_depths]") {
         TimeInForce::GTC
     });
 
-    REQUIRE(!levelOrderBook.getAskOrderDepths(numberOfAsks).empty());
-    Levels askOrderDepth = levelOrderBook.getAskOrderDepths(numberOfAsks);
+    REQUIRE(!limitOrderBook.getAskOrderDepths(numberOfAsks).empty());
+    Levels askOrderDepth = limitOrderBook.getAskOrderDepths(numberOfAsks);
     REQUIRE(askOrderDepth.at(0).price == testPrice3);
     REQUIRE(askOrderDepth.at(0).quantity == testQuantity3);
     REQUIRE(askOrderDepth.at(1).price == testPrice4);

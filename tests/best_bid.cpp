@@ -9,7 +9,7 @@ TEST_CASE("BEST BID TEST CASE #1", "[get_best_bid]") {
     3. A bid better than the best bid (in terms of price) is added
     4. A bid less than the best bid (in terms of price) is added
     */
-    LOB levelOrderBook = LOB();
+    LOB limitOrderBook = LOB();
 
     Price testPrice1 = 12.5;
     Quantity testQuantity1 = 5;
@@ -20,9 +20,9 @@ TEST_CASE("BEST BID TEST CASE #1", "[get_best_bid]") {
     Price testPrice4 = testPrice1 * 2.0;
     Quantity testQuantity4 = testQuantity1 - 2;
     
-    REQUIRE(!levelOrderBook.getBestBid().has_value());
+    REQUIRE(!limitOrderBook.getBestBid().has_value());
 
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         1,
         testPrice1,
         testQuantity1,
@@ -30,11 +30,11 @@ TEST_CASE("BEST BID TEST CASE #1", "[get_best_bid]") {
         OrderType::LIMIT,
         TimeInForce::GTC
     });
-    REQUIRE(levelOrderBook.getBestBid().has_value());
-    REQUIRE(levelOrderBook.getBestBid().value().price == testPrice1);
-    REQUIRE(levelOrderBook.getBestBid().value().quantity == testQuantity1);
+    REQUIRE(limitOrderBook.getBestBid().has_value());
+    REQUIRE(limitOrderBook.getBestBid().value().price == testPrice1);
+    REQUIRE(limitOrderBook.getBestBid().value().quantity == testQuantity1);
 
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         2,
         testPrice2,
         testQuantity2,
@@ -42,11 +42,11 @@ TEST_CASE("BEST BID TEST CASE #1", "[get_best_bid]") {
         OrderType::LIMIT,
         TimeInForce::GTC
     });
-    REQUIRE(levelOrderBook.getBestBid().has_value());
-    REQUIRE(levelOrderBook.getBestBid().value().price == testPrice1);
-    REQUIRE(levelOrderBook.getBestBid().value().quantity == testQuantity1);
+    REQUIRE(limitOrderBook.getBestBid().has_value());
+    REQUIRE(limitOrderBook.getBestBid().value().price == testPrice1);
+    REQUIRE(limitOrderBook.getBestBid().value().quantity == testQuantity1);
 
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         3,
         testPrice3,
         testQuantity3,
@@ -54,11 +54,11 @@ TEST_CASE("BEST BID TEST CASE #1", "[get_best_bid]") {
         OrderType::LIMIT,
         TimeInForce::GTC
     });
-    REQUIRE(levelOrderBook.getBestBid().has_value());
-    REQUIRE(levelOrderBook.getBestBid().value().price == testPrice1);
-    REQUIRE(levelOrderBook.getBestBid().value().quantity == testQuantity1);
+    REQUIRE(limitOrderBook.getBestBid().has_value());
+    REQUIRE(limitOrderBook.getBestBid().value().price == testPrice1);
+    REQUIRE(limitOrderBook.getBestBid().value().quantity == testQuantity1);
 
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         4,
         testPrice4,
         testQuantity4,
@@ -66,14 +66,14 @@ TEST_CASE("BEST BID TEST CASE #1", "[get_best_bid]") {
         OrderType::LIMIT,
         TimeInForce::GTC
     });
-    REQUIRE(levelOrderBook.getBestBid().has_value());
-    REQUIRE(levelOrderBook.getBestBid().value().price == testPrice4);
-    REQUIRE(levelOrderBook.getBestBid().value().quantity == testQuantity4);
+    REQUIRE(limitOrderBook.getBestBid().has_value());
+    REQUIRE(limitOrderBook.getBestBid().value().price == testPrice4);
+    REQUIRE(limitOrderBook.getBestBid().value().quantity == testQuantity4);
 }
 
 TEST_CASE("BEST BID TEST CASE #2", "[get_best_bid]") {
     // Best Bid not effect by Sell Side orders
-    LOB levelOrderBook = LOB();
+    LOB limitOrderBook = LOB();
 
     Price testPrice1 = 12.5;
     Quantity testQuantity1 = 5;
@@ -84,9 +84,9 @@ TEST_CASE("BEST BID TEST CASE #2", "[get_best_bid]") {
     Price testPrice4 = testPrice1 * 2.0;
     Quantity testQuantity4 = testQuantity1 - 2;
     
-    REQUIRE(!levelOrderBook.getBestBid().has_value());
+    REQUIRE(!limitOrderBook.getBestBid().has_value());
 
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         1,
         testPrice1,
         testQuantity1,
@@ -94,9 +94,9 @@ TEST_CASE("BEST BID TEST CASE #2", "[get_best_bid]") {
         OrderType::LIMIT,
         TimeInForce::GTC
     });
-    REQUIRE(!levelOrderBook.getBestBid().has_value());
+    REQUIRE(!limitOrderBook.getBestBid().has_value());
 
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         2,
         testPrice2,
         testQuantity2,
@@ -104,9 +104,9 @@ TEST_CASE("BEST BID TEST CASE #2", "[get_best_bid]") {
         OrderType::LIMIT,
         TimeInForce::GTC
     });
-    REQUIRE(!levelOrderBook.getBestBid().has_value());
+    REQUIRE(!limitOrderBook.getBestBid().has_value());
 
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         3,
         testPrice3,
         testQuantity3,
@@ -114,9 +114,9 @@ TEST_CASE("BEST BID TEST CASE #2", "[get_best_bid]") {
         OrderType::LIMIT,
         TimeInForce::GTC
     });
-    REQUIRE(!levelOrderBook.getBestBid().has_value());
+    REQUIRE(!limitOrderBook.getBestBid().has_value());
 
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         4,
         testPrice4,
         testQuantity4,
@@ -124,5 +124,5 @@ TEST_CASE("BEST BID TEST CASE #2", "[get_best_bid]") {
         OrderType::LIMIT,
         TimeInForce::GTC
     });
-    REQUIRE(!levelOrderBook.getBestBid().has_value());
+    REQUIRE(!limitOrderBook.getBestBid().has_value());
 }

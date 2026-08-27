@@ -3,15 +3,15 @@
 
 TEST_CASE("BID ASK SPREAD TESTCASE #1", "[bid_ask_spread]") {
     // Check Bid Ask Spread for empty order book.
-    LOB levelOrderBook = LOB();
-    REQUIRE(levelOrderBook.getBidAskSpread() == 0.0);
+    LOB limitOrderBook = LOB();
+    REQUIRE(limitOrderBook.getBidAskSpread() == 0.0);
 }
 
 TEST_CASE("BID ASK SPREAD TESTCASE #2", "[bid_ask_spread]") {
     // Check Bid Ask Spread for bids and no asks.
-    LOB levelOrderBook = LOB();
+    LOB limitOrderBook = LOB();
     Price testPrice = 34.9;
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         1,
         testPrice,
         1,
@@ -20,14 +20,14 @@ TEST_CASE("BID ASK SPREAD TESTCASE #2", "[bid_ask_spread]") {
         TimeInForce::GTC
 
     });
-    REQUIRE(levelOrderBook.getBidAskSpread() == (testPrice * -1.0));
+    REQUIRE(limitOrderBook.getBidAskSpread() == (testPrice * -1.0));
 }
 
 TEST_CASE("BID ASK SPREAD TESTCASE #3", "[bid_ask_spread]") {
     // Check Bid Ask Spread for asks and no bids.
-    LOB levelOrderBook = LOB();
+    LOB limitOrderBook = LOB();
     Price testPrice = 34.9;
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         1,
         testPrice,
         1,
@@ -36,15 +36,15 @@ TEST_CASE("BID ASK SPREAD TESTCASE #3", "[bid_ask_spread]") {
         TimeInForce::GTC
 
     });
-    REQUIRE(levelOrderBook.getBidAskSpread() == testPrice);
+    REQUIRE(limitOrderBook.getBidAskSpread() == testPrice);
 }
 
 TEST_CASE("BID ASK SPREAD TESTCASE #4", "[bid_ask_spread]") {
     // Check Bid Ask Spread for asks and no bids.
-    LOB levelOrderBook = LOB();
+    LOB limitOrderBook = LOB();
     Price testPriceBid = 34.9;
     Price testPriceAsk = 54.7;
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         1,
         testPriceAsk,
         1,
@@ -53,7 +53,7 @@ TEST_CASE("BID ASK SPREAD TESTCASE #4", "[bid_ask_spread]") {
         TimeInForce::GTC
 
     });
-    levelOrderBook.submitOrder(Order {
+    limitOrderBook.submitOrder(Order {
         2,
         testPriceBid,
         1,
@@ -62,5 +62,5 @@ TEST_CASE("BID ASK SPREAD TESTCASE #4", "[bid_ask_spread]") {
         TimeInForce::GTC
 
     });
-    REQUIRE(levelOrderBook.getBidAskSpread() == (testPriceAsk - testPriceBid));
+    REQUIRE(limitOrderBook.getBidAskSpread() == (testPriceAsk - testPriceBid));
 }

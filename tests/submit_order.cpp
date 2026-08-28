@@ -303,3 +303,153 @@ TEST_CASE("SUBMIT ORDER TESTCASE #3", "[submit_order]") {
     REQUIRE(event2.cancelReason == CancelReason::NOT_APPLICABLE);
     REQUIRE(event2.rejectReason == RejectReason::DUPLICATE);
 }
+
+TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") { 
+    // Check for rejection with FOK orders and not enough liquidity in the orderbook.
+    LOB limitOrderBook1 = LOB();
+    LOB limitOrderBook2 = LOB();
+    LOB limitOrderBook3 = LOB();
+    LOB limitOrderBook4 = LOB();
+    LOB limitOrderBook5 = LOB();
+    LOB limitOrderBook6 = LOB();
+
+    Events events1 = limitOrderBook1.submitOrder(Order {
+        1,
+        19.2,
+        3,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::FOK
+    });
+    REQUIRE(events1.size() == 1);
+    Event event1 = events1.at(0);
+    REQUIRE(event1.eventOrderID == 1);
+    REQUIRE(event1.counterOrderID == 0);
+    REQUIRE(event1.eventPrice == 19.2);
+    REQUIRE(event1.eventQuantity == 3);
+    REQUIRE(event1.eventType == EventType::REJECT);
+    REQUIRE(event1.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event1.rejectReason == RejectReason::FOK_INSUFFICIENT_LIQUIDITY);
+
+    Events events2 = limitOrderBook2.submitOrder(Order {
+        2,
+        19.2,
+        3,
+        Side::SELL,
+        OrderType::LIMIT,
+        TimeInForce::FOK
+    });
+    REQUIRE(events2.size() == 1);
+    Event event2 = events2.at(0);
+    REQUIRE(event2.eventOrderID == 2);
+    REQUIRE(event2.counterOrderID == 0);
+    REQUIRE(event2.eventPrice == 19.2);
+    REQUIRE(event2.eventQuantity == 3);
+    REQUIRE(event2.eventType == EventType::REJECT);
+    REQUIRE(event2.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event2.rejectReason == RejectReason::FOK_INSUFFICIENT_LIQUIDITY);
+
+    limitOrderBook3.submitOrder(Order {
+        1,
+        45.6,
+        7,
+        Side::SELL,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+    Events events3 = limitOrderBook3.submitOrder(Order {
+        2,
+        19.2,
+        3,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::FOK
+    });
+    REQUIRE(events3.size() == 1);
+    Event event3 = events3.at(0);
+    REQUIRE(event3.eventOrderID == 2);
+    REQUIRE(event3.counterOrderID == 0);
+    REQUIRE(event3.eventPrice == 19.2);
+    REQUIRE(event3.eventQuantity == 3);
+    REQUIRE(event3.eventType == EventType::REJECT);
+    REQUIRE(event3.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event3.rejectReason == RejectReason::FOK_INSUFFICIENT_LIQUIDITY);
+
+    limitOrderBook4.submitOrder(Order {
+        1,
+        19.2,
+        3,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+    Events events4 = limitOrderBook4.submitOrder(Order {
+        2,
+        45.6,
+        7,
+        Side::SELL,
+        OrderType::LIMIT,
+        TimeInForce::FOK
+    });
+    REQUIRE(events4.size() == 1);
+    Event event4 = events4.at(0);
+    REQUIRE(event4.eventOrderID == 2);
+    REQUIRE(event4.counterOrderID == 0);
+    REQUIRE(event4.eventPrice == 45.6);
+    REQUIRE(event4.eventQuantity == 7);
+    REQUIRE(event4.eventType == EventType::REJECT);
+    REQUIRE(event4.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event4.rejectReason == RejectReason::FOK_INSUFFICIENT_LIQUIDITY);
+
+    limitOrderBook5.submitOrder(Order {
+        1,
+        30.3,
+        5,
+        Side::SELL,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+    Events events5 = limitOrderBook5.submitOrder(Order {
+        2,
+        30.5,
+        8,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::FOK
+    });
+    REQUIRE(events5.size() == 1);
+    Event event5 = events5.at(0);
+    REQUIRE(event5.eventOrderID == 2);
+    REQUIRE(event5.counterOrderID == 0);
+    REQUIRE(event5.eventPrice == 30.5);
+    REQUIRE(event5.eventQuantity == 8);
+    REQUIRE(event5.eventType == EventType::REJECT);
+    REQUIRE(event5.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event5.rejectReason == RejectReason::FOK_INSUFFICIENT_LIQUIDITY);
+
+    limitOrderBook6.submitOrder(Order {
+        1,
+        30.8,
+        5,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+    Events events6 = limitOrderBook6.submitOrder(Order {
+        2,
+        30.5,
+        8,
+        Side::SELL,
+        OrderType::LIMIT,
+        TimeInForce::FOK
+    });
+    REQUIRE(events6.size() == 1);
+    Event event6 = events6.at(0);
+    REQUIRE(event6.eventOrderID == 2);
+    REQUIRE(event6.counterOrderID == 0);
+    REQUIRE(event6.eventPrice == 30.5);
+    REQUIRE(event6.eventQuantity == 8);
+    REQUIRE(event6.eventType == EventType::REJECT);
+    REQUIRE(event6.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event6.rejectReason == RejectReason::FOK_INSUFFICIENT_LIQUIDITY);
+}

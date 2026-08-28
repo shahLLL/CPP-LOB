@@ -1,0 +1,305 @@
+#include <catch2/catch_test_macros.hpp>
+#include "../headers/lob.hpp"
+
+TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
+    // Checks for proper handling of invalid Order Quantities
+    LOB limitOrderBook = LOB();
+
+    Events events1 = limitOrderBook.submitOrder(Order {
+        1,
+        12.5,
+        0,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+    REQUIRE(events1.size() == 1);
+    Event event1 = events1.at(0);
+    REQUIRE(event1.eventOrderID == 1);
+    REQUIRE(event1.counterOrderID == 0);
+    REQUIRE(event1.eventPrice == 12.5);
+    REQUIRE(event1.eventQuantity == 0);
+    REQUIRE(event1.eventType == EventType::REJECT);
+    REQUIRE(event1.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event1.rejectReason == RejectReason::INVALID_QUANTITY);
+
+    Events events2 = limitOrderBook.submitOrder(Order {
+        1,
+        12.5,
+        0,
+        Side::SELL,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+    REQUIRE(events2.size() == 1);
+    Event event2 = events2.at(0);
+    REQUIRE(event2.eventOrderID == 1);
+    REQUIRE(event2.counterOrderID == 0);
+    REQUIRE(event2.eventPrice == 12.5);
+    REQUIRE(event2.eventQuantity == 0);
+    REQUIRE(event2.eventType == EventType::REJECT);
+    REQUIRE(event2.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event2.rejectReason == RejectReason::INVALID_QUANTITY);
+
+    Events events3 = limitOrderBook.submitOrder(Order {
+        1,
+        12.5,
+        -2,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+    REQUIRE(events3.size() == 1);
+    Event event3 = events3.at(0);
+    REQUIRE(event3.eventOrderID == 1);
+    REQUIRE(event3.counterOrderID == 0);
+    REQUIRE(event3.eventPrice == 12.5);
+    REQUIRE(event3.eventQuantity == -2);
+    REQUIRE(event3.eventType == EventType::REJECT);
+    REQUIRE(event3.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event3.rejectReason == RejectReason::INVALID_QUANTITY);
+
+    Events events4 = limitOrderBook.submitOrder(Order {
+        1,
+        12.5,
+        0,
+        Side::BUY,
+        OrderType::MARKET,
+        TimeInForce::GTC
+    });
+    REQUIRE(events4.size() == 1);
+    Event event4 = events4.at(0);
+    REQUIRE(event4.eventOrderID == 1);
+    REQUIRE(event4.counterOrderID == 0);
+    REQUIRE(event4.eventPrice == 12.5);
+    REQUIRE(event4.eventQuantity == 0);
+    REQUIRE(event4.eventType == EventType::REJECT);
+    REQUIRE(event4.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event4.rejectReason == RejectReason::INVALID_QUANTITY);
+
+    Events events5 = limitOrderBook.submitOrder(Order {
+        1,
+        12.5,
+        0,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::FOK
+    });
+    REQUIRE(events5.size() == 1);
+    Event event5 = events5.at(0);
+    REQUIRE(event5.eventOrderID == 1);
+    REQUIRE(event5.counterOrderID == 0);
+    REQUIRE(event5.eventPrice == 12.5);
+    REQUIRE(event5.eventQuantity == 0);
+    REQUIRE(event5.eventType == EventType::REJECT);
+    REQUIRE(event5.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event5.rejectReason == RejectReason::INVALID_QUANTITY);
+
+    Events events6 = limitOrderBook.submitOrder(Order {
+        1,
+        12.5,
+        0,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::IOC
+    });
+    REQUIRE(events6.size() == 1);
+    Event event6 = events6.at(0);
+    REQUIRE(event6.eventOrderID == 1);
+    REQUIRE(event6.counterOrderID == 0);
+    REQUIRE(event6.eventPrice == 12.5);
+    REQUIRE(event6.eventQuantity == 0);
+    REQUIRE(event6.eventType == EventType::REJECT);
+    REQUIRE(event6.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event6.rejectReason == RejectReason::INVALID_QUANTITY);
+
+    Events events7 = limitOrderBook.submitOrder(Order {
+        1,
+        12.5,
+        0,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::DAY
+    });
+    REQUIRE(events7.size() == 1);
+    Event event7 = events7.at(0);
+    REQUIRE(event7.eventOrderID == 1);
+    REQUIRE(event7.counterOrderID == 0);
+    REQUIRE(event7.eventPrice == 12.5);
+    REQUIRE(event7.eventQuantity == 0);
+    REQUIRE(event7.eventType == EventType::REJECT);
+    REQUIRE(event7.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event7.rejectReason == RejectReason::INVALID_QUANTITY);
+}
+
+TEST_CASE("SUBMIT ORDER TESTCASE #2", "[submit_order]") {
+    // Check to see if limit orders with a price of zero or less are rejected.
+    LOB limitOrderBook = LOB();
+
+    Events events1 = limitOrderBook.submitOrder(Order {
+        1,
+        0.0,
+        2,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+    REQUIRE(events1.size() == 1);
+    Event event1 = events1.at(0);
+    REQUIRE(event1.eventOrderID == 1);
+    REQUIRE(event1.counterOrderID == 0);
+    REQUIRE(event1.eventPrice == 0.0);
+    REQUIRE(event1.eventQuantity == 2);
+    REQUIRE(event1.eventType == EventType::REJECT);
+    REQUIRE(event1.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event1.rejectReason == RejectReason::INVALID_PRICE);
+
+    Events events2 = limitOrderBook.submitOrder(Order {
+        1,
+        0.0,
+        4,
+        Side::SELL,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+    REQUIRE(events2.size() == 1);
+    Event event2 = events2.at(0);
+    REQUIRE(event2.eventOrderID == 1);
+    REQUIRE(event2.counterOrderID == 0);
+    REQUIRE(event2.eventPrice == 0.0);
+    REQUIRE(event2.eventQuantity == 4);
+    REQUIRE(event2.eventType == EventType::REJECT);
+    REQUIRE(event2.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event2.rejectReason == RejectReason::INVALID_PRICE);
+
+    Events events3 = limitOrderBook.submitOrder(Order {
+        1,
+        -20.2,
+        18,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+    REQUIRE(events3.size() == 1);
+    Event event3 = events3.at(0);
+    REQUIRE(event3.eventOrderID == 1);
+    REQUIRE(event3.counterOrderID == 0);
+    REQUIRE(event3.eventPrice == -20.2);
+    REQUIRE(event3.eventQuantity == 18);
+    REQUIRE(event3.eventType == EventType::REJECT);
+    REQUIRE(event3.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event3.rejectReason == RejectReason::INVALID_PRICE);
+
+    Events events4 = limitOrderBook.submitOrder(Order {
+        1,
+        -20.2,
+        18,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::IOC
+    });
+    REQUIRE(events4.size() == 1);
+    Event event4 = events4.at(0);
+    REQUIRE(event4.eventOrderID == 1);
+    REQUIRE(event4.counterOrderID == 0);
+    REQUIRE(event4.eventPrice == -20.2);
+    REQUIRE(event4.eventQuantity == 18);
+    REQUIRE(event4.eventType == EventType::REJECT);
+    REQUIRE(event4.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event4.rejectReason == RejectReason::INVALID_PRICE);
+
+    Events events5 = limitOrderBook.submitOrder(Order {
+        1,
+        -20.2,
+        18,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::FOK
+    });
+    REQUIRE(events5.size() == 1);
+    Event event5 = events5.at(0);
+    REQUIRE(event5.eventOrderID == 1);
+    REQUIRE(event5.counterOrderID == 0);
+    REQUIRE(event5.eventPrice == -20.2);
+    REQUIRE(event5.eventQuantity == 18);
+    REQUIRE(event5.eventType == EventType::REJECT);
+    REQUIRE(event5.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event5.rejectReason == RejectReason::INVALID_PRICE);
+
+    Events events6 = limitOrderBook.submitOrder(Order {
+        1,
+        -20.2,
+        18,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::DAY
+    });
+    REQUIRE(events6.size() == 1);
+    Event event6 = events6.at(0);
+    REQUIRE(event6.eventOrderID == 1);
+    REQUIRE(event6.counterOrderID == 0);
+    REQUIRE(event6.eventPrice == -20.2);
+    REQUIRE(event6.eventQuantity == 18);
+    REQUIRE(event6.eventType == EventType::REJECT);
+    REQUIRE(event6.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event6.rejectReason == RejectReason::INVALID_PRICE);
+}
+
+TEST_CASE("SUBMIT ORDER TESTCASE #3", "[submit_order]") {
+    // Validate duplicate orders get rejected.
+    LOB limitOrderBook = LOB();
+
+    limitOrderBook.submitOrder(Order {
+        1,
+        12.5,
+        3,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+    Events events1 = limitOrderBook.submitOrder(Order {
+        1,
+        12.5,
+        3,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+
+    REQUIRE(events1.size() == 1);
+    Event event1 = events1.at(0);
+    REQUIRE(event1.eventOrderID == 1);
+    REQUIRE(event1.counterOrderID == 0);
+    REQUIRE(event1.eventPrice == 12.5);
+    REQUIRE(event1.eventQuantity == 3);
+    REQUIRE(event1.eventType == EventType::REJECT);
+    REQUIRE(event1.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event1.rejectReason == RejectReason::DUPLICATE);
+
+    limitOrderBook.submitOrder(Order {
+        2,
+        12.5,
+        3,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+    Events events2 = limitOrderBook.submitOrder(Order {
+        2,
+        9.5,
+        4,
+        Side::SELL,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+
+    REQUIRE(events2.size() == 1);
+    Event event2 = events2.at(0);
+    REQUIRE(event2.eventOrderID == 2);
+    REQUIRE(event2.counterOrderID == 0);
+    REQUIRE(event2.eventPrice == 9.5);
+    REQUIRE(event2.eventQuantity == 4);
+    REQUIRE(event2.eventType == EventType::REJECT);
+    REQUIRE(event2.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event2.rejectReason == RejectReason::DUPLICATE);
+}

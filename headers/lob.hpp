@@ -27,6 +27,7 @@ class LOB final {
     struct Locator {
         Side orderSide;
         Price orderPrice;
+        Quantity orderQuantity;
         std::list<LevelOrder>::iterator levelItr;
     };
 

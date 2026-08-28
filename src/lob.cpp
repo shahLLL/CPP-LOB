@@ -279,6 +279,7 @@ Events LOB::submitOrder(const Order& order) {
             orderLocator[order.orderID] = Locator { 
                 Side::BUY, 
                 order.orderPrice,
+                order.orderQuantity,
                 locatorRef
             };
         } else {
@@ -300,6 +301,7 @@ Events LOB::submitOrder(const Order& order) {
             orderLocator[order.orderID] = Locator {
                 Side::BUY,
                 order.orderPrice,
+                order.orderQuantity,
                 locatorRef
             };
         }
@@ -320,6 +322,7 @@ Events LOB::submitOrder(const Order& order) {
             orderLocator[order.orderID] = Locator { 
                 Side::SELL, 
                 order.orderPrice,
+                order.orderQuantity,
                 locatorRef
             };
         } else {
@@ -341,6 +344,7 @@ Events LOB::submitOrder(const Order& order) {
             orderLocator[order.orderID] = Locator {
                 Side::SELL,
                 order.orderPrice,
+                order.orderQuantity,
                 locatorRef
             };
         }
@@ -378,6 +382,9 @@ Event LOB::cancelOrder(ID orderID) {
     }
 
     const Locator& locatorRef = itr->second;
+    const Price orderPrice = locatorRef.orderPrice;
+    const Quantity orderQuantity = locatorRef.orderQuantity;
+
     if(locatorRef.orderSide == Side::BUY) {
         auto mapItr = bids.find(locatorRef.orderPrice);
         auto& priceLevel = mapItr->second;
@@ -398,8 +405,8 @@ Event LOB::cancelOrder(ID orderID) {
     return Event {
         orderID,
         0,
-        0.0,
-        0,
+        orderPrice,
+        orderQuantity,
         EventType::CANCEL,
         std::chrono::system_clock::now(),
         RejectReason::NOT_APPLICABLE,

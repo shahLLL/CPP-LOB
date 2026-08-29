@@ -1,5 +1,4 @@
 #include "../headers/lob.hpp"
-#include <iostream>
 
 TOB LOB::getBestBid() const noexcept {
     auto bidsItr = bids.begin();

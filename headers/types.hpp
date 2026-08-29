@@ -39,8 +39,9 @@ enum class CancelReason : EnumType {
     IOC: Immediate or Cancelled
     FOK: Fill or Cancel
     DAY: End of Session Cancel
+    NON: No Time in Force Applicable
 */
-enum class TimeInForce : EnumType { GTC, IOC, FOK, DAY };
+enum class TimeInForce : EnumType { GTC, IOC, FOK, DAY, NON };
 
 // Structs. Sorted from largest data type to smallest for memory optimisation.
 struct Order {

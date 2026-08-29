@@ -1,4 +1,5 @@
 #include "../headers/lob.hpp"
+#include <iostream>
 
 TOB LOB::getBestBid() const noexcept {
     auto bidsItr = bids.begin();
@@ -176,7 +177,7 @@ Events LOB::submitOrder(const Order& order) {
                     }
                 );
 
-                if(queueItr->currentQuantity == fillQuantity) {
+                if(queueItr->currentQuantity == 0) {
                     orderLocator.erase(queueItr->orderID);
                     queueItr = priceLevel.level.erase(queueItr);
                 }
@@ -213,7 +214,7 @@ Events LOB::submitOrder(const Order& order) {
                     }
                 );
 
-                if(queueItr->currentQuantity == fillQuantity) {
+                if(queueItr->currentQuantity == 0) {
                     orderLocator.erase(queueItr->orderID);
                     queueItr = priceLevel.level.erase(queueItr);
                 }

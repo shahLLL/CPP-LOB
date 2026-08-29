@@ -225,39 +225,70 @@ Events LOB::submitOrder(const Order& order) {
 
     if(requestedQuantity == 0) return events;
 
-    // Handle Orders not valid for Rest.
-    if((order.orderTimeInForce == TimeInForce::IOC) || 
-        (order.orderTimeInForce == TimeInForce::FOK) ||
-        (order.orderType == OrderType::MARKET)) {
-            if(tradeExecuted) {
-                events.emplace_back(
-                    Event {
-                        order.orderID,
-                        0,
-                        order.orderPrice,
-                        order.orderQuantity,
-                        EventType::CANCEL,
-                        std::chrono::system_clock::now(),
-                        RejectReason::NOT_APPLICABLE,
-                        CancelReason::IOC_REMAINDER
-                    }
-                );
-            } else {
-                events.emplace_back(
-                    Event {
-                        order.orderID,
-                        0,
-                        order.orderPrice,
-                        order.orderQuantity,
-                        EventType::REJECT,
-                        std::chrono::system_clock::now(),
-                        RejectReason::IOC_NO_FILL,
-                        CancelReason::NOT_APPLICABLE
-                    }
-                );
+    // Handle Immediate Orders not valid for Rest.
+    if((order.orderType == OrderType::MARKET) && (tradeExecuted)) {
+        events.emplace_back(
+            Event {
+                order.orderID,
+                0,
+                order.orderPrice,
+                order.orderQuantity,
+                EventType::CANCEL,
+                std::chrono::system_clock::now(),
+                RejectReason::NOT_APPLICABLE,
+                CancelReason::MARKET_REMAINDER
             }
-            return events;
-        }
+        );
+        return events;
+    }
+
+    if((order.orderType == OrderType::MARKET) && (!tradeExecuted)) {
+        events.emplace_back(
+            Event {
+                order.orderID,
+                0,
+                order.orderPrice,
+                order.orderQuantity,
+                EventType::REJECT,
+                std::chrono::system_clock::now(),
+                RejectReason::MARKET_NO_FILL,
+                CancelReason::NOT_APPLICABLE
+            }
+        );
+        return events;
+    }
+
+    if((order.orderTimeInForce == TimeInForce::IOC) && (tradeExecuted)) {
+        events.emplace_back(
+            Event {
+                order.orderID,
+                0,
+                order.orderPrice,
+                order.orderQuantity,
+                EventType::CANCEL,
+                std::chrono::system_clock::now(),
+                RejectReason::NOT_APPLICABLE,
+                CancelReason::IOC_REMAINDER
+            }
+        );
+        return events;
+    }
+
+    if((order.orderTimeInForce == TimeInForce::IOC) && (!tradeExecuted)) {
+        events.emplace_back(
+            Event {
+                order.orderID,
+                0,
+                order.orderPrice,
+                order.orderQuantity,
+                EventType::REJECT,
+                std::chrono::system_clock::now(),
+                RejectReason::IOC_NO_FILL,
+                CancelReason::NOT_APPLICABLE
+            }
+        );
+        return events;
+    }
     
     // Rest
     if(order.orderSide == Side::BUY) {

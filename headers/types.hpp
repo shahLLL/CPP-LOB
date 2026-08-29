@@ -21,12 +21,14 @@ enum class RejectReason : EnumType {
     INVALID_QUANTITY, 
     ALREADY_TERMINAL,
     IOC_NO_FILL,
+    MARKET_NO_FILL,
     FOK_INSUFFICIENT_LIQUIDITY,
     NOT_APPLICABLE
 };
 enum class CancelReason : EnumType {
     USER_REQUESTED,
     IOC_REMAINDER,
+    MARKET_REMAINDER,
     DAY_EXPIRY,
     ENGINE_SHUTDOWN,
     NOT_APPLICABLE

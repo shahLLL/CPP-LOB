@@ -40,3 +40,9 @@ target_link_libraries(unit_tests PRIVATE Catch2::Catch2WithMain)
 # Automatically register test cases with CTest
 include(Catch)
 catch_discover_tests(unit_tests)
+
+# Collect all C++ beching files in the bench/ directory
+file(GLOB BENCH "bench/*.cpp")
+
+# Create bench script executable
+add_executable(bench ${BENCH} ${SOURCES})

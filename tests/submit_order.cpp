@@ -605,3 +605,153 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
     REQUIRE(event4B.rejectReason == RejectReason::NOT_APPLICABLE);
 
 }
+
+TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
+    // Check for Asks being successfully matched.
+    LOB levelOrderBook1 = LOB();
+    LOB levelOrderBook2 = LOB();
+    LOB levelOrderBook3 = LOB();
+    LOB levelOrderBook4 = LOB();
+
+    levelOrderBook1.submitOrder(Order {
+        1,
+        13.4,
+        5,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+    Events events1 = levelOrderBook1.submitOrder(Order {
+        2,
+        13.4,
+        5,
+        Side::SELL,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+
+    REQUIRE(events1.size() == 1);
+    Event event1 = events1.at(0);
+    REQUIRE(event1.eventOrderID == 2);
+    REQUIRE(event1.counterOrderID == 1);
+    REQUIRE(event1.eventPrice == 13.4);
+    REQUIRE(event1.eventQuantity == 5);
+    REQUIRE(event1.eventType == EventType::FILL);
+    REQUIRE(event1.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event1.rejectReason == RejectReason::NOT_APPLICABLE);
+
+    levelOrderBook2.submitOrder(Order {
+        1,
+        13.4,
+        5,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+    Events events2 = levelOrderBook2.submitOrder(Order {
+        2,
+        12.3,
+        5,
+        Side::SELL,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+
+    REQUIRE(events2.size() == 1);
+    Event event2 = events2.at(0);
+    REQUIRE(event2.eventOrderID == 2);
+    REQUIRE(event2.counterOrderID == 1);
+    REQUIRE(event2.eventPrice == 13.4);
+    REQUIRE(event2.eventQuantity == 5);
+    REQUIRE(event2.eventType == EventType::FILL);
+    REQUIRE(event2.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event2.rejectReason == RejectReason::NOT_APPLICABLE);
+
+    levelOrderBook3.submitOrder(Order {
+        1,
+        13.4,
+        5,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+    levelOrderBook3.submitOrder(Order {
+        2,
+        13.4,
+        5,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+    Events events3 = levelOrderBook3.submitOrder(Order {
+        3,
+        13.4,
+        8,
+        Side::SELL,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+
+    REQUIRE(events3.size() == 2);
+
+    Event event3A = events3.at(0);
+    REQUIRE(event3A.eventOrderID == 3);
+    REQUIRE(event3A.counterOrderID == 1);
+    REQUIRE(event3A.eventPrice == 13.4);
+    REQUIRE(event3A.eventQuantity == 5);
+    REQUIRE(event3A.eventType == EventType::FILL);
+    REQUIRE(event3A.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event3A.rejectReason == RejectReason::NOT_APPLICABLE);
+    Event event3B = events3.at(1);
+    REQUIRE(event3B.eventOrderID == 3);
+    REQUIRE(event3B.counterOrderID == 2);
+    REQUIRE(event3B.eventPrice == 13.4);
+    REQUIRE(event3B.eventQuantity == 3);
+    REQUIRE(event3B.eventType == EventType::FILL);
+    REQUIRE(event3B.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event3B.rejectReason == RejectReason::NOT_APPLICABLE);
+
+    levelOrderBook4.submitOrder(Order {
+        1,
+        13.4,
+        5,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+    levelOrderBook4.submitOrder(Order {
+        2,
+        13.2,
+        5,
+        Side::BUY,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+    Events events4 = levelOrderBook4.submitOrder(Order {
+        3,
+        13.1,
+        8,
+        Side::SELL,
+        OrderType::LIMIT,
+        TimeInForce::GTC
+    });
+
+    REQUIRE(events4.size() == 2);
+
+    Event event4A = events4.at(0);
+    REQUIRE(event4A.eventOrderID == 3);
+    REQUIRE(event4A.counterOrderID == 1);
+    REQUIRE(event4A.eventPrice == 13.4);
+    REQUIRE(event4A.eventQuantity == 5);
+    REQUIRE(event4A.eventType == EventType::FILL);
+    REQUIRE(event4A.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event4A.rejectReason == RejectReason::NOT_APPLICABLE);
+    Event event4B = events4.at(1);
+    REQUIRE(event4B.eventOrderID == 3);
+    REQUIRE(event4B.counterOrderID == 2);
+    REQUIRE(event4B.eventPrice == 13.2);
+    REQUIRE(event4B.eventQuantity == 3);
+    REQUIRE(event4B.eventType == EventType::FILL);
+    REQUIRE(event4B.cancelReason == CancelReason::NOT_APPLICABLE);
+    REQUIRE(event4B.rejectReason == RejectReason::NOT_APPLICABLE);
+}

@@ -179,11 +179,10 @@ Events LOB::submitOrder(const Order& order) {
                 if(queueItr->currentQuantity == fillQuantity) {
                     orderLocator.erase(queueItr->orderID);
                     queueItr = priceLevel.level.erase(queueItr);
-                } else {
-                    queueItr->currentQuantity = queueItr->currentQuantity - fillQuantity;
-                    ++queueItr;
                 }
             }
+
+            if(priceLevel.totalQuantity == 0) asksItr = asks.erase(asksItr);
         }
     } else {
         auto bidsItr = bids.begin();
@@ -217,11 +216,10 @@ Events LOB::submitOrder(const Order& order) {
                 if(queueItr->currentQuantity == fillQuantity) {
                     orderLocator.erase(queueItr->orderID);
                     queueItr = priceLevel.level.erase(queueItr);
-                } else {
-                    queueItr->currentQuantity = queueItr->currentQuantity - fillQuantity;
-                    ++queueItr;
                 }
             }
+
+            if(priceLevel.totalQuantity == 0) bidsItr = bids.erase(bidsItr);
         }
     }
 

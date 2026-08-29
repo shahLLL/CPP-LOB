@@ -299,16 +299,16 @@ Events LOB::submitOrder(const Order& order) {
                 LevelOrder {
                     order.orderID,
                     order.orderPrice,
-                    order.orderQuantity,
+                    requestedQuantity,
                     std::chrono::system_clock::now()
                 }
             );
             auto locatorRef = std::prev(priceLevel.level.end());
-            priceLevel.totalQuantity = priceLevel.totalQuantity + order.orderQuantity;
+            priceLevel.totalQuantity = priceLevel.totalQuantity + requestedQuantity;
             orderLocator[order.orderID] = Locator { 
                 Side::BUY, 
                 order.orderPrice,
-                order.orderQuantity,
+                requestedQuantity,
                 locatorRef
             };
         } else {
@@ -321,16 +321,16 @@ Events LOB::submitOrder(const Order& order) {
                 LevelOrder {
                     order.orderID,
                     order.orderPrice,
-                    order.orderQuantity,
+                    requestedQuantity,
                     std::chrono::system_clock::now()
                 }
             );
             auto locatorRef = std::prev(priceLevel.level.end());
-            priceLevel.totalQuantity = order.orderQuantity;
+            priceLevel.totalQuantity = requestedQuantity;
             orderLocator[order.orderID] = Locator {
                 Side::BUY,
                 order.orderPrice,
-                order.orderQuantity,
+                requestedQuantity,
                 locatorRef
             };
         }
@@ -342,16 +342,16 @@ Events LOB::submitOrder(const Order& order) {
                 LevelOrder {
                     order.orderID,
                     order.orderPrice,
-                    order.orderQuantity,
+                    requestedQuantity,
                     std::chrono::system_clock::now()
                 }
             );
             auto locatorRef = std::prev(priceLevel.level.end());
-            priceLevel.totalQuantity = priceLevel.totalQuantity + order.orderQuantity;
+            priceLevel.totalQuantity = priceLevel.totalQuantity + requestedQuantity;
             orderLocator[order.orderID] = Locator { 
                 Side::SELL, 
                 order.orderPrice,
-                order.orderQuantity,
+                requestedQuantity,
                 locatorRef
             };
         } else {
@@ -364,16 +364,16 @@ Events LOB::submitOrder(const Order& order) {
                 LevelOrder {
                     order.orderID,
                     order.orderPrice,
-                    order.orderQuantity,
+                    requestedQuantity,
                     std::chrono::system_clock::now()
                 }
             );
             auto locatorRef = std::prev(priceLevel.level.end());
-            priceLevel.totalQuantity = order.orderQuantity;
+            priceLevel.totalQuantity = requestedQuantity;
             orderLocator[order.orderID] = Locator {
                 Side::SELL,
                 order.orderPrice,
-                order.orderQuantity,
+                requestedQuantity,
                 locatorRef
             };
         }
@@ -384,7 +384,7 @@ Events LOB::submitOrder(const Order& order) {
             order.orderID,
             0,
             order.orderPrice,
-            order.orderQuantity,
+            requestedQuantity,
             EventType::REST,
             std::chrono::system_clock::now(),
             RejectReason::NOT_APPLICABLE,

@@ -19,6 +19,7 @@ constexpr double pointNineNine = 0.99;
 constexpr double pointNineNineNine = 0.999;
 constexpr double price90 = 90.0;
 constexpr double price110 = 110.0;
+TimeStamp dummyTimeStamp =  std::chrono::system_clock::now();
 
 // Type Aliases
 using UniformSmallIntDistribution = std::uniform_int_distribution<int>;
@@ -40,7 +41,7 @@ using Nanoseconds = std::chrono::nanoseconds;
 */
 
 int main() {
-    const SizeT n = oneHundredThousand;
+    const SizeT n = oneMillion;
 
     LOB limitOrderBook = LOB();
     std::mt19937_64 rng(seed);
@@ -63,6 +64,7 @@ int main() {
             currentID,
             priceDistribution(rng),
             quantityDistribution(rng),
+            dummyTimeStamp,
             sideDistribution(rng) ? Side::BUY : Side::SELL,
             OrderType::LIMIT,
             TimeInForce::GTC
@@ -87,6 +89,7 @@ int main() {
                 currentID,
                 priceDistribution(rng),
                 quantityDistribution(rng),
+                dummyTimeStamp,
                 sideDistribution(rng) ? Side::BUY : Side::SELL,
                 OrderType::LIMIT,
                 TimeInForce::GTC
@@ -102,6 +105,7 @@ int main() {
                 currentID,
                 orderSide == Side::BUY ? price110 : price90,
                 quantityDistribution(rng),
+                dummyTimeStamp,
                 orderSide,
                 OrderType::LIMIT,
                 TimeInForce::IOC
@@ -112,6 +116,7 @@ int main() {
                 currentID,
                 0.0,
                 quantityDistribution(rng),
+                dummyTimeStamp,
                 sideDistribution(rng) ? Side::BUY : Side::SELL,
                 OrderType::MARKET,
                 TimeInForce::NON
@@ -124,7 +129,7 @@ int main() {
             ID cancelID = liveIDs[cancelIndex];
             std::swap(liveIDs[cancelIndex], liveIDs.back());
             liveIDs.pop_back();
-            limitOrderBook.cancelOrder(cancelID);
+            limitOrderBook.cancelOrder(cancelID, dummyTimeStamp);
         }
 
         auto timeOne = std::chrono::high_resolution_clock::now();

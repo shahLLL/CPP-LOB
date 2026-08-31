@@ -27,10 +27,10 @@ class LOB final {
         Quantity totalQuantity;
     };
     struct Locator {
-        Side orderSide;
+        std::list<LevelOrder>::iterator levelItr;
         Price orderPrice;
         Quantity orderQuantity;
-        std::list<LevelOrder>::iterator levelItr;
+        Side orderSide;
     };
 
     // Internal Data Members, private by default.

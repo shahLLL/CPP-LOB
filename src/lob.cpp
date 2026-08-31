@@ -70,8 +70,8 @@ Events LOB::submitOrder(const Order& order) {
                 0, 
                 order.orderPrice, 
                 order.orderQuantity,
-                EventType::REJECT,
                 std::chrono::system_clock::now(),
+                EventType::REJECT,
                 RejectReason::INVALID_QUANTITY,
                 CancelReason::NOT_APPLICABLE
             }
@@ -86,8 +86,8 @@ Events LOB::submitOrder(const Order& order) {
                 0,
                 order.orderPrice,
                 order.orderQuantity,
-                EventType::REJECT,
                 std::chrono::system_clock::now(),
+                EventType::REJECT,
                 RejectReason::INVALID_PRICE,
                 CancelReason::NOT_APPLICABLE
             }
@@ -102,8 +102,8 @@ Events LOB::submitOrder(const Order& order) {
                 0,
                 order.orderPrice,
                 order.orderQuantity,
-                EventType::REJECT,
                 std::chrono::system_clock::now(),
+                EventType::REJECT,
                 RejectReason::DUPLICATE,
                 CancelReason::NOT_APPLICABLE
             }
@@ -133,8 +133,8 @@ Events LOB::submitOrder(const Order& order) {
                     0,
                     order.orderPrice,
                     order.orderQuantity,
-                    EventType::REJECT,
                     std::chrono::system_clock::now(),
+                    EventType::REJECT,
                     RejectReason::FOK_INSUFFICIENT_LIQUIDITY,
                     CancelReason::NOT_APPLICABLE
                 }
@@ -169,8 +169,8 @@ Events LOB::submitOrder(const Order& order) {
                         queueItr->orderID,
                         asksItr->first,
                         fillQuantity,
-                        EventType::FILL,
                         std::chrono::system_clock::now(),
+                        EventType::FILL,
                         RejectReason::NOT_APPLICABLE,
                         CancelReason::NOT_APPLICABLE
                     }
@@ -206,8 +206,8 @@ Events LOB::submitOrder(const Order& order) {
                         queueItr->orderID,
                         bidsItr->first,
                         fillQuantity,
-                        EventType::FILL,
                         std::chrono::system_clock::now(),
+                        EventType::FILL,
                         RejectReason::NOT_APPLICABLE,
                         CancelReason::NOT_APPLICABLE
                     }
@@ -233,8 +233,8 @@ Events LOB::submitOrder(const Order& order) {
                 0,
                 order.orderPrice,
                 requestedQuantity,
-                EventType::CANCEL,
                 std::chrono::system_clock::now(),
+                EventType::CANCEL,
                 RejectReason::NOT_APPLICABLE,
                 CancelReason::MARKET_REMAINDER
             }
@@ -249,8 +249,8 @@ Events LOB::submitOrder(const Order& order) {
                 0,
                 order.orderPrice,
                 order.orderQuantity,
-                EventType::REJECT,
                 std::chrono::system_clock::now(),
+                EventType::REJECT,
                 RejectReason::MARKET_NO_FILL,
                 CancelReason::NOT_APPLICABLE
             }
@@ -265,8 +265,8 @@ Events LOB::submitOrder(const Order& order) {
                 0,
                 order.orderPrice,
                 requestedQuantity,
-                EventType::CANCEL,
                 std::chrono::system_clock::now(),
+                EventType::CANCEL,
                 RejectReason::NOT_APPLICABLE,
                 CancelReason::IOC_REMAINDER
             }
@@ -281,8 +281,8 @@ Events LOB::submitOrder(const Order& order) {
                 0,
                 order.orderPrice,
                 order.orderQuantity,
-                EventType::REJECT,
                 std::chrono::system_clock::now(),
+                EventType::REJECT,
                 RejectReason::IOC_NO_FILL,
                 CancelReason::NOT_APPLICABLE
             }
@@ -306,10 +306,10 @@ Events LOB::submitOrder(const Order& order) {
             auto locatorRef = std::prev(priceLevel.level.end());
             priceLevel.totalQuantity = priceLevel.totalQuantity + requestedQuantity;
             orderLocator[order.orderID] = Locator { 
-                Side::BUY, 
+                locatorRef, 
                 order.orderPrice,
                 requestedQuantity,
-                locatorRef
+                Side::BUY
             };
         } else {
             auto [it, inserted] = bids.emplace(
@@ -328,10 +328,10 @@ Events LOB::submitOrder(const Order& order) {
             auto locatorRef = std::prev(priceLevel.level.end());
             priceLevel.totalQuantity = requestedQuantity;
             orderLocator[order.orderID] = Locator {
-                Side::BUY,
+                locatorRef,
                 order.orderPrice,
                 requestedQuantity,
-                locatorRef
+                Side::BUY
             };
         }
     } else {
@@ -349,10 +349,10 @@ Events LOB::submitOrder(const Order& order) {
             auto locatorRef = std::prev(priceLevel.level.end());
             priceLevel.totalQuantity = priceLevel.totalQuantity + requestedQuantity;
             orderLocator[order.orderID] = Locator { 
-                Side::SELL, 
+                locatorRef, 
                 order.orderPrice,
                 requestedQuantity,
-                locatorRef
+                Side::SELL,
             };
         } else {
             auto [it, inserted] = asks.emplace(
@@ -371,10 +371,10 @@ Events LOB::submitOrder(const Order& order) {
             auto locatorRef = std::prev(priceLevel.level.end());
             priceLevel.totalQuantity = requestedQuantity;
             orderLocator[order.orderID] = Locator {
-                Side::SELL,
+                locatorRef,
                 order.orderPrice,
                 requestedQuantity,
-                locatorRef
+                Side::SELL,
             };
         }
     }
@@ -385,8 +385,8 @@ Events LOB::submitOrder(const Order& order) {
             0,
             order.orderPrice,
             requestedQuantity,
-            EventType::REST,
             std::chrono::system_clock::now(),
+            EventType::REST,
             RejectReason::NOT_APPLICABLE,
             CancelReason::NOT_APPLICABLE
         }
@@ -403,8 +403,8 @@ Event LOB::cancelOrder(ID orderID) {
             0,
             0.0,
             0,
-            EventType::REJECT,
             std::chrono::system_clock::now(),
+            EventType::REJECT,
             RejectReason::UNKOWN,
             CancelReason::NOT_APPLICABLE
         };
@@ -436,8 +436,8 @@ Event LOB::cancelOrder(ID orderID) {
         0,
         orderPrice,
         orderQuantity,
-        EventType::CANCEL,
         std::chrono::system_clock::now(),
+        EventType::CANCEL,
         RejectReason::NOT_APPLICABLE,
         CancelReason::USER_REQUESTED
     };

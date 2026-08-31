@@ -57,8 +57,8 @@ struct Event {
     ID counterOrderID;
     Price eventPrice;
     Quantity eventQuantity;
-    EventType eventType;
     TimeStamp eventTimeStamp;
+    EventType eventType;
     RejectReason rejectReason;
     CancelReason cancelReason;
 };

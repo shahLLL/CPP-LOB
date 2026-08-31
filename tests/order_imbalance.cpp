@@ -14,6 +14,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #2", "[get_order_imbalance]") {
         1,
         3.5,
         4,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -22,6 +23,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #2", "[get_order_imbalance]") {
         2,
         3.5,
         4,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -30,6 +32,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #2", "[get_order_imbalance]") {
         3,
         3.5,
         4,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -38,6 +41,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #2", "[get_order_imbalance]") {
         4,
         3.8,
         4,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -46,6 +50,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #2", "[get_order_imbalance]") {
         5,
         3.8,
         4,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -54,6 +59,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #2", "[get_order_imbalance]") {
         6,
         3.8,
         4,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -68,6 +74,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #3", "[get_order_imbalance]") {
         1,
         1.2,
         1,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -76,6 +83,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #3", "[get_order_imbalance]") {
         2,
         1.2,
         1,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -84,6 +92,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #3", "[get_order_imbalance]") {
         3,
         1.2,
         1,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -92,6 +101,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #3", "[get_order_imbalance]") {
         4,
         3.8,
         2,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -100,6 +110,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #3", "[get_order_imbalance]") {
         5,
         3.8,
         2,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -108,6 +119,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #3", "[get_order_imbalance]") {
         6,
         3.8,
         3,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -123,6 +135,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #4", "[get_order_imbalance]") {
         1,
         1.2,
         2,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -131,6 +144,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #4", "[get_order_imbalance]") {
         2,
         1.2,
         2,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -139,6 +153,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #4", "[get_order_imbalance]") {
         3,
         1.2,
         3,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -147,6 +162,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #4", "[get_order_imbalance]") {
         4,
         3.8,
         1,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -155,6 +171,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #4", "[get_order_imbalance]") {
         5,
         3.8,
         1,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -163,6 +180,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #4", "[get_order_imbalance]") {
         6,
         3.8,
         1,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC

@@ -15,6 +15,7 @@ TEST_CASE("BID ASK SPREAD TESTCASE #2", "[bid_ask_spread]") {
         1,
         testPrice,
         1,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -31,6 +32,7 @@ TEST_CASE("BID ASK SPREAD TESTCASE #3", "[bid_ask_spread]") {
         1,
         testPrice,
         1,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -48,6 +50,7 @@ TEST_CASE("BID ASK SPREAD TESTCASE #4", "[bid_ask_spread]") {
         1,
         testPriceAsk,
         1,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -57,6 +60,7 @@ TEST_CASE("BID ASK SPREAD TESTCASE #4", "[bid_ask_spread]") {
         2,
         testPriceBid,
         1,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC

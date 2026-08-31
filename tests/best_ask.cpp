@@ -26,6 +26,7 @@ TEST_CASE("BEST ASK TEST CASE #1", "[get_best_ask]") {
         1,
         testPrice1,
         testQuantity1,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -38,6 +39,7 @@ TEST_CASE("BEST ASK TEST CASE #1", "[get_best_ask]") {
         2,
         testPrice2,
         testQuantity2,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -50,6 +52,7 @@ TEST_CASE("BEST ASK TEST CASE #1", "[get_best_ask]") {
         3,
         testPrice3,
         testQuantity3,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -62,6 +65,7 @@ TEST_CASE("BEST ASK TEST CASE #1", "[get_best_ask]") {
         4,
         testPrice4,
         testQuantity4,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -90,6 +94,7 @@ TEST_CASE("BEST ASK TEST CASE #2", "[get_best_ask]") {
         1,
         testPrice1,
         testQuantity1,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -100,6 +105,7 @@ TEST_CASE("BEST ASK TEST CASE #2", "[get_best_ask]") {
         2,
         testPrice2,
         testQuantity2,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -110,6 +116,7 @@ TEST_CASE("BEST ASK TEST CASE #2", "[get_best_ask]") {
         3,
         testPrice3,
         testQuantity3,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -120,6 +127,7 @@ TEST_CASE("BEST ASK TEST CASE #2", "[get_best_ask]") {
         4,
         testPrice4,
         testQuantity4,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC

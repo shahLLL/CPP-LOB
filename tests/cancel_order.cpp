@@ -6,8 +6,8 @@ TEST_CASE("CANCEL ORDER TESTCASE #1", "[cancel_order]") {
     LOB limitOrderBook = LOB();
     ID orderID1 = 1;
     ID orderID2 = 2;
-    Event cancelEvent1 = limitOrderBook.cancelOrder(orderID1);
-    Event cancelEvent2 = limitOrderBook.cancelOrder(orderID2);
+    Event cancelEvent1 = limitOrderBook.cancelOrder(orderID1, std::chrono::system_clock::now());
+    Event cancelEvent2 = limitOrderBook.cancelOrder(orderID2, std::chrono::system_clock::now());
 
     REQUIRE(cancelEvent1.eventOrderID == orderID1);
     REQUIRE(cancelEvent1.counterOrderID == 0);
@@ -43,6 +43,7 @@ TEST_CASE("CANCEL ORDER TESTCASE #2", "[cancel_order]") {
         orderID1,
         price1,
         quantity1,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -51,6 +52,7 @@ TEST_CASE("CANCEL ORDER TESTCASE #2", "[cancel_order]") {
         orderID2,
         price2,
         quantity2,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -59,6 +61,7 @@ TEST_CASE("CANCEL ORDER TESTCASE #2", "[cancel_order]") {
         orderID3,
         price3,
         quantity3,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -67,9 +70,9 @@ TEST_CASE("CANCEL ORDER TESTCASE #2", "[cancel_order]") {
     REQUIRE(limitOrderBook.getBidOrderDepths(2).size() == 2);
     REQUIRE(limitOrderBook.getAskOrderDepths(1).size() == 1);
 
-    Event cancelEvent1 = limitOrderBook.cancelOrder(orderID1);
-    Event cancelEvent2 = limitOrderBook.cancelOrder(orderID2);
-    Event cancelEvent3 = limitOrderBook.cancelOrder(orderID3);
+    Event cancelEvent1 = limitOrderBook.cancelOrder(orderID1, std::chrono::system_clock::now());
+    Event cancelEvent2 = limitOrderBook.cancelOrder(orderID2, std::chrono::system_clock::now());
+    Event cancelEvent3 = limitOrderBook.cancelOrder(orderID3, std::chrono::system_clock::now());
 
     REQUIRE(cancelEvent1.eventOrderID == orderID1);
     REQUIRE(cancelEvent1.counterOrderID == 0);

@@ -9,6 +9,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
         1,
         12.5,
         0,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -27,6 +28,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
         1,
         12.5,
         0,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -45,6 +47,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
         1,
         12.5,
         -2,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -63,6 +66,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
         1,
         12.5,
         0,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::MARKET,
         TimeInForce::GTC
@@ -81,6 +85,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
         1,
         12.5,
         0,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::FOK
@@ -99,6 +104,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
         1,
         12.5,
         0,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::IOC
@@ -117,6 +123,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
         1,
         12.5,
         0,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::DAY
@@ -140,6 +147,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #2", "[submit_order]") {
         1,
         0.0,
         2,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -158,6 +166,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #2", "[submit_order]") {
         1,
         0.0,
         4,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -176,6 +185,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #2", "[submit_order]") {
         1,
         -20.2,
         18,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -194,6 +204,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #2", "[submit_order]") {
         1,
         -20.2,
         18,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::IOC
@@ -212,6 +223,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #2", "[submit_order]") {
         1,
         -20.2,
         18,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::FOK
@@ -230,6 +242,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #2", "[submit_order]") {
         1,
         -20.2,
         18,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::DAY
@@ -253,6 +266,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #3", "[submit_order]") {
         1,
         12.5,
         3,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -261,6 +275,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #3", "[submit_order]") {
         1,
         12.5,
         3,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -280,6 +295,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #3", "[submit_order]") {
         2,
         12.5,
         3,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -288,6 +304,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #3", "[submit_order]") {
         2,
         9.5,
         4,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -317,6 +334,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
         1,
         19.2,
         3,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::FOK
@@ -335,6 +353,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
         2,
         19.2,
         3,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::FOK
@@ -353,6 +372,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
         1,
         45.6,
         7,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -361,6 +381,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
         2,
         19.2,
         3,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::FOK
@@ -379,6 +400,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
         1,
         19.2,
         3,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -387,6 +409,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
         2,
         45.6,
         7,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::FOK
@@ -405,6 +428,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
         1,
         30.3,
         5,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -413,6 +437,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
         2,
         30.5,
         8,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::FOK
@@ -431,6 +456,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
         1,
         30.8,
         5,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -439,6 +465,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
         2,
         30.5,
         8,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::FOK
@@ -465,6 +492,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
         1,
         13.4,
         5,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -473,6 +501,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
         2,
         13.4,
         5,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -492,6 +521,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
         1,
         13.4,
         5,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -500,6 +530,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
         2,
         13.7,
         5,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -519,6 +550,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
         1,
         13.4,
         5,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -527,6 +559,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
         2,
         13.4,
         5,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -535,6 +568,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
         3,
         13.4,
         8,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -563,6 +597,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
         1,
         13.4,
         5,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -571,6 +606,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
         2,
         13.6,
         5,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -579,6 +615,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
         3,
         13.8,
         8,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -616,6 +653,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
         1,
         13.4,
         5,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -624,6 +662,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
         2,
         13.4,
         5,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -643,6 +682,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
         1,
         13.4,
         5,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -651,6 +691,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
         2,
         12.3,
         5,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -670,6 +711,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
         1,
         13.4,
         5,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -678,6 +720,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
         2,
         13.4,
         5,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -686,6 +729,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
         3,
         13.4,
         8,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -714,6 +758,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
         1,
         13.4,
         5,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -722,6 +767,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
         2,
         13.2,
         5,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -730,6 +776,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
         3,
         13.1,
         8,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -764,6 +811,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #7", "[submit_order]") {
         1,
         12.5,
         7,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -772,6 +820,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #7", "[submit_order]") {
         2,
         14.9,
         4,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::FOK
@@ -790,6 +839,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #7", "[submit_order]") {
         1,
         12.5,
         7,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -798,6 +848,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #7", "[submit_order]") {
         2,
         10.9,
         4,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::FOK
@@ -823,6 +874,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #8", "[submit_order]") {
         1,
         32.3,
         2,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -831,6 +883,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #8", "[submit_order]") {
         2,
         30.2,
         2,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::MARKET,
         TimeInForce::NON
@@ -850,6 +903,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #8", "[submit_order]") {
         1,
         32.3,
         2,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -858,6 +912,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #8", "[submit_order]") {
         2,
         30.2,
         5,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::MARKET,
         TimeInForce::NON
@@ -886,6 +941,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #8", "[submit_order]") {
         1,
         32.3,
         2,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -894,6 +950,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #8", "[submit_order]") {
         2,
         34.2,
         1,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::MARKET,
         TimeInForce::NON
@@ -920,6 +977,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #9", "[submit_order]") {
         1,
         32.3,
         2,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -928,6 +986,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #9", "[submit_order]") {
         2,
         30.2,
         2,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::IOC
@@ -947,6 +1006,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #9", "[submit_order]") {
         1,
         32.3,
         2,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -955,6 +1015,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #9", "[submit_order]") {
         2,
         30.2,
         5,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::IOC
@@ -983,6 +1044,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #9", "[submit_order]") {
         1,
         32.3,
         2,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -991,6 +1053,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #9", "[submit_order]") {
         2,
         34.2,
         1,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::IOC
@@ -1020,6 +1083,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
         1,
         28.9,
         3,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -1038,6 +1102,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
         1,
         35.7,
         5,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -1046,6 +1111,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
         2,
         28.9,
         3,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -1064,6 +1130,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
         1,
         35.7,
         5,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -1072,6 +1139,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
         2,
         38.9,
         9,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -1100,6 +1168,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
         1,
         28.9,
         3,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -1118,6 +1187,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
         1,
         35.7,
         5,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -1126,6 +1196,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
         2,
         38.9,
         3,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -1144,6 +1215,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
         1,
         35.7,
         5,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -1152,6 +1224,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
         2,
         33.9,
         9,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC

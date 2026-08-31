@@ -21,6 +21,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #1", "[get_ask_order_depths]") {
         1,
         testPrice1,
         testQuantity1,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -29,6 +30,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #1", "[get_ask_order_depths]") {
         2,
         testPrice2,
         testQuantity2,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -37,6 +39,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #1", "[get_ask_order_depths]") {
         3,
         testPrice3,
         testQuantity3,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -45,6 +48,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #1", "[get_ask_order_depths]") {
         4,
         testPrice4,
         testQuantity4,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -53,6 +57,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #1", "[get_ask_order_depths]") {
         5,
         testPrice5,
         testQuantity5,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -92,6 +97,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #2", "[get_ask_order_depths]") {
         1,
         testPrice1,
         testQuantity1,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -100,6 +106,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #2", "[get_ask_order_depths]") {
         2,
         testPrice2,
         testQuantity2,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -108,6 +115,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #2", "[get_ask_order_depths]") {
         3,
         testPrice3,
         testQuantity3,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -116,6 +124,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #2", "[get_ask_order_depths]") {
         4,
         testPrice4,
         testQuantity4,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -124,6 +133,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #2", "[get_ask_order_depths]") {
         5,
         testPrice5,
         testQuantity5,
+        std::chrono::system_clock::now(),
         Side::BUY,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -152,6 +162,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #3", "[get_ask_order_depths]") {
         1,
         testPrice1,
         testQuantity1,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -160,6 +171,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #3", "[get_ask_order_depths]") {
         2,
         testPrice2,
         testQuantity2,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -168,6 +180,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #3", "[get_ask_order_depths]") {
         3,
         testPrice3,
         testQuantity3,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -176,6 +189,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #3", "[get_ask_order_depths]") {
         4,
         testPrice4,
         testQuantity4,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC
@@ -184,6 +198,7 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #3", "[get_ask_order_depths]") {
         5,
         testPrice5,
         testQuantity5,
+        std::chrono::system_clock::now(),
         Side::SELL,
         OrderType::LIMIT,
         TimeInForce::GTC

@@ -4,6 +4,8 @@
 #include <optional>
 #include <list>
 #include <map>
+#include <vector>
+#include <unordered_map>
 
 // Aliases
 using SizeT = std::size_t;

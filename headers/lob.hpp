@@ -41,7 +41,7 @@ class LOB final {
     public:
         LOB() = default;
         Events submitOrder(const Order& order);
-        Event cancelOrder(ID orderID);
+        Event cancelOrder(ID orderID, TimeStamp ts);
         TOB getBestBid() const noexcept;
         TOB getBestAsk() const noexcept;
         Levels getBidOrderDepths(SizeT n) const;

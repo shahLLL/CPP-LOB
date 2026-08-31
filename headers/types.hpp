@@ -48,6 +48,7 @@ struct Order {
     ID orderID;
     Price orderPrice;
     Quantity orderQuantity;
+    TimeStamp orderTimeStamp;
     Side orderSide;
     OrderType orderType;
     TimeInForce orderTimeInForce;

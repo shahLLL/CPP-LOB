@@ -4,6 +4,7 @@
 #include <chrono>
 
 // Type Aliases
+using SizeT = std::size_t;
 using ID = std::uint64_t;
 using Quantity = std::int64_t;
 using Price = double;

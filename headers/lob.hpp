@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.hpp"
+#include "pool_allocator.hpp"
 #include <optional>
 #include <list>
 #include <map>
@@ -23,11 +24,11 @@ class LOB final {
         TimeStamp orderTimeStamp;
     };
     struct PriceLevel {
-        std::list<LevelOrder> level;
+        std::list<LevelOrder, PoolAllocator<LevelOrder>> level;
         Quantity totalQuantity;
     };
     struct Locator {
-        std::list<LevelOrder>::iterator levelItr;
+        std::list<LevelOrder, PoolAllocator<LevelOrder>>::iterator levelItr;
         Price orderPrice;
         Quantity orderQuantity;
         Side orderSide;

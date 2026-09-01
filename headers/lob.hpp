@@ -40,7 +40,7 @@ class LOB final {
 
     public:
         LOB() = default;
-        Events submitOrder(const Order& order);
+        Events submitOrder(const Order& order, const SizeT reserveCapacity = 4);
         Event cancelOrder(ID orderID, TimeStamp ts);
         TOB getBestBid() const noexcept;
         TOB getBestAsk() const noexcept;

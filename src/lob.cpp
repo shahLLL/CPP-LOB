@@ -59,8 +59,9 @@ Double LOB::getOrderImbalance() const {
     return (bidTotal - askTotal) / (bidTotal + askTotal);
 }
 
-Events LOB::submitOrder(const Order& order) {
+Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
     Events events;
+    events.reserve(reserveCapacity);
 
     // Validation
     if(order.orderQuantity <= 0) {

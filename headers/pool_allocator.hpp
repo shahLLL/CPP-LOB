@@ -1,85 +1,73 @@
 #pragma once
 
 #include <cstddef>
-#include <memory>
+#include <utility>
 #include <vector>
-#include "types.hpp"
 
-/* 
-    A minimal fixed-block pool allocator, intended for node-based containers
-    (std::list, std::map) where every allocation is for exactly one node of a
-    fixed size. Freed nodes go back onto a free-list and are handed out again
-    on the next allocation, instead of round-tripping through malloc/free.
+/* A fixed-block object pool for T. Hands out T* from pre-allocated arenas
+    and recycles freed ones via a free-list, instead of round-tripping every
+    allocation through malloc/free.
 
-    State is shared per-T via a function-local static, so every std::list (one
-    per price level) allocating LevelOrder nodes draws from the same pool -
-    a node freed when one price level empties can be reused by another.
+    Owned as an instance (e.g. a member of LOB), not shared via global static
+    state - one pool per owner, explicit lifetime. Non-copyable and
+    non-movable
 
-    Not thread-safe. Fine for a single-threaded matching engine; would need a
-    lock or thread-local pools if the engine becomes multi-threaded.
-*/
+    Not thread-safe. Fine for a single-threaded matching engine, would need a
+    lock or thread-local pools if the engine becomes multi-threaded. */
 
 template <typename T>
 class PoolAllocator {
 public:
-    using value_type = T;
+    PoolAllocator() = default;
 
-    PoolAllocator() noexcept = default;
+    PoolAllocator(const PoolAllocator&) = delete;
+    PoolAllocator& operator=(const PoolAllocator&) = delete;
+    PoolAllocator(PoolAllocator&&) = delete;
+    PoolAllocator& operator=(PoolAllocator&&) = delete;
 
-    template <typename U>
-    PoolAllocator(const PoolAllocator<U>&) noexcept {}
-
-    T* allocate(SizeT n) {
-        if (n != 1) {
-            return static_cast<T*>(::operator new(n * sizeof(T)));
+    ~PoolAllocator() {
+        for (T* block : rawBlocks_) {
+            ::operator delete(block);
         }
-        auto& fl = freeList();
-        if (fl.empty()) {
+    }
+
+    T* allocate() {
+        if (freeList_.empty()) {
             growPool();
         }
-        T* p = fl.back();
-        fl.pop_back();
+        T* p = freeList_.back();
+        freeList_.pop_back();
         return p;
     }
 
-    void deallocate(T* p, SizeT n) noexcept {
-        if (n != 1) {
-            ::operator delete(p);
-            return;
-        }
-        freeList().push_back(p);
+    void deallocate(T* p) noexcept {
+        freeList_.push_back(p);
     }
 
-    template <typename U>
-    bool operator==(const PoolAllocator<U>&) const noexcept { return true; }
-    template <typename U>
-    bool operator!=(const PoolAllocator<U>&) const noexcept { return false; }
+    template <typename... Args>
+    T* create(Args&&... args) {
+        T* p = allocate();
+        new (p) T(std::forward<Args>(args)...);
+        return p;
+    }
+
+    void destroy(T* p) noexcept {
+        p->~T();
+        deallocate(p);
+    }
 
 private:
-    static constexpr SizeT kBlockGrowth = 4096;
+    static constexpr std::size_t kBlockGrowth = 4096;
 
-    static std::vector<T*>& freeList() {
-        static std::vector<T*> fl;
-        return fl;
-    }
+    std::vector<T*> freeList_;
+    std::vector<T*> rawBlocks_;
 
-    // Raw, uninitialized storage blocks. We never default-construct T here -
-    // the container's allocator_traits::construct placement-news into the
-    // slots we hand out. We own the raw bytes so they can be freed on the
-    // rare occasion it matters, but for a process-lifetime engine pool we
-    // simply let them live until exit, same as most arena allocators.
-    static std::vector<T*>& rawBlocks() {
-        static std::vector<T*> blocks;
-        return blocks;
-    }
-
-    static void growPool() {
+    void growPool() {
         T* block = static_cast<T*>(::operator new(kBlockGrowth * sizeof(T)));
-        rawBlocks().push_back(block);
-        auto& fl = freeList();
-        fl.reserve(fl.size() + kBlockGrowth);
-        for (SizeT i = 0; i < kBlockGrowth; ++i) {
-            fl.push_back(block + i);
+        rawBlocks_.push_back(block);
+        freeList_.reserve(freeList_.size() + kBlockGrowth);
+        for (std::size_t i = 0; i < kBlockGrowth; ++i) {
+            freeList_.push_back(block + i);
         }
     }
 };

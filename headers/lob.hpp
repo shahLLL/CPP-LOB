@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.hpp"
+#include "pool_allocator.hpp"
 #include <optional>
 #include <list>
 #include <map>
@@ -21,22 +22,33 @@ class LOB final {
         Price orderPrice;
         Quantity currentQuantity;
         TimeStamp orderTimeStamp;
+        LevelOrder* prev;
+        LevelOrder* next;
+
+        LevelOrder(ID orderID, Price orderPrice, Quantity orderQuantity,
+            TimeStamp orderTimeStamp): orderID(orderID), 
+            orderPrice(orderPrice), currentQuantity(orderQuantity),
+            orderTimeStamp(orderTimeStamp), prev(nullptr), next(nullptr) {};
     };
+
     struct PriceLevel {
-        std::list<LevelOrder> level;
         Quantity totalQuantity;
+        LevelOrder* head = nullptr;
+        LevelOrder* tail = nullptr;
     };
+
     struct Locator {
-        std::list<LevelOrder>::iterator levelItr;
         Price orderPrice;
         Quantity orderQuantity;
         Side orderSide;
+        LevelOrder* node;
     };
 
     // Internal Data Members, private by default.
     std::map<Price, PriceLevel, std::greater<Price>> bids;
     std::map<Price, PriceLevel, std::less<Price>> asks;
     std::unordered_map<ID, Locator> orderLocator;
+    PoolAllocator<LevelOrder> orderPool;
 
     public:
         LOB() = default;

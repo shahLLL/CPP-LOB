@@ -154,20 +154,20 @@ Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
             if(asksItr->first > order.orderPrice) break;
 
             auto& priceLevel = asksItr->second;
-            auto queueItr = priceLevel.level.begin();
-            while((queueItr != priceLevel.level.end()) && (requestedQuantity > 0)) {
-                Quantity fillQuantity = requestedQuantity < queueItr->currentQuantity ? 
-                    requestedQuantity : queueItr->currentQuantity;
+            LevelOrder* current = priceLevel.head;
+            while((current != nullptr) && (requestedQuantity > 0)) {
+                Quantity fillQuantity = requestedQuantity < current->currentQuantity ? 
+                    requestedQuantity : current->currentQuantity;
                 
                 requestedQuantity = requestedQuantity - fillQuantity;
                 priceLevel.totalQuantity = priceLevel.totalQuantity - fillQuantity;
-                queueItr->currentQuantity = queueItr->currentQuantity - fillQuantity;
+                current->currentQuantity = current->currentQuantity - fillQuantity;
                 tradeExecuted = true;
 
                 events.emplace_back(
                     Event {
                         order.orderID,
-                        queueItr->orderID,
+                        current->orderID,
                         asksItr->first,
                         fillQuantity,
                         order.orderTimeStamp,
@@ -177,13 +177,28 @@ Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
                     }
                 );
 
-                if(queueItr->currentQuantity == 0) {
-                    orderLocator.erase(queueItr->orderID);
-                    queueItr = priceLevel.level.erase(queueItr);
+                LevelOrder* next = current->next;
+                if(current->currentQuantity == 0) {
+                    orderLocator.erase(current->orderID);
+
+                    if (current->prev != nullptr) {
+                        current->prev->next = current->next;
+                    } else {
+                        priceLevel.head = current->next;
+                    }
+                    if (current->next != nullptr) {
+                        current->next->prev = current->prev;
+                    } else {
+                        priceLevel.tail = current->prev;
+                    }
+
+                    orderPool.destroy(current);
                 }
+                current = next;
             }
 
             if(priceLevel.totalQuantity == 0) asksItr = asks.erase(asksItr);
+            else break;
         }
     } else {
         auto bidsItr = bids.begin();
@@ -191,20 +206,20 @@ Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
             if(bidsItr->first < order.orderPrice) break;
 
             auto& priceLevel = bidsItr->second;
-            auto queueItr = priceLevel.level.begin();
-            while((queueItr != priceLevel.level.end()) && (requestedQuantity > 0)) {
-                Quantity fillQuantity = requestedQuantity < queueItr->currentQuantity ? 
-                    requestedQuantity : queueItr->currentQuantity;
+            LevelOrder* current = priceLevel.head;
+            while((current != nullptr) && (requestedQuantity > 0)) {
+                Quantity fillQuantity = requestedQuantity < current->currentQuantity ? 
+                    requestedQuantity : current->currentQuantity;
                 
                 requestedQuantity = requestedQuantity - fillQuantity;
                 priceLevel.totalQuantity = priceLevel.totalQuantity - fillQuantity;
-                queueItr->currentQuantity = queueItr->currentQuantity - fillQuantity;
+                current->currentQuantity = current->currentQuantity - fillQuantity;
                 tradeExecuted = true;
 
                 events.emplace_back(
                     Event {
                         order.orderID,
-                        queueItr->orderID,
+                        current->orderID,
                         bidsItr->first,
                         fillQuantity,
                         order.orderTimeStamp,
@@ -214,13 +229,28 @@ Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
                     }
                 );
 
-                if(queueItr->currentQuantity == 0) {
-                    orderLocator.erase(queueItr->orderID);
-                    queueItr = priceLevel.level.erase(queueItr);
+                LevelOrder* next = current->next;
+                if(current->currentQuantity == 0) {
+                    orderLocator.erase(current->orderID);
+
+                    if (current->prev != nullptr) {
+                        current->prev->next = current->next;
+                    } else {
+                        priceLevel.head = current->next;
+                    }
+                    if (current->next != nullptr) {
+                        current->next->prev = current->prev;
+                    } else {
+                        priceLevel.tail = current->prev;
+                    }
+
+                    orderPool.destroy(current);
                 }
+                current = next;
             }
 
             if(priceLevel.totalQuantity == 0) bidsItr = bids.erase(bidsItr);
+            else break;
         }
     }
 
@@ -296,21 +326,24 @@ Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
         auto bidsItr = bids.find(order.orderPrice);
         if(bidsItr != bids.end()) {
             auto& priceLevel = bids[order.orderPrice];
-            priceLevel.level.emplace_back(
-                LevelOrder {
-                    order.orderID,
-                    order.orderPrice,
-                    requestedQuantity,
-                    order.orderTimeStamp
-                }
-            );
-            auto locatorRef = std::prev(priceLevel.level.end());
+            LevelOrder* node = orderPool.create(order.orderID, 
+                order.orderPrice, requestedQuantity, order.orderTimeStamp);
+
+            node->prev = priceLevel.tail;
+            node->next = nullptr;
+            if (priceLevel.tail != nullptr) {
+                priceLevel.tail->next = node;
+            } else {
+                priceLevel.head = node;
+            }
+            priceLevel.tail = node;
+
             priceLevel.totalQuantity = priceLevel.totalQuantity + requestedQuantity;
             orderLocator[order.orderID] = Locator { 
-                locatorRef, 
                 order.orderPrice,
                 requestedQuantity,
-                Side::BUY
+                Side::BUY,
+                node
             };
         } else {
             auto [it, inserted] = bids.emplace(
@@ -318,42 +351,49 @@ Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
                 PriceLevel{}
             );
             auto& priceLevel = it->second;
-            priceLevel.level.emplace_back(
-                LevelOrder {
-                    order.orderID,
-                    order.orderPrice,
-                    requestedQuantity,
-                    order.orderTimeStamp
-                }
-            );
-            auto locatorRef = std::prev(priceLevel.level.end());
+            LevelOrder* node = orderPool.create(order.orderID, 
+                order.orderPrice, requestedQuantity, order.orderTimeStamp);
+
+            
+            node->prev = priceLevel.tail;
+            node->next = nullptr;
+            if (priceLevel.tail != nullptr) {
+                priceLevel.tail->next = node;
+            } else {
+               priceLevel.head = node;
+            }
+            priceLevel.tail = node;
+
             priceLevel.totalQuantity = requestedQuantity;
             orderLocator[order.orderID] = Locator {
-                locatorRef,
                 order.orderPrice,
                 requestedQuantity,
-                Side::BUY
+                Side::BUY,
+                node
             };
         }
     } else {
         auto asksItr = asks.find(order.orderPrice);
         if(asksItr != asks.end()) {
             auto& priceLevel = asks[order.orderPrice];
-            priceLevel.level.emplace_back(
-                LevelOrder {
-                    order.orderID,
-                    order.orderPrice,
-                    requestedQuantity,
-                    order.orderTimeStamp
-                }
-            );
-            auto locatorRef = std::prev(priceLevel.level.end());
+            LevelOrder* node = orderPool.create(order.orderID,
+                order.orderPrice, requestedQuantity, order.orderTimeStamp);
+            
+            node->prev = priceLevel.tail;
+            node->next = nullptr;
+            if (priceLevel.tail != nullptr) {
+                priceLevel.tail->next = node;
+            } else {
+                priceLevel.head = node;
+            }
+            priceLevel.tail = node;
+
             priceLevel.totalQuantity = priceLevel.totalQuantity + requestedQuantity;
             orderLocator[order.orderID] = Locator { 
-                locatorRef, 
                 order.orderPrice,
                 requestedQuantity,
                 Side::SELL,
+                node
             };
         } else {
             auto [it, inserted] = asks.emplace(
@@ -361,21 +401,24 @@ Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
                 PriceLevel{}
             );
             auto& priceLevel = it->second;
-            priceLevel.level.emplace_back(
-                LevelOrder {
-                    order.orderID,
-                    order.orderPrice,
-                    requestedQuantity,
-                    order.orderTimeStamp
-                }
-            );
-            auto locatorRef = std::prev(priceLevel.level.end());
+            LevelOrder* node = orderPool.create(order.orderID, 
+                order.orderPrice, requestedQuantity, order.orderTimeStamp);
+
+            node->prev = priceLevel.tail;
+            node->next = nullptr;
+            if (priceLevel.tail != nullptr) {
+                priceLevel.tail->next = node;
+            } else {
+                priceLevel.head = node;
+            }
+            priceLevel.tail = node;
+
             priceLevel.totalQuantity = requestedQuantity;
             orderLocator[order.orderID] = Locator {
-                locatorRef,
                 order.orderPrice,
                 requestedQuantity,
                 Side::SELL,
+                node
             };
         }
     }
@@ -414,21 +457,46 @@ Event LOB::cancelOrder(ID orderID, TimeStamp ts) {
     const Locator& locatorRef = itr->second;
     const Price orderPrice = locatorRef.orderPrice;
     const Quantity orderQuantity = locatorRef.orderQuantity;
+    LevelOrder* node = locatorRef.node;
 
     if(locatorRef.orderSide == Side::BUY) {
         auto mapItr = bids.find(locatorRef.orderPrice);
         auto& priceLevel = mapItr->second;
         priceLevel.totalQuantity = 
-            priceLevel.totalQuantity - locatorRef.levelItr->currentQuantity;
-        priceLevel.level.erase(locatorRef.levelItr);
-        if(priceLevel.level.empty()) bids.erase(mapItr);
+            priceLevel.totalQuantity - node->currentQuantity;
+
+        if (node->prev != nullptr) {
+            node->prev->next = node->next;
+        } else {
+            priceLevel.head = node->next;
+        }
+        if (node->next != nullptr) {
+            node->next->prev = node->prev;
+        } else {
+            priceLevel.tail = node->prev;
+        }
+
+        orderPool.destroy(node);
+        if(priceLevel.head == nullptr) bids.erase(mapItr);
     } else {
         auto mapItr = asks.find(locatorRef.orderPrice);
         auto& priceLevel = mapItr->second;
         priceLevel.totalQuantity = 
-            priceLevel.totalQuantity - locatorRef.levelItr->currentQuantity;
-        priceLevel.level.erase(locatorRef.levelItr);
-        if(priceLevel.level.empty()) asks.erase(mapItr);
+            priceLevel.totalQuantity - node->currentQuantity;
+        
+        if (node->prev != nullptr) {
+            node->prev->next = node->next;
+        } else {
+            priceLevel.head = node->next;
+        }
+        if (node->next != nullptr) {
+            node->next->prev = node->prev;
+        } else {
+            priceLevel.tail = node->prev;
+        }
+
+        orderPool.destroy(node);
+        if(priceLevel.head == nullptr) asks.erase(mapItr);
     }
     orderLocator.erase(itr);
 

@@ -15,6 +15,8 @@ constexpr double tenExpNegativeNine = 1e-9;
 constexpr double tenExpThree = 1e3;
 constexpr double tenExpSix = 1e6;
 constexpr double pointFive = 0.5;
+constexpr double pointSevenFive = 0.75;
+constexpr double pointNine = 0.9;
 constexpr double pointNineNine = 0.99;
 constexpr double pointNineNineNine = 0.999;
 constexpr double price90 = 90.0;
@@ -147,6 +149,8 @@ int main() {
     
     std::sort(latencies.begin(), latencies.end());
     auto p50  = latencies[n * pointFive];
+    auto p75  = latencies[n * pointSevenFive];
+    auto p90  = latencies[n * pointNine];
     auto p99  = latencies[n * pointNineNine];
     auto p999 = latencies[n * pointNineNineNine];
 
@@ -159,6 +163,8 @@ int main() {
     std::cout << "--------------------------------------------" << std::endl;
     std::cout << "  Latency (per op, including chrono overhead ~10 ns):" << std::endl;
     std::cout << "    p50  : " << p50  << " ns" << std::endl;
+    std::cout << "    p75  : " << p75  << " ns" << std::endl;
+    std::cout << "    p90  : " << p90  << " ns" << std::endl;
     std::cout << "    p99  : " << p99  << " ns" << std::endl;
     std::cout << "    p99.9: " << p999 << " ns" << std::endl;
     std::cout << "============================================" << std::endl;

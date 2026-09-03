@@ -16,12 +16,6 @@ include(CTest)
 # Collect all C++ files in the src/ directory
 file(GLOB SOURCES "src/*.cpp")
 
-# Define the executable target
-add_executable(lob.exe main.cpp ${SOURCES})
-
-# Apply compiler warning flags
-target_compile_options(lob.exe PRIVATE -Wall -Wextra)
-
 # Fetch Catch2 Framework
 include(FetchContent)
 

@@ -45,7 +45,7 @@ enum class CancelReason : EnumType {
 enum class TimeInForce : EnumType { GTC, IOC, FOK, DAY, NON };
 
 // Structs. Sorted from largest data type to smallest for memory optimisation.
-struct Order {
+struct Order final {
     ID orderID;
     Price orderPrice;
     Quantity orderQuantity;
@@ -54,7 +54,7 @@ struct Order {
     OrderType orderType;
     TimeInForce orderTimeInForce;
 };
-struct Event {
+struct Event final {
     ID eventOrderID;
     ID counterOrderID;
     Price eventPrice;
@@ -64,4 +64,4 @@ struct Event {
     RejectReason rejectReason;
     CancelReason cancelReason;
 };
-struct Level { Price price; Quantity quantity; };
+struct Level final { Price price; Quantity quantity; };

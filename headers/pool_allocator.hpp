@@ -16,7 +16,7 @@
     lock or thread-local pools if the engine becomes multi-threaded. */
 
 template <typename T>
-class PoolAllocator {
+class PoolAllocator final {
 public:
     PoolAllocator() = default;
 

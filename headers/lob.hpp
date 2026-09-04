@@ -17,7 +17,7 @@ using TOB = std::optional<Level>;
 
 class LOB final {
     // Internal Types, private by default.
-    struct LevelOrder {
+    struct LevelOrder final {
         ID orderID;
         Price orderPrice;
         Quantity currentQuantity;
@@ -31,13 +31,13 @@ class LOB final {
             orderTimeStamp(orderTimeStamp), prev(nullptr), next(nullptr) {};
     };
 
-    struct PriceLevel {
+    struct PriceLevel final {
         Quantity totalQuantity;
         LevelOrder* head = nullptr;
         LevelOrder* tail = nullptr;
     };
 
-    struct Locator {
+    struct Locator final {
         Price orderPrice;
         Quantity orderQuantity;
         Side orderSide;

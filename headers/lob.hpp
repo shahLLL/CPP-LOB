@@ -16,7 +16,8 @@ using Levels = std::vector<Level>;
 using TOB = std::optional<Level>;
 
 class LOB final {
-    // Internal Types, private by default.
+    // Internal Structs, private by default, memory optimised using pragma pack.
+#pragma pack(push, 1)
     struct LevelOrder final {
         ID orderID;
         Price orderPrice;
@@ -43,6 +44,7 @@ class LOB final {
         Side orderSide;
         LevelOrder* node;
     };
+#pragma pack(pop)
 
     // Internal Data Members, private by default.
     std::map<Price, PriceLevel, std::greater<Price>> bids;

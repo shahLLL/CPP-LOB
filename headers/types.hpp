@@ -44,7 +44,8 @@ enum class CancelReason : EnumType {
 */
 enum class TimeInForce : EnumType { GTC, IOC, FOK, DAY, NON };
 
-// Structs. Sorted from largest data type to smallest for memory optimisation.
+// Structs
+#pragma pack(push, 1)
 struct Order final {
     ID orderID;
     Price orderPrice;
@@ -65,3 +66,4 @@ struct Event final {
     CancelReason cancelReason;
 };
 struct Level final { Price price; Quantity quantity; };
+#pragma pack(pop)

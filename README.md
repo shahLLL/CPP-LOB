@@ -21,7 +21,7 @@ The following optimisations have been incorporated in this project:
 - **Intrusive Linked List**: Reduces memory allocations, elimanates cache thrashing, and provides true O(1) deletion. 
 - **Ordered Map:** Used for effecient O(1) order lookup and delete.
 - **Custom Pool Allocator:** Improves speed of memory allocation and reduces memory fragmentation.
-- **Memory Optimised Data Ordering:** Data within structs are organized from largest to smallest size, eliminating or reducing alignment padding waste.
+- **Pragma Pack:** C++ directive used to optimise memory by eliminating or reducing alignment padding waste.
 - **Use of Final Specifier:** Classes and Structs are marked as final, preventing inheritance and enabling the compiler to improve performance through devirtualization.
 
 With the optimisations above the following benchmarks have been achieved on a standard MacBook Air with an [Apple M4](https://en.wikipedia.org/wiki/Apple_M4) memory chip and 16GB of memory, compiled with **AppleClang 17.0.0.17000013**:

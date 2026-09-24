@@ -11,7 +11,7 @@ TEST_CASE("CANCEL ORDER TESTCASE #1", "[cancel_order]") {
 
     REQUIRE(cancelEvent1.eventOrderID == orderID1);
     REQUIRE(cancelEvent1.counterOrderID == 0);
-    REQUIRE(cancelEvent1.eventPrice == 0.0);
+    REQUIRE(cancelEvent1.eventPrice == 0);
     REQUIRE(cancelEvent1.eventQuantity == 0);
     REQUIRE(cancelEvent1.eventType == EventType::REJECT);
     REQUIRE(cancelEvent1.rejectReason == RejectReason::UNKOWN);
@@ -19,7 +19,7 @@ TEST_CASE("CANCEL ORDER TESTCASE #1", "[cancel_order]") {
 
     REQUIRE(cancelEvent2.eventOrderID == orderID2);
     REQUIRE(cancelEvent2.counterOrderID == 0);
-    REQUIRE(cancelEvent2.eventPrice == 0.0);
+    REQUIRE(cancelEvent2.eventPrice == 0);
     REQUIRE(cancelEvent2.eventQuantity == 0);
     REQUIRE(cancelEvent2.eventType == EventType::REJECT);
     REQUIRE(cancelEvent2.rejectReason == RejectReason::UNKOWN);
@@ -32,9 +32,9 @@ TEST_CASE("CANCEL ORDER TESTCASE #2", "[cancel_order]") {
     ID orderID1 = 1;
     ID orderID2 = 2;
     ID orderID3 = 3;
-    Price price1 = 24.5;
-    Price price2 = 224.5;
-    Price price3 = 14.5;
+    Price price1 = 2450;
+    Price price2 = 22450;
+    Price price3 = 1450;
     Quantity quantity1 = 3;
     Quantity quantity2 = 4;
     Quantity quantity3 = 10;

@@ -12,7 +12,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #2", "[get_order_imbalance]") {
     LOB limitOrderBook = LOB();
     limitOrderBook.submitOrder(Order {
         1,
-        3.5,
+        350,
         4,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -21,7 +21,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #2", "[get_order_imbalance]") {
     });
     limitOrderBook.submitOrder(Order {
         2,
-        3.5,
+        350,
         4,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -30,7 +30,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #2", "[get_order_imbalance]") {
     });
     limitOrderBook.submitOrder(Order {
         3,
-        3.5,
+        350,
         4,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -39,7 +39,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #2", "[get_order_imbalance]") {
     });
     limitOrderBook.submitOrder(Order {
         4,
-        3.8,
+        380,
         4,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -48,7 +48,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #2", "[get_order_imbalance]") {
     });
     limitOrderBook.submitOrder(Order {
         5,
-        3.8,
+        380,
         4,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -57,7 +57,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #2", "[get_order_imbalance]") {
     });
     limitOrderBook.submitOrder(Order {
         6,
-        3.8,
+        380,
         4,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -72,7 +72,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #3", "[get_order_imbalance]") {
     LOB limitOrderBook = LOB();
     limitOrderBook.submitOrder(Order {
         1,
-        1.2,
+        120,
         1,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -81,7 +81,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #3", "[get_order_imbalance]") {
     });
     limitOrderBook.submitOrder(Order {
         2,
-        1.2,
+        120,
         1,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -90,7 +90,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #3", "[get_order_imbalance]") {
     });
     limitOrderBook.submitOrder(Order {
         3,
-        1.2,
+        120,
         1,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -99,7 +99,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #3", "[get_order_imbalance]") {
     });
     limitOrderBook.submitOrder(Order {
         4,
-        3.8,
+        380,
         2,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -108,7 +108,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #3", "[get_order_imbalance]") {
     });
     limitOrderBook.submitOrder(Order {
         5,
-        3.8,
+        380,
         2,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -117,7 +117,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #3", "[get_order_imbalance]") {
     });
     limitOrderBook.submitOrder(Order {
         6,
-        3.8,
+        380,
         3,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -133,7 +133,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #4", "[get_order_imbalance]") {
     LOB limitOrderBook = LOB();
     limitOrderBook.submitOrder(Order {
         1,
-        1.2,
+        120,
         2,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -142,7 +142,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #4", "[get_order_imbalance]") {
     });
     limitOrderBook.submitOrder(Order {
         2,
-        1.2,
+        120,
         2,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -151,7 +151,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #4", "[get_order_imbalance]") {
     });
     limitOrderBook.submitOrder(Order {
         3,
-        1.2,
+        120,
         3,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -160,7 +160,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #4", "[get_order_imbalance]") {
     });
     limitOrderBook.submitOrder(Order {
         4,
-        3.8,
+        380,
         1,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -169,7 +169,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #4", "[get_order_imbalance]") {
     });
     limitOrderBook.submitOrder(Order {
         5,
-        3.8,
+        380,
         1,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -178,7 +178,7 @@ TEST_CASE("ORDER IMBALANCE TEST CASE #4", "[get_order_imbalance]") {
     });
     limitOrderBook.submitOrder(Order {
         6,
-        3.8,
+        380,
         1,
         std::chrono::system_clock::now(),
         Side::SELL,

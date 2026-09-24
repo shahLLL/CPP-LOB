@@ -3,11 +3,11 @@
 
 TEST_CASE("ASK ORDER DEPTHS TESTCASE #1", "[get_ask_order_depths]") {
     // Check ask order depth as asks are added lineraly (lowest price -> highest price)
-    Price testPrice1 = 12.2;
-    Price testPrice2 = 13.3;
-    Price testPrice3 = 15.4;
-    Price testPrice4 = 16.8;
-    Price testPrice5 = 28.9;
+    Price testPrice1 = 1220;
+    Price testPrice2 = 1330;
+    Price testPrice3 = 1540;
+    Price testPrice4 = 1680;
+    Price testPrice5 = 2890;
     Quantity testQuantity1 = 4;
     Quantity testQuantity2 = 2;
     Quantity testQuantity3 = 3;
@@ -79,11 +79,11 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #1", "[get_ask_order_depths]") {
 
 TEST_CASE("ASK ORDER DEPTHS TESTCASE #2", "[get_ask_order_depths]") {
     // Check for empty ask order depth when Buy side orders added
-    Price testPrice1 = 12.2;
-    Price testPrice2 = 13.3;
-    Price testPrice3 = 15.4;
-    Price testPrice4 = 16.8;
-    Price testPrice5 = 28.9;
+    Price testPrice1 = 1220;
+    Price testPrice2 = 1330;
+    Price testPrice3 = 1540;
+    Price testPrice4 = 1680;
+    Price testPrice5 = 2890;
     Quantity testQuantity1 = 4;
     Quantity testQuantity2 = 2;
     Quantity testQuantity3 = 3;
@@ -144,11 +144,11 @@ TEST_CASE("ASK ORDER DEPTHS TESTCASE #2", "[get_ask_order_depths]") {
 
 TEST_CASE("ASK ORDER DEPTHS TESTCASE #3", "[get_ask_order_depths]") {
     // Check ask order depth as asks are added non-lineraly (no preset pattern)
-    Price testPrice1 = 12.2;
-    Price testPrice2 = 13.3;
-    Price testPrice3 = 1.4;
-    Price testPrice4 = 1.8;
-    Price testPrice5 = 28.9;
+    Price testPrice1 = 1220;
+    Price testPrice2 = 1330;
+    Price testPrice3 = 140;
+    Price testPrice4 = 180;
+    Price testPrice5 = 2890;
     Quantity testQuantity1 = 4;
     Quantity testQuantity2 = 2;
     Quantity testQuantity3 = 3;

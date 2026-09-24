@@ -7,7 +7,7 @@
 using SizeT = std::size_t;
 using ID = std::uint64_t;
 using Quantity = std::int64_t;
-using Price = double;
+using Price = std::uint64_t;
 using EnumType = std::uint8_t;
 using TimeStamp = std::chrono::system_clock::time_point;
 

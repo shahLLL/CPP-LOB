@@ -27,7 +27,6 @@ TimeStamp dummyTimeStamp =  std::chrono::system_clock::now();
 using UniformSmallIntDistribution = std::uniform_int_distribution<int>;
 using UniformSignedIntDistribution = std::uniform_int_distribution<std::int64_t>;
 using UniformUnsignedIntDistribution = std::uniform_int_distribution<std::uint64_t>;
-using UniformDoubleDistribution = std::uniform_real_distribution<double>;
 using UniformSizeTDistribution = std::uniform_int_distribution<SizeT>;
 using IDs = std::vector<std::uint64_t>;
 using Latencies = std::vector<long long>;

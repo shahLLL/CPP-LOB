@@ -8,7 +8,7 @@
 # 👀 Overview
 This is a highly optimised C++ repository of a [Limit Order Book Matching Engine](https://medium.com/@samiur1998/what-is-a-limit-order-book-f48f32915036).
 
-This codebase has been developed using C++17 and uses [Catch2](https://github.com/catchorg/Catch2) as a testing framework.
+This codebase has been developed using C++23 and uses [Catch2](https://github.com/catchorg/Catch2) as a testing framework.
 
 This project has been throughly tested with 36 test cases and over 500 assertions.
 ```
@@ -49,7 +49,7 @@ getOrderImbalance -> Calculates and returns the Order Imbalance of the Order Boo
 ```
 
 # 🛠️ Build
-The project requires Cmake and C++17 to build successfully.
+The project requires Cmake and C++23 to build successfully.
 
 In order to build run the following commands in sequence:
 ```

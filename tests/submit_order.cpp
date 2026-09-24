@@ -7,7 +7,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
 
     Events events1 = limitOrderBook.submitOrder(Order {
         1,
-        12.5,
+        1250,
         0,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -18,7 +18,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
     Event event1 = events1.at(0);
     REQUIRE(event1.eventOrderID == 1);
     REQUIRE(event1.counterOrderID == 0);
-    REQUIRE(event1.eventPrice == 12.5);
+    REQUIRE(event1.eventPrice == 1250);
     REQUIRE(event1.eventQuantity == 0);
     REQUIRE(event1.eventType == EventType::REJECT);
     REQUIRE(event1.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -26,7 +26,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
 
     Events events2 = limitOrderBook.submitOrder(Order {
         1,
-        12.5,
+        1250,
         0,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -37,7 +37,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
     Event event2 = events2.at(0);
     REQUIRE(event2.eventOrderID == 1);
     REQUIRE(event2.counterOrderID == 0);
-    REQUIRE(event2.eventPrice == 12.5);
+    REQUIRE(event2.eventPrice == 1250);
     REQUIRE(event2.eventQuantity == 0);
     REQUIRE(event2.eventType == EventType::REJECT);
     REQUIRE(event2.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -45,7 +45,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
 
     Events events3 = limitOrderBook.submitOrder(Order {
         1,
-        12.5,
+        1250,
         -2,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -56,7 +56,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
     Event event3 = events3.at(0);
     REQUIRE(event3.eventOrderID == 1);
     REQUIRE(event3.counterOrderID == 0);
-    REQUIRE(event3.eventPrice == 12.5);
+    REQUIRE(event3.eventPrice == 1250);
     REQUIRE(event3.eventQuantity == -2);
     REQUIRE(event3.eventType == EventType::REJECT);
     REQUIRE(event3.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -64,7 +64,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
 
     Events events4 = limitOrderBook.submitOrder(Order {
         1,
-        12.5,
+        1250,
         0,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -75,7 +75,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
     Event event4 = events4.at(0);
     REQUIRE(event4.eventOrderID == 1);
     REQUIRE(event4.counterOrderID == 0);
-    REQUIRE(event4.eventPrice == 12.5);
+    REQUIRE(event4.eventPrice == 1250);
     REQUIRE(event4.eventQuantity == 0);
     REQUIRE(event4.eventType == EventType::REJECT);
     REQUIRE(event4.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -83,7 +83,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
 
     Events events5 = limitOrderBook.submitOrder(Order {
         1,
-        12.5,
+        1250,
         0,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -94,7 +94,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
     Event event5 = events5.at(0);
     REQUIRE(event5.eventOrderID == 1);
     REQUIRE(event5.counterOrderID == 0);
-    REQUIRE(event5.eventPrice == 12.5);
+    REQUIRE(event5.eventPrice == 1250);
     REQUIRE(event5.eventQuantity == 0);
     REQUIRE(event5.eventType == EventType::REJECT);
     REQUIRE(event5.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -102,7 +102,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
 
     Events events6 = limitOrderBook.submitOrder(Order {
         1,
-        12.5,
+        1250,
         0,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -113,7 +113,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
     Event event6 = events6.at(0);
     REQUIRE(event6.eventOrderID == 1);
     REQUIRE(event6.counterOrderID == 0);
-    REQUIRE(event6.eventPrice == 12.5);
+    REQUIRE(event6.eventPrice == 1250);
     REQUIRE(event6.eventQuantity == 0);
     REQUIRE(event6.eventType == EventType::REJECT);
     REQUIRE(event6.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -121,7 +121,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
 
     Events events7 = limitOrderBook.submitOrder(Order {
         1,
-        12.5,
+        1250,
         0,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -132,7 +132,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
     Event event7 = events7.at(0);
     REQUIRE(event7.eventOrderID == 1);
     REQUIRE(event7.counterOrderID == 0);
-    REQUIRE(event7.eventPrice == 12.5);
+    REQUIRE(event7.eventPrice == 1250);
     REQUIRE(event7.eventQuantity == 0);
     REQUIRE(event7.eventType == EventType::REJECT);
     REQUIRE(event7.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -140,12 +140,12 @@ TEST_CASE("SUBMIT ORDER TESTCASE #1", "[submit_order]") {
 }
 
 TEST_CASE("SUBMIT ORDER TESTCASE #2", "[submit_order]") {
-    // Check to see if limit orders with a price of zero or less are rejected.
+    // Check to see if limit orders with a price of zero are rejected.
     LOB limitOrderBook = LOB();
 
     Events events1 = limitOrderBook.submitOrder(Order {
         1,
-        0.0,
+        0,
         2,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -156,7 +156,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #2", "[submit_order]") {
     Event event1 = events1.at(0);
     REQUIRE(event1.eventOrderID == 1);
     REQUIRE(event1.counterOrderID == 0);
-    REQUIRE(event1.eventPrice == 0.0);
+    REQUIRE(event1.eventPrice == 0);
     REQUIRE(event1.eventQuantity == 2);
     REQUIRE(event1.eventType == EventType::REJECT);
     REQUIRE(event1.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -164,7 +164,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #2", "[submit_order]") {
 
     Events events2 = limitOrderBook.submitOrder(Order {
         1,
-        0.0,
+        0,
         4,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -175,87 +175,11 @@ TEST_CASE("SUBMIT ORDER TESTCASE #2", "[submit_order]") {
     Event event2 = events2.at(0);
     REQUIRE(event2.eventOrderID == 1);
     REQUIRE(event2.counterOrderID == 0);
-    REQUIRE(event2.eventPrice == 0.0);
+    REQUIRE(event2.eventPrice == 0);
     REQUIRE(event2.eventQuantity == 4);
     REQUIRE(event2.eventType == EventType::REJECT);
     REQUIRE(event2.cancelReason == CancelReason::NOT_APPLICABLE);
     REQUIRE(event2.rejectReason == RejectReason::INVALID_PRICE);
-
-    Events events3 = limitOrderBook.submitOrder(Order {
-        1,
-        -20.2,
-        18,
-        std::chrono::system_clock::now(),
-        Side::BUY,
-        OrderType::LIMIT,
-        TimeInForce::GTC
-    });
-    REQUIRE(events3.size() == 1);
-    Event event3 = events3.at(0);
-    REQUIRE(event3.eventOrderID == 1);
-    REQUIRE(event3.counterOrderID == 0);
-    REQUIRE(event3.eventPrice == -20.2);
-    REQUIRE(event3.eventQuantity == 18);
-    REQUIRE(event3.eventType == EventType::REJECT);
-    REQUIRE(event3.cancelReason == CancelReason::NOT_APPLICABLE);
-    REQUIRE(event3.rejectReason == RejectReason::INVALID_PRICE);
-
-    Events events4 = limitOrderBook.submitOrder(Order {
-        1,
-        -20.2,
-        18,
-        std::chrono::system_clock::now(),
-        Side::BUY,
-        OrderType::LIMIT,
-        TimeInForce::IOC
-    });
-    REQUIRE(events4.size() == 1);
-    Event event4 = events4.at(0);
-    REQUIRE(event4.eventOrderID == 1);
-    REQUIRE(event4.counterOrderID == 0);
-    REQUIRE(event4.eventPrice == -20.2);
-    REQUIRE(event4.eventQuantity == 18);
-    REQUIRE(event4.eventType == EventType::REJECT);
-    REQUIRE(event4.cancelReason == CancelReason::NOT_APPLICABLE);
-    REQUIRE(event4.rejectReason == RejectReason::INVALID_PRICE);
-
-    Events events5 = limitOrderBook.submitOrder(Order {
-        1,
-        -20.2,
-        18,
-        std::chrono::system_clock::now(),
-        Side::BUY,
-        OrderType::LIMIT,
-        TimeInForce::FOK
-    });
-    REQUIRE(events5.size() == 1);
-    Event event5 = events5.at(0);
-    REQUIRE(event5.eventOrderID == 1);
-    REQUIRE(event5.counterOrderID == 0);
-    REQUIRE(event5.eventPrice == -20.2);
-    REQUIRE(event5.eventQuantity == 18);
-    REQUIRE(event5.eventType == EventType::REJECT);
-    REQUIRE(event5.cancelReason == CancelReason::NOT_APPLICABLE);
-    REQUIRE(event5.rejectReason == RejectReason::INVALID_PRICE);
-
-    Events events6 = limitOrderBook.submitOrder(Order {
-        1,
-        -20.2,
-        18,
-        std::chrono::system_clock::now(),
-        Side::BUY,
-        OrderType::LIMIT,
-        TimeInForce::DAY
-    });
-    REQUIRE(events6.size() == 1);
-    Event event6 = events6.at(0);
-    REQUIRE(event6.eventOrderID == 1);
-    REQUIRE(event6.counterOrderID == 0);
-    REQUIRE(event6.eventPrice == -20.2);
-    REQUIRE(event6.eventQuantity == 18);
-    REQUIRE(event6.eventType == EventType::REJECT);
-    REQUIRE(event6.cancelReason == CancelReason::NOT_APPLICABLE);
-    REQUIRE(event6.rejectReason == RejectReason::INVALID_PRICE);
 }
 
 TEST_CASE("SUBMIT ORDER TESTCASE #3", "[submit_order]") {
@@ -264,7 +188,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #3", "[submit_order]") {
 
     limitOrderBook.submitOrder(Order {
         1,
-        12.5,
+        1250,
         3,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -273,7 +197,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #3", "[submit_order]") {
     });
     Events events1 = limitOrderBook.submitOrder(Order {
         1,
-        12.5,
+        1250,
         3,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -285,7 +209,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #3", "[submit_order]") {
     Event event1 = events1.at(0);
     REQUIRE(event1.eventOrderID == 1);
     REQUIRE(event1.counterOrderID == 0);
-    REQUIRE(event1.eventPrice == 12.5);
+    REQUIRE(event1.eventPrice == 1250);
     REQUIRE(event1.eventQuantity == 3);
     REQUIRE(event1.eventType == EventType::REJECT);
     REQUIRE(event1.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -293,7 +217,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #3", "[submit_order]") {
 
     limitOrderBook.submitOrder(Order {
         2,
-        12.5,
+        1250,
         3,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -302,7 +226,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #3", "[submit_order]") {
     });
     Events events2 = limitOrderBook.submitOrder(Order {
         2,
-        9.5,
+        950,
         4,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -314,7 +238,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #3", "[submit_order]") {
     Event event2 = events2.at(0);
     REQUIRE(event2.eventOrderID == 2);
     REQUIRE(event2.counterOrderID == 0);
-    REQUIRE(event2.eventPrice == 9.5);
+    REQUIRE(event2.eventPrice == 950);
     REQUIRE(event2.eventQuantity == 4);
     REQUIRE(event2.eventType == EventType::REJECT);
     REQUIRE(event2.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -332,7 +256,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
 
     Events events1 = limitOrderBook1.submitOrder(Order {
         1,
-        19.2,
+        1920,
         3,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -343,7 +267,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
     Event event1 = events1.at(0);
     REQUIRE(event1.eventOrderID == 1);
     REQUIRE(event1.counterOrderID == 0);
-    REQUIRE(event1.eventPrice == 19.2);
+    REQUIRE(event1.eventPrice == 1920);
     REQUIRE(event1.eventQuantity == 3);
     REQUIRE(event1.eventType == EventType::REJECT);
     REQUIRE(event1.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -351,7 +275,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
 
     Events events2 = limitOrderBook2.submitOrder(Order {
         2,
-        19.2,
+        1920,
         3,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -362,7 +286,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
     Event event2 = events2.at(0);
     REQUIRE(event2.eventOrderID == 2);
     REQUIRE(event2.counterOrderID == 0);
-    REQUIRE(event2.eventPrice == 19.2);
+    REQUIRE(event2.eventPrice == 1920);
     REQUIRE(event2.eventQuantity == 3);
     REQUIRE(event2.eventType == EventType::REJECT);
     REQUIRE(event2.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -370,7 +294,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
 
     limitOrderBook3.submitOrder(Order {
         1,
-        45.6,
+        4560,
         7,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -379,7 +303,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
     });
     Events events3 = limitOrderBook3.submitOrder(Order {
         2,
-        19.2,
+        1920,
         3,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -390,7 +314,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
     Event event3 = events3.at(0);
     REQUIRE(event3.eventOrderID == 2);
     REQUIRE(event3.counterOrderID == 0);
-    REQUIRE(event3.eventPrice == 19.2);
+    REQUIRE(event3.eventPrice == 1920);
     REQUIRE(event3.eventQuantity == 3);
     REQUIRE(event3.eventType == EventType::REJECT);
     REQUIRE(event3.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -398,7 +322,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
 
     limitOrderBook4.submitOrder(Order {
         1,
-        19.2,
+        1920,
         3,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -407,7 +331,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
     });
     Events events4 = limitOrderBook4.submitOrder(Order {
         2,
-        45.6,
+        4560,
         7,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -418,7 +342,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
     Event event4 = events4.at(0);
     REQUIRE(event4.eventOrderID == 2);
     REQUIRE(event4.counterOrderID == 0);
-    REQUIRE(event4.eventPrice == 45.6);
+    REQUIRE(event4.eventPrice == 4560);
     REQUIRE(event4.eventQuantity == 7);
     REQUIRE(event4.eventType == EventType::REJECT);
     REQUIRE(event4.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -426,7 +350,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
 
     limitOrderBook5.submitOrder(Order {
         1,
-        30.3,
+        3030,
         5,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -435,7 +359,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
     });
     Events events5 = limitOrderBook5.submitOrder(Order {
         2,
-        30.5,
+        3050,
         8,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -446,7 +370,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
     Event event5 = events5.at(0);
     REQUIRE(event5.eventOrderID == 2);
     REQUIRE(event5.counterOrderID == 0);
-    REQUIRE(event5.eventPrice == 30.5);
+    REQUIRE(event5.eventPrice == 3050);
     REQUIRE(event5.eventQuantity == 8);
     REQUIRE(event5.eventType == EventType::REJECT);
     REQUIRE(event5.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -454,7 +378,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
 
     limitOrderBook6.submitOrder(Order {
         1,
-        30.8,
+        3080,
         5,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -463,7 +387,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
     });
     Events events6 = limitOrderBook6.submitOrder(Order {
         2,
-        30.5,
+        3050,
         8,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -474,7 +398,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #4", "[submit_order]") {
     Event event6 = events6.at(0);
     REQUIRE(event6.eventOrderID == 2);
     REQUIRE(event6.counterOrderID == 0);
-    REQUIRE(event6.eventPrice == 30.5);
+    REQUIRE(event6.eventPrice == 3050);
     REQUIRE(event6.eventQuantity == 8);
     REQUIRE(event6.eventType == EventType::REJECT);
     REQUIRE(event6.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -490,7 +414,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
 
     levelOrderBook1.submitOrder(Order {
         1,
-        13.4,
+        1340,
         5,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -499,7 +423,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
     });
     Events events1 = levelOrderBook1.submitOrder(Order {
         2,
-        13.4,
+        1340,
         5,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -511,7 +435,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
     Event event1 = events1.at(0);
     REQUIRE(event1.eventOrderID == 2);
     REQUIRE(event1.counterOrderID == 1);
-    REQUIRE(event1.eventPrice == 13.4);
+    REQUIRE(event1.eventPrice == 1340);
     REQUIRE(event1.eventQuantity == 5);
     REQUIRE(event1.eventType == EventType::FILL);
     REQUIRE(event1.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -519,7 +443,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
 
     levelOrderBook2.submitOrder(Order {
         1,
-        13.4,
+        1340,
         5,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -528,7 +452,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
     });
     Events events2 = levelOrderBook2.submitOrder(Order {
         2,
-        13.7,
+        1370,
         5,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -540,7 +464,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
     Event event2 = events2.at(0);
     REQUIRE(event2.eventOrderID == 2);
     REQUIRE(event2.counterOrderID == 1);
-    REQUIRE(event2.eventPrice == 13.4);
+    REQUIRE(event2.eventPrice == 1340);
     REQUIRE(event2.eventQuantity == 5);
     REQUIRE(event2.eventType == EventType::FILL);
     REQUIRE(event2.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -548,7 +472,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
 
     levelOrderBook3.submitOrder(Order {
         1,
-        13.4,
+        1340,
         5,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -557,7 +481,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
     });
     levelOrderBook3.submitOrder(Order {
         2,
-        13.4,
+        1340,
         5,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -566,7 +490,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
     });
     Events events3 = levelOrderBook3.submitOrder(Order {
         3,
-        13.4,
+        1340,
         8,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -579,7 +503,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
     Event event3A = events3.at(0);
     REQUIRE(event3A.eventOrderID == 3);
     REQUIRE(event3A.counterOrderID == 1);
-    REQUIRE(event3A.eventPrice == 13.4);
+    REQUIRE(event3A.eventPrice == 1340);
     REQUIRE(event3A.eventQuantity == 5);
     REQUIRE(event3A.eventType == EventType::FILL);
     REQUIRE(event3A.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -587,7 +511,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
     Event event3B = events3.at(1);
     REQUIRE(event3B.eventOrderID == 3);
     REQUIRE(event3B.counterOrderID == 2);
-    REQUIRE(event3B.eventPrice == 13.4);
+    REQUIRE(event3B.eventPrice == 1340);
     REQUIRE(event3B.eventQuantity == 3);
     REQUIRE(event3B.eventType == EventType::FILL);
     REQUIRE(event3B.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -595,7 +519,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
 
     levelOrderBook4.submitOrder(Order {
         1,
-        13.4,
+        1340,
         5,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -604,7 +528,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
     });
     levelOrderBook4.submitOrder(Order {
         2,
-        13.6,
+        1360,
         5,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -613,7 +537,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
     });
     Events events4 = levelOrderBook4.submitOrder(Order {
         3,
-        13.8,
+        1380,
         8,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -626,7 +550,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
     Event event4A = events4.at(0);
     REQUIRE(event4A.eventOrderID == 3);
     REQUIRE(event4A.counterOrderID == 1);
-    REQUIRE(event4A.eventPrice == 13.4);
+    REQUIRE(event4A.eventPrice == 1340);
     REQUIRE(event4A.eventQuantity == 5);
     REQUIRE(event4A.eventType == EventType::FILL);
     REQUIRE(event4A.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -634,7 +558,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #5", "[submit_order]") {
     Event event4B = events4.at(1);
     REQUIRE(event4B.eventOrderID == 3);
     REQUIRE(event4B.counterOrderID == 2);
-    REQUIRE(event4B.eventPrice == 13.6);
+    REQUIRE(event4B.eventPrice == 1360);
     REQUIRE(event4B.eventQuantity == 3);
     REQUIRE(event4B.eventType == EventType::FILL);
     REQUIRE(event4B.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -651,7 +575,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
 
     levelOrderBook1.submitOrder(Order {
         1,
-        13.4,
+        1340,
         5,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -660,7 +584,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
     });
     Events events1 = levelOrderBook1.submitOrder(Order {
         2,
-        13.4,
+        1340,
         5,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -672,7 +596,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
     Event event1 = events1.at(0);
     REQUIRE(event1.eventOrderID == 2);
     REQUIRE(event1.counterOrderID == 1);
-    REQUIRE(event1.eventPrice == 13.4);
+    REQUIRE(event1.eventPrice == 1340);
     REQUIRE(event1.eventQuantity == 5);
     REQUIRE(event1.eventType == EventType::FILL);
     REQUIRE(event1.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -680,7 +604,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
 
     levelOrderBook2.submitOrder(Order {
         1,
-        13.4,
+        1340,
         5,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -689,7 +613,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
     });
     Events events2 = levelOrderBook2.submitOrder(Order {
         2,
-        12.3,
+        1230,
         5,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -701,7 +625,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
     Event event2 = events2.at(0);
     REQUIRE(event2.eventOrderID == 2);
     REQUIRE(event2.counterOrderID == 1);
-    REQUIRE(event2.eventPrice == 13.4);
+    REQUIRE(event2.eventPrice == 1340);
     REQUIRE(event2.eventQuantity == 5);
     REQUIRE(event2.eventType == EventType::FILL);
     REQUIRE(event2.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -709,7 +633,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
 
     levelOrderBook3.submitOrder(Order {
         1,
-        13.4,
+        1340,
         5,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -718,7 +642,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
     });
     levelOrderBook3.submitOrder(Order {
         2,
-        13.4,
+        1340,
         5,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -727,7 +651,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
     });
     Events events3 = levelOrderBook3.submitOrder(Order {
         3,
-        13.4,
+        1340,
         8,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -740,7 +664,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
     Event event3A = events3.at(0);
     REQUIRE(event3A.eventOrderID == 3);
     REQUIRE(event3A.counterOrderID == 1);
-    REQUIRE(event3A.eventPrice == 13.4);
+    REQUIRE(event3A.eventPrice == 1340);
     REQUIRE(event3A.eventQuantity == 5);
     REQUIRE(event3A.eventType == EventType::FILL);
     REQUIRE(event3A.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -748,7 +672,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
     Event event3B = events3.at(1);
     REQUIRE(event3B.eventOrderID == 3);
     REQUIRE(event3B.counterOrderID == 2);
-    REQUIRE(event3B.eventPrice == 13.4);
+    REQUIRE(event3B.eventPrice == 1340);
     REQUIRE(event3B.eventQuantity == 3);
     REQUIRE(event3B.eventType == EventType::FILL);
     REQUIRE(event3B.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -756,7 +680,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
 
     levelOrderBook4.submitOrder(Order {
         1,
-        13.4,
+        1340,
         5,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -765,7 +689,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
     });
     levelOrderBook4.submitOrder(Order {
         2,
-        13.2,
+        1320,
         5,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -774,7 +698,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
     });
     Events events4 = levelOrderBook4.submitOrder(Order {
         3,
-        13.1,
+        1310,
         8,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -787,7 +711,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
     Event event4A = events4.at(0);
     REQUIRE(event4A.eventOrderID == 3);
     REQUIRE(event4A.counterOrderID == 1);
-    REQUIRE(event4A.eventPrice == 13.4);
+    REQUIRE(event4A.eventPrice == 1340);
     REQUIRE(event4A.eventQuantity == 5);
     REQUIRE(event4A.eventType == EventType::FILL);
     REQUIRE(event4A.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -795,7 +719,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #6", "[submit_order]") {
     Event event4B = events4.at(1);
     REQUIRE(event4B.eventOrderID == 3);
     REQUIRE(event4B.counterOrderID == 2);
-    REQUIRE(event4B.eventPrice == 13.2);
+    REQUIRE(event4B.eventPrice == 1320);
     REQUIRE(event4B.eventQuantity == 3);
     REQUIRE(event4B.eventType == EventType::FILL);
     REQUIRE(event4B.cancelReason == CancelReason::NOT_APPLICABLE);
@@ -809,7 +733,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #7", "[submit_order]") {
 
     levelOrderBook1.submitOrder(Order {
         1,
-        12.5,
+        1250,
         7,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -818,7 +742,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #7", "[submit_order]") {
     });
     Events events1 = levelOrderBook1.submitOrder(Order {
         2,
-        14.9,
+        1490,
         4,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -829,7 +753,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #7", "[submit_order]") {
     Event event1 = events1.at(0);
     REQUIRE(event1.eventOrderID == 2);
     REQUIRE(event1.counterOrderID == 1);
-    REQUIRE(event1.eventPrice == 12.5);
+    REQUIRE(event1.eventPrice == 1250);
     REQUIRE(event1.eventQuantity == 4);
     REQUIRE(event1.eventType == EventType::FILL);
     REQUIRE(event1.rejectReason == RejectReason::NOT_APPLICABLE);
@@ -837,7 +761,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #7", "[submit_order]") {
 
     levelOrderBook2.submitOrder(Order {
         1,
-        12.5,
+        1250,
         7,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -846,7 +770,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #7", "[submit_order]") {
     });
     Events events2 = levelOrderBook2.submitOrder(Order {
         2,
-        10.9,
+        1090,
         4,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -857,7 +781,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #7", "[submit_order]") {
     Event event2 = events2.at(0);
     REQUIRE(event2.eventOrderID == 2);
     REQUIRE(event2.counterOrderID == 1);
-    REQUIRE(event2.eventPrice == 12.5);
+    REQUIRE(event2.eventPrice == 1250);
     REQUIRE(event2.eventQuantity == 4);
     REQUIRE(event2.eventType == EventType::FILL);
     REQUIRE(event2.rejectReason == RejectReason::NOT_APPLICABLE);
@@ -872,7 +796,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #8", "[submit_order]") {
 
     limitOrderBook1.submitOrder(Order {
         1,
-        32.3,
+        3230,
         2,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -881,7 +805,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #8", "[submit_order]") {
     });
     Events events1 = limitOrderBook1.submitOrder(Order {
         2,
-        30.2,
+        3020,
         2,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -893,7 +817,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #8", "[submit_order]") {
 
     REQUIRE(event1.eventOrderID == 2);
     REQUIRE(event1.counterOrderID == 0);
-    REQUIRE(event1.eventPrice == 30.2);
+    REQUIRE(event1.eventPrice == 3020);
     REQUIRE(event1.eventQuantity == 2);
     REQUIRE(event1.eventType == EventType::REJECT);
     REQUIRE(event1.rejectReason == RejectReason::MARKET_NO_FILL);
@@ -901,7 +825,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #8", "[submit_order]") {
 
     limitOrderBook2.submitOrder(Order {
         1,
-        32.3,
+        3230,
         2,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -910,7 +834,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #8", "[submit_order]") {
     });
     Events events2 = limitOrderBook2.submitOrder(Order {
         2,
-        30.2,
+        3020,
         5,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -922,7 +846,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #8", "[submit_order]") {
     Event event2A = events2.at(0);
     REQUIRE(event2A.eventOrderID == 2);
     REQUIRE(event2A.counterOrderID == 1);
-    REQUIRE(event2A.eventPrice == 32.3);
+    REQUIRE(event2A.eventPrice == 3230);
     REQUIRE(event2A.eventQuantity == 2);
     REQUIRE(event2A.eventType == EventType::FILL);
     REQUIRE(event2A.rejectReason == RejectReason::NOT_APPLICABLE);
@@ -931,7 +855,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #8", "[submit_order]") {
     Event event2B = events2.at(1);
     REQUIRE(event2B.eventOrderID == 2);
     REQUIRE(event2B.counterOrderID == 0);
-    REQUIRE(event2B.eventPrice == 30.2);
+    REQUIRE(event2B.eventPrice == 3020);
     REQUIRE(event2B.eventQuantity == 3);
     REQUIRE(event2B.eventType == EventType::CANCEL);
     REQUIRE(event2B.rejectReason == RejectReason::NOT_APPLICABLE);
@@ -939,7 +863,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #8", "[submit_order]") {
 
     limitOrderBook3.submitOrder(Order {
         1,
-        32.3,
+        3230,
         2,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -948,7 +872,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #8", "[submit_order]") {
     });
     Events events3 = limitOrderBook3.submitOrder(Order {
         2,
-        34.2,
+        3420,
         1,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -960,7 +884,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #8", "[submit_order]") {
 
     REQUIRE(event3.eventOrderID == 2);
     REQUIRE(event3.counterOrderID == 1);
-    REQUIRE(event3.eventPrice == 32.3);
+    REQUIRE(event3.eventPrice == 3230);
     REQUIRE(event3.eventQuantity == 1);
     REQUIRE(event3.eventType == EventType::FILL);
     REQUIRE(event3.rejectReason == RejectReason::NOT_APPLICABLE);
@@ -975,7 +899,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #9", "[submit_order]") {
 
     limitOrderBook1.submitOrder(Order {
         1,
-        32.3,
+        3230,
         2,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -984,7 +908,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #9", "[submit_order]") {
     });
     Events events1 = limitOrderBook1.submitOrder(Order {
         2,
-        30.2,
+        3020,
         2,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -996,7 +920,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #9", "[submit_order]") {
 
     REQUIRE(event1.eventOrderID == 2);
     REQUIRE(event1.counterOrderID == 0);
-    REQUIRE(event1.eventPrice == 30.2);
+    REQUIRE(event1.eventPrice == 3020);
     REQUIRE(event1.eventQuantity == 2);
     REQUIRE(event1.eventType == EventType::REJECT);
     REQUIRE(event1.rejectReason == RejectReason::IOC_NO_FILL);
@@ -1004,7 +928,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #9", "[submit_order]") {
 
     limitOrderBook2.submitOrder(Order {
         1,
-        32.3,
+        3230,
         2,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -1013,7 +937,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #9", "[submit_order]") {
     });
     Events events2 = limitOrderBook2.submitOrder(Order {
         2,
-        30.2,
+        3020,
         5,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -1025,7 +949,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #9", "[submit_order]") {
     Event event2A = events2.at(0);
     REQUIRE(event2A.eventOrderID == 2);
     REQUIRE(event2A.counterOrderID == 1);
-    REQUIRE(event2A.eventPrice == 32.3);
+    REQUIRE(event2A.eventPrice == 3230);
     REQUIRE(event2A.eventQuantity == 2);
     REQUIRE(event2A.eventType == EventType::FILL);
     REQUIRE(event2A.rejectReason == RejectReason::NOT_APPLICABLE);
@@ -1034,7 +958,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #9", "[submit_order]") {
     Event event2B = events2.at(1);
     REQUIRE(event2B.eventOrderID == 2);
     REQUIRE(event2B.counterOrderID == 0);
-    REQUIRE(event2B.eventPrice == 30.2);
+    REQUIRE(event2B.eventPrice == 3020);
     REQUIRE(event2B.eventQuantity == 3);
     REQUIRE(event2B.eventType == EventType::CANCEL);
     REQUIRE(event2B.rejectReason == RejectReason::NOT_APPLICABLE);
@@ -1042,7 +966,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #9", "[submit_order]") {
 
     limitOrderBook3.submitOrder(Order {
         1,
-        32.3,
+        3230,
         2,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -1051,7 +975,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #9", "[submit_order]") {
     });
     Events events3 = limitOrderBook3.submitOrder(Order {
         2,
-        34.2,
+        3420,
         1,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -1063,7 +987,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #9", "[submit_order]") {
 
     REQUIRE(event3.eventOrderID == 2);
     REQUIRE(event3.counterOrderID == 1);
-    REQUIRE(event3.eventPrice == 32.3);
+    REQUIRE(event3.eventPrice == 3230);
     REQUIRE(event3.eventQuantity == 1);
     REQUIRE(event3.eventType == EventType::FILL);
     REQUIRE(event3.rejectReason == RejectReason::NOT_APPLICABLE);
@@ -1081,7 +1005,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
 
     Events events1 = limitOrderBook1.submitOrder(Order {
         1,
-        28.9,
+        2890,
         3,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -1092,7 +1016,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
     Event event1 = events1.at(0);
     REQUIRE(event1.eventOrderID == 1);
     REQUIRE(event1.counterOrderID == 0);
-    REQUIRE(event1.eventPrice == 28.9);
+    REQUIRE(event1.eventPrice == 2890);
     REQUIRE(event1.eventQuantity == 3);
     REQUIRE(event1.eventType == EventType::REST);
     REQUIRE(event1.rejectReason == RejectReason::NOT_APPLICABLE);
@@ -1100,7 +1024,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
 
     limitOrderBook2.submitOrder(Order {
         1,
-        35.7,
+        3570,
         5,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -1109,7 +1033,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
     });
     Events events2 = limitOrderBook2.submitOrder(Order {
         2,
-        28.9,
+        2890,
         3,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -1120,7 +1044,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
     Event event2 = events2.at(0);
     REQUIRE(event2.eventOrderID == 2);
     REQUIRE(event2.counterOrderID == 0);
-    REQUIRE(event2.eventPrice == 28.9);
+    REQUIRE(event2.eventPrice == 2890);
     REQUIRE(event2.eventQuantity == 3);
     REQUIRE(event2.eventType == EventType::REST);
     REQUIRE(event2.rejectReason == RejectReason::NOT_APPLICABLE);
@@ -1128,7 +1052,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
 
     limitOrderBook3.submitOrder(Order {
         1,
-        35.7,
+        3570,
         5,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -1137,7 +1061,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
     });
     Events events3 = limitOrderBook3.submitOrder(Order {
         2,
-        38.9,
+        3890,
         9,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -1149,7 +1073,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
     Event event3A = events3.at(0);
     REQUIRE(event3A.eventOrderID == 2);
     REQUIRE(event3A.counterOrderID == 1);
-    REQUIRE(event3A.eventPrice == 35.7);
+    REQUIRE(event3A.eventPrice == 3570);
     REQUIRE(event3A.eventQuantity == 5);
     REQUIRE(event3A.eventType == EventType::FILL);
     REQUIRE(event3A.rejectReason == RejectReason::NOT_APPLICABLE);
@@ -1158,7 +1082,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
     Event event3B = events3.at(1);
     REQUIRE(event3B.eventOrderID == 2);
     REQUIRE(event3B.counterOrderID == 0);
-    REQUIRE(event3B.eventPrice == 38.9);
+    REQUIRE(event3B.eventPrice == 3890);
     REQUIRE(event3B.eventQuantity == 4);
     REQUIRE(event3B.eventType == EventType::REST);
     REQUIRE(event3B.rejectReason == RejectReason::NOT_APPLICABLE);
@@ -1166,7 +1090,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
 
     Events events4 = limitOrderBook4.submitOrder(Order {
         1,
-        28.9,
+        2890,
         3,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -1177,7 +1101,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
     Event event4 = events4.at(0);
     REQUIRE(event4.eventOrderID == 1);
     REQUIRE(event4.counterOrderID == 0);
-    REQUIRE(event4.eventPrice == 28.9);
+    REQUIRE(event4.eventPrice == 2890);
     REQUIRE(event4.eventQuantity == 3);
     REQUIRE(event4.eventType == EventType::REST);
     REQUIRE(event4.rejectReason == RejectReason::NOT_APPLICABLE);
@@ -1185,7 +1109,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
 
     limitOrderBook5.submitOrder(Order {
         1,
-        35.7,
+        3570,
         5,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -1194,7 +1118,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
     });
     Events events5 = limitOrderBook5.submitOrder(Order {
         2,
-        38.9,
+        3890,
         3,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -1205,7 +1129,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
     Event event5 = events5.at(0);
     REQUIRE(event5.eventOrderID == 2);
     REQUIRE(event5.counterOrderID == 0);
-    REQUIRE(event5.eventPrice == 38.9);
+    REQUIRE(event5.eventPrice == 3890);
     REQUIRE(event5.eventQuantity == 3);
     REQUIRE(event5.eventType == EventType::REST);
     REQUIRE(event5.rejectReason == RejectReason::NOT_APPLICABLE);
@@ -1213,7 +1137,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
 
     limitOrderBook6.submitOrder(Order {
         1,
-        35.7,
+        3570,
         5,
         std::chrono::system_clock::now(),
         Side::BUY,
@@ -1222,7 +1146,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
     });
     Events events6 = limitOrderBook6.submitOrder(Order {
         2,
-        33.9,
+        3390,
         9,
         std::chrono::system_clock::now(),
         Side::SELL,
@@ -1234,7 +1158,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
     Event event6A = events6.at(0);
     REQUIRE(event6A.eventOrderID == 2);
     REQUIRE(event6A.counterOrderID == 1);
-    REQUIRE(event6A.eventPrice == 35.7);
+    REQUIRE(event6A.eventPrice == 3570);
     REQUIRE(event6A.eventQuantity == 5);
     REQUIRE(event6A.eventType == EventType::FILL);
     REQUIRE(event6A.rejectReason == RejectReason::NOT_APPLICABLE);
@@ -1243,7 +1167,7 @@ TEST_CASE("SUBMIT ORDER TESTCASE #10", "[submit_order]") {
     Event event6B = events6.at(1);
     REQUIRE(event6B.eventOrderID == 2);
     REQUIRE(event6B.counterOrderID == 0);
-    REQUIRE(event6B.eventPrice == 33.9);
+    REQUIRE(event6B.eventPrice == 3390);
     REQUIRE(event6B.eventQuantity == 4);
     REQUIRE(event6B.eventType == EventType::REST);
     REQUIRE(event6B.rejectReason == RejectReason::NOT_APPLICABLE);

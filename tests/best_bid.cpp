@@ -11,13 +11,13 @@ TEST_CASE("BEST BID TEST CASE #1", "[get_best_bid]") {
     */
     LOB limitOrderBook = LOB();
 
-    Price testPrice1 = 12.5;
+    Price testPrice1 = 1250;
     Quantity testQuantity1 = 5;
-    Price testPrice2 = testPrice1 / 2.0;
+    Price testPrice2 = testPrice1 - 200;
     Quantity testQuantity2 = testQuantity1 * 2;
-    Price testPrice3 = testPrice1 * 3.0;
+    Price testPrice3 = testPrice1 + 300;
     Quantity testQuantity3 = testQuantity1 - 2;
-    Price testPrice4 = testPrice1 * 2.0;
+    Price testPrice4 = testPrice1 + 200;
     Quantity testQuantity4 = testQuantity1 - 2;
     
     REQUIRE(!limitOrderBook.getBestBid().has_value());
@@ -79,13 +79,13 @@ TEST_CASE("BEST BID TEST CASE #2", "[get_best_bid]") {
     // Best Bid not effect by Sell Side orders
     LOB limitOrderBook = LOB();
 
-    Price testPrice1 = 12.5;
+    Price testPrice1 = 1250;
     Quantity testQuantity1 = 5;
-    Price testPrice2 = testPrice1 / 2.0;
+    Price testPrice2 = testPrice1 + 200;
     Quantity testQuantity2 = testQuantity1 * 2;
-    Price testPrice3 = testPrice1 * 3.0;
+    Price testPrice3 = testPrice1 + 300;
     Quantity testQuantity3 = testQuantity1 - 2;
-    Price testPrice4 = testPrice1 * 2.0;
+    Price testPrice4 = testPrice1 + 200;
     Quantity testQuantity4 = testQuantity1 - 2;
     
     REQUIRE(!limitOrderBook.getBestBid().has_value());

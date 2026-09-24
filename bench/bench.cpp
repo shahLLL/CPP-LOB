@@ -19,8 +19,8 @@ constexpr double pointSevenFive = 0.75;
 constexpr double pointNine = 0.9;
 constexpr double pointNineNine = 0.99;
 constexpr double pointNineNineNine = 0.999;
-constexpr double price90 = 90.0;
-constexpr double price110 = 110.0;
+constexpr Price price90 = 9000;
+constexpr Price price110 = 11000;
 TimeStamp dummyTimeStamp =  std::chrono::system_clock::now();
 
 // Type Aliases
@@ -49,7 +49,7 @@ int main() {
     std::mt19937_64 rng(seed);
 
     UniformSmallIntDistribution sideDistribution(0, 1);
-    UniformDoubleDistribution priceDistribution(95.0, 105.0);
+    UniformUnsignedIntDistribution priceDistribution(9500, 10500);
     UniformSignedIntDistribution quantityDistribution(1, 100);
     UniformSmallIntDistribution typeDistribution(0, 9);
 
@@ -116,7 +116,7 @@ int main() {
             // Market Order
             limitOrderBook.submitOrder(Order {
                 currentID,
-                0.0,
+                0,
                 quantityDistribution(rng),
                 dummyTimeStamp,
                 sideDistribution(rng) ? Side::BUY : Side::SELL,

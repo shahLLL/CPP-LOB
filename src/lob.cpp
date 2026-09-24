@@ -33,17 +33,17 @@ Levels LOB::getAskOrderDepths(SizeT n) const {
 }
 
 Price LOB::getBidAskSpread() const {
-    if(bids.empty() && asks.empty()) return 0.0;
+    if(bids.empty() && asks.empty()) return 0;
     if(bids.empty() && !asks.empty()) return asks.begin()->first;
-    if(!bids.empty() && asks.empty()) return (bids.begin()->first) * -1.0;
+    if(!bids.empty() && asks.empty()) return (bids.begin()->first) * -1;
     return (asks.begin()->first) - (bids.begin()->first);
 }
 
 Price LOB::getMidPrice() const {
-    if(bids.empty() && asks.empty()) return 0.0;
+    if(bids.empty() && asks.empty()) return 0;
     if(bids.empty() && !asks.empty()) return asks.begin()->first;
     if(!bids.empty() && asks.empty()) return bids.begin()->first;
-    return (((bids.begin()->first) + (asks.begin()->first)) / 2.0);
+    return (((bids.begin()->first) + (asks.begin()->first)) / 2);
 }
 
 Double LOB::getOrderImbalance() const {
@@ -80,7 +80,7 @@ Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
         return events;
     }
 
-    if((order.orderType == OrderType::LIMIT) && (order.orderPrice <= 0.0)) {
+    if((order.orderType == OrderType::LIMIT) && (order.orderPrice <= 0)) {
         events.emplace_back(
             Event {
                 order.orderID,
@@ -445,7 +445,7 @@ Event LOB::cancelOrder(ID orderID, TimeStamp ts) {
         return Event {
             orderID,
             0,
-            0.0,
+            0,
             0,
             ts,
             EventType::REJECT,

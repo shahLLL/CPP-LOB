@@ -12,7 +12,7 @@ This codebase has been developed using C++17 and uses [Catch2](https://github.co
 
 This project has been throughly tested with 36 test cases and over 500 assertions.
 ```
-All tests passed (571 assertions in 36 test cases)
+All tests passed (539 assertions in 36 test cases)
 ```
 
 The following optimisations have been incorporated in this project:

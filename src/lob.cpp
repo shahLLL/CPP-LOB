@@ -1,65 +1,118 @@
 #include "../headers/lob.hpp"
 
+CursorType LOB::cursorSeekUp(const CursorType& inputCursor) const noexcept {
+    CursorType cursor = inputCursor + 1;
+    if (cursor < 0 || cursor >= TICK_CAPACITY) return NULL_CURSOR;
+    CursorType idx = cursor >> 6;
+    CursorType bit = cursor & 63;
+
+    BitMapType mask = ~0ULL << bit;
+    BitMapType word = bitMap[idx] & mask;
+
+    while (word == 0) {
+        if (++idx >= BITMAP_CAPACITY) return NULL_CURSOR;
+        word = bitMap[idx];
+    }
+
+    CursorType trailingZeros = __builtin_ctzll(word);
+    CursorType result = (idx << 6) + trailingZeros;
+    if(result >= TICK_CAPACITY) return NULL_CURSOR;
+    return result;
+}
+
+CursorType LOB::cursorSeekDown(const CursorType& inputCursor) const noexcept {
+    CursorType cursor = inputCursor - 1;
+    if (cursor < 0) return NULL_CURSOR;
+
+    CursorType idx = cursor >> 6;
+    CursorType bit = cursor & 63;
+    BitMapType word = bitMap[idx] & ((bit == 63) ? ~0ULL : ((1ULL << (bit + 1)) - 1));
+
+    while (word == 0) {
+        if (--idx < 0) return NULL_CURSOR;
+        word = bitMap[idx];
+    }
+
+    CursorType leadingZeros = __builtin_clzll(word);
+    return (idx << 6) + (63 - leadingZeros);
+}
+
+void LOB::removeFromBitMap(const CursorType& inputCursor) noexcept { bitMap[inputCursor >> 6] &= ~(1ULL << (inputCursor & 63)); }
+
+void LOB::addToBitMap(const CursorType& inputCursor) noexcept { bitMap[inputCursor >> 6] |= 1ULL << (inputCursor & 63); }
+
+bool LOB::checkBitMap(const CursorType& inputCursor) noexcept { return ((bitMap[inputCursor >> 6] & (1ULL << (inputCursor & 63))) != 0); }
+
 TOB LOB::getBestBid() const noexcept {
-    auto bidsItr = bids.begin();
-    if(bids.empty()) return std::nullopt;
-    return Level{ bidsItr->first, bidsItr->second.totalQuantity };
+    if(bestBidCursor == NULL_CURSOR) return std::nullopt;
+    return Level{ bestBidCursor + TICK_MIN, priceLadder[bestBidCursor].totalQuantity };
 }
 
 TOB LOB::getBestAsk() const noexcept {
-    auto asksItr = asks.begin();
-    if(asks.empty()) return std::nullopt;
-    return Level{ asksItr->first, asksItr->second.totalQuantity };
+    if(bestAskCursor == NULL_CURSOR) return std::nullopt;
+    return Level{ bestAskCursor + TICK_MIN, priceLadder[bestAskCursor].totalQuantity };
 }
 
-Levels LOB::getBidOrderDepths(SizeT n) const {
+Levels LOB::getBidOrderDepths(const SizeT& n) const {
     Levels bidDepths;
     bidDepths.reserve(n);
-    for(auto& [price, priceLevel] : bids) {
+    CursorType cursor = bestBidCursor;
+    while(cursor != NULL_CURSOR) {
         if(bidDepths.size() >= n) break;
-        bidDepths.push_back(Level{ price, priceLevel.totalQuantity });
+        bidDepths.push_back(Level{ cursor + TICK_MIN, priceLadder[cursor].totalQuantity });
+        cursor = cursorSeekDown(cursor);
     }
+
     return bidDepths;
 }
 
-Levels LOB::getAskOrderDepths(SizeT n) const {
+Levels LOB::getAskOrderDepths(const SizeT& n) const {
     Levels askDepths;
     askDepths.reserve(n);
-    for(auto& [price, priceLevel] : asks) {
+    CursorType cursor = bestAskCursor;
+    while(cursor != NULL_CURSOR) {
         if(askDepths.size() >= n) break;
-        askDepths.push_back(Level{ price, priceLevel.totalQuantity });
+        askDepths.push_back(Level{ cursor + TICK_MIN, priceLadder[cursor].totalQuantity });
+        cursor = cursorSeekUp(cursor);
     }
     return askDepths;
 }
 
 Price LOB::getBidAskSpread() const {
-    if(bids.empty() && asks.empty()) return 0;
-    if(bids.empty() && !asks.empty()) return asks.begin()->first;
-    if(!bids.empty() && asks.empty()) return (bids.begin()->first) * -1;
-    return (asks.begin()->first) - (bids.begin()->first);
+    if((bestBidCursor == NULL_CURSOR) && (bestAskCursor == NULL_CURSOR)) return 0;
+    if((bestBidCursor == NULL_CURSOR) && (bestAskCursor != NULL_CURSOR)) return bestAskCursor + TICK_MIN;
+    if((bestBidCursor != NULL_CURSOR) && (bestAskCursor == NULL_CURSOR)) return (bestBidCursor + TICK_MIN) * -1;
+    return bestAskCursor - bestBidCursor;
 }
 
 Price LOB::getMidPrice() const {
-    if(bids.empty() && asks.empty()) return 0;
-    if(bids.empty() && !asks.empty()) return asks.begin()->first;
-    if(!bids.empty() && asks.empty()) return bids.begin()->first;
-    return (((bids.begin()->first) + (asks.begin()->first)) / 2);
+    if((bestBidCursor == NULL_CURSOR) && (bestAskCursor == NULL_CURSOR)) return 0;
+    if((bestBidCursor == NULL_CURSOR) && (bestAskCursor != NULL_CURSOR)) return bestAskCursor + TICK_MIN;
+    if((bestBidCursor != NULL_CURSOR) && (bestAskCursor == NULL_CURSOR)) return bestBidCursor + TICK_MIN;
+    return ((bestBidCursor + TICK_MIN) + (bestAskCursor + TICK_MIN)) / 2;
 }
 
 Double LOB::getOrderImbalance() const {
     Double bidTotal = 0.0;
     Double askTotal = 0.0;
-    for(auto& [price, priceLevel] : bids) { 
-        bidTotal += static_cast<Double>(priceLevel.totalQuantity);
+    CursorType bidCursor = bestBidCursor;
+    CursorType askCursor = bestAskCursor;
+
+    while(bidCursor != NULL_CURSOR) {
+        bidTotal += static_cast<Double>(priceLadder[bidCursor].totalQuantity);
+        bidCursor = cursorSeekDown(bidCursor);
     }
-    for(auto& [price, priceLevel] : asks) { 
-        askTotal += static_cast<Double>(priceLevel.totalQuantity);
+
+    while(askCursor != NULL_CURSOR) {
+        askTotal += static_cast<Double>(priceLadder[askCursor].totalQuantity);
+        askCursor = cursorSeekUp(askCursor);
     }
+
     if(bidTotal + askTotal == 0.0) return 0.0;
     return (bidTotal - askTotal) / (bidTotal + askTotal);
 }
 
-Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
+Events LOB::submitOrder(const Order& order, const SizeT& reserveCapacity) {
     Events events;
     events.reserve(reserveCapacity);
 
@@ -80,7 +133,7 @@ Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
         return events;
     }
 
-    if((order.orderType == OrderType::LIMIT) && (order.orderPrice <= 0)) {
+    if((order.orderPrice >= TICK_MAX) || (order.orderPrice < TICK_MIN)) {
         events.emplace_back(
             Event {
                 order.orderID,
@@ -116,15 +169,19 @@ Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
         Quantity requestedQuantity = order.orderQuantity;
         
         if(order.orderSide == Side::BUY) {
-            for(auto& [price, priceLevel] : asks) {
-                if((price > order.orderPrice) || (requestedQuantity <= 0)) break;
-                requestedQuantity = requestedQuantity - priceLevel.totalQuantity;
-            }
+           CursorType askCursor = bestAskCursor;
+           while(askCursor != NULL_CURSOR) {
+                if(((askCursor + TICK_MIN) > order.orderPrice) || (requestedQuantity <= 0)) break;
+                requestedQuantity = requestedQuantity - priceLadder[askCursor].totalQuantity;
+                askCursor = cursorSeekUp(askCursor);
+           }
         } else {
-            for(auto& [price, priceLevel] : bids) {
-                if((price < order.orderPrice) || (requestedQuantity <= 0)) break;
-                requestedQuantity = requestedQuantity - priceLevel.totalQuantity;
-            }
+           CursorType bidCursor = bestBidCursor;
+           while(bidCursor != NULL_CURSOR) {
+                if(((bidCursor + TICK_MIN) < order.orderPrice) || (requestedQuantity <= 0)) break;
+                requestedQuantity = requestedQuantity - priceLadder[bidCursor].totalQuantity;
+                bidCursor = cursorSeekDown(bidCursor);
+           }
         }
 
         if(requestedQuantity > 0) {
@@ -149,11 +206,11 @@ Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
     bool tradeExecuted = false;
 
     if(order.orderSide == Side::BUY) {
-        auto asksItr = asks.begin();
-        while((asksItr != asks.end()) && (requestedQuantity > 0)) {
-            if(asksItr->first > order.orderPrice) break;
+        CursorType askCursor = bestAskCursor;
+        while((askCursor != NULL_CURSOR) && (requestedQuantity > 0)) {
+            if((askCursor + TICK_MIN) > order.orderPrice) break;
+            PriceLevel& priceLevel = priceLadder[askCursor];
 
-            auto& priceLevel = asksItr->second;
             LevelOrder* current = priceLevel.head;
             while((current != nullptr) && (requestedQuantity > 0)) {
                 Quantity fillQuantity = requestedQuantity < current->currentQuantity ? 
@@ -163,12 +220,12 @@ Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
                 priceLevel.totalQuantity = priceLevel.totalQuantity - fillQuantity;
                 current->currentQuantity = current->currentQuantity - fillQuantity;
                 tradeExecuted = true;
-
+                
                 events.emplace_back(
                     Event {
                         order.orderID,
                         current->orderID,
-                        asksItr->first,
+                        askCursor + TICK_MIN,
                         fillQuantity,
                         order.orderTimeStamp,
                         EventType::FILL,
@@ -197,20 +254,24 @@ Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
                 current = next;
             }
 
-            if(priceLevel.totalQuantity == 0) asksItr = asks.erase(asksItr);
+            if(priceLevel.totalQuantity == 0) {
+                removeFromBitMap(askCursor);
+                bestAskCursor = cursorSeekUp(askCursor);
+                askCursor = bestAskCursor;
+            }
             else break;
         }
     } else {
-        auto bidsItr = bids.begin();
-        while((bidsItr != bids.end()) && (requestedQuantity > 0)) {
-            if(bidsItr->first < order.orderPrice) break;
-
-            auto& priceLevel = bidsItr->second;
+        CursorType bidCursor = bestBidCursor;
+        while((bidCursor != NULL_CURSOR) && (requestedQuantity > 0)) {
+            if((bidCursor + TICK_MIN) < order.orderPrice) break;
+            PriceLevel& priceLevel = priceLadder[bidCursor];
             LevelOrder* current = priceLevel.head;
+
             while((current != nullptr) && (requestedQuantity > 0)) {
-                Quantity fillQuantity = requestedQuantity < current->currentQuantity ? 
+                Quantity fillQuantity = requestedQuantity < current->currentQuantity ?
                     requestedQuantity : current->currentQuantity;
-                
+
                 requestedQuantity = requestedQuantity - fillQuantity;
                 priceLevel.totalQuantity = priceLevel.totalQuantity - fillQuantity;
                 current->currentQuantity = current->currentQuantity - fillQuantity;
@@ -220,7 +281,7 @@ Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
                     Event {
                         order.orderID,
                         current->orderID,
-                        bidsItr->first,
+                        (bidCursor + TICK_MIN),
                         fillQuantity,
                         order.orderTimeStamp,
                         EventType::FILL,
@@ -249,7 +310,11 @@ Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
                 current = next;
             }
 
-            if(priceLevel.totalQuantity == 0) bidsItr = bids.erase(bidsItr);
+            if(priceLevel.totalQuantity == 0) {
+                removeFromBitMap(bidCursor);
+                bestBidCursor = cursorSeekDown(bidCursor);
+                bidCursor = bestBidCursor;
+            }
             else break;
         }
     }
@@ -323,22 +388,20 @@ Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
     
     // Rest
     if(order.orderSide == Side::BUY) {
-        auto bidsItr = bids.find(order.orderPrice);
-        if(bidsItr != bids.end()) {
-            auto& priceLevel = bids[order.orderPrice];
+        CursorType bidCursor = order.orderPrice - TICK_MIN;
+        bool bitMapCheck = checkBitMap(bidCursor);
+
+        if(bitMapCheck) {
+            PriceLevel& priceLevel = priceLadder[bidCursor];
             LevelOrder* node = orderPool.create(order.orderID, 
                 order.orderPrice, requestedQuantity, order.orderTimeStamp);
 
             node->prev = priceLevel.tail;
             node->next = nullptr;
-            if (priceLevel.tail != nullptr) {
-                priceLevel.tail->next = node;
-            } else {
-                priceLevel.head = node;
-            }
+            priceLevel.tail->next = node;
             priceLevel.tail = node;
-
             priceLevel.totalQuantity = priceLevel.totalQuantity + requestedQuantity;
+
             orderLocator[order.orderID] = Locator { 
                 order.orderPrice,
                 requestedQuantity,
@@ -346,49 +409,38 @@ Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
                 node
             };
         } else {
-            auto [it, inserted] = bids.emplace(
-                order.orderPrice,
-                PriceLevel{}
-            );
-            auto& priceLevel = it->second;
+            PriceLevel& priceLevel = priceLadder[bidCursor];
             LevelOrder* node = orderPool.create(order.orderID, 
                 order.orderPrice, requestedQuantity, order.orderTimeStamp);
-
             
-            node->prev = priceLevel.tail;
+            node->prev = nullptr;
             node->next = nullptr;
-            if (priceLevel.tail != nullptr) {
-                priceLevel.tail->next = node;
-            } else {
-               priceLevel.head = node;
-            }
+            priceLevel.head = node;
             priceLevel.tail = node;
-
             priceLevel.totalQuantity = requestedQuantity;
+
             orderLocator[order.orderID] = Locator {
                 order.orderPrice,
                 requestedQuantity,
                 Side::BUY,
                 node
             };
+            addToBitMap(bidCursor);
+            if(bidCursor > bestBidCursor) bestBidCursor = bidCursor;
         }
     } else {
-        auto asksItr = asks.find(order.orderPrice);
-        if(asksItr != asks.end()) {
-            auto& priceLevel = asks[order.orderPrice];
+        CursorType askCursor = order.orderPrice - TICK_MIN;
+        if(checkBitMap(askCursor)) {
+            PriceLevel& priceLevel = priceLadder[askCursor];
             LevelOrder* node = orderPool.create(order.orderID,
                 order.orderPrice, requestedQuantity, order.orderTimeStamp);
             
             node->prev = priceLevel.tail;
             node->next = nullptr;
-            if (priceLevel.tail != nullptr) {
-                priceLevel.tail->next = node;
-            } else {
-                priceLevel.head = node;
-            }
+            priceLevel.tail->next = node;
             priceLevel.tail = node;
-
             priceLevel.totalQuantity = priceLevel.totalQuantity + requestedQuantity;
+
             orderLocator[order.orderID] = Locator { 
                 order.orderPrice,
                 requestedQuantity,
@@ -396,30 +448,24 @@ Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
                 node
             };
         } else {
-            auto [it, inserted] = asks.emplace(
-                order.orderPrice,
-                PriceLevel{}
-            );
-            auto& priceLevel = it->second;
-            LevelOrder* node = orderPool.create(order.orderID, 
+            PriceLevel& priceLevel = priceLadder[askCursor];
+            LevelOrder* node = orderPool.create(order.orderID,
                 order.orderPrice, requestedQuantity, order.orderTimeStamp);
 
-            node->prev = priceLevel.tail;
+            node->prev = nullptr;
             node->next = nullptr;
-            if (priceLevel.tail != nullptr) {
-                priceLevel.tail->next = node;
-            } else {
-                priceLevel.head = node;
-            }
+            priceLevel.head = node;
             priceLevel.tail = node;
-
             priceLevel.totalQuantity = requestedQuantity;
+
             orderLocator[order.orderID] = Locator {
                 order.orderPrice,
                 requestedQuantity,
                 Side::SELL,
                 node
             };
+            addToBitMap(askCursor);
+            if((bestAskCursor == NULL_CURSOR) || (askCursor < bestAskCursor)) bestAskCursor = askCursor;
         }
     }
 
@@ -439,7 +485,7 @@ Events LOB::submitOrder(const Order& order, const SizeT reserveCapacity) {
     return events;
 }
 
-Event LOB::cancelOrder(ID orderID, TimeStamp ts) {
+Event LOB::cancelOrder(const ID& orderID, const TimeStamp& timeStamp) {
     auto itr = orderLocator.find(orderID);
     if(itr == orderLocator.end()) {
         return Event {
@@ -447,7 +493,7 @@ Event LOB::cancelOrder(ID orderID, TimeStamp ts) {
             0,
             0,
             0,
-            ts,
+            timeStamp,
             EventType::REJECT,
             RejectReason::UNKOWN,
             CancelReason::NOT_APPLICABLE
@@ -460,8 +506,8 @@ Event LOB::cancelOrder(ID orderID, TimeStamp ts) {
     LevelOrder* node = locatorRef.node;
 
     if(locatorRef.orderSide == Side::BUY) {
-        auto mapItr = bids.find(locatorRef.orderPrice);
-        auto& priceLevel = mapItr->second;
+        CursorType bidCursor = locatorRef.orderPrice - TICK_MIN;
+        PriceLevel& priceLevel = priceLadder[bidCursor];
         priceLevel.totalQuantity = 
             priceLevel.totalQuantity - node->currentQuantity;
 
@@ -476,11 +522,14 @@ Event LOB::cancelOrder(ID orderID, TimeStamp ts) {
             priceLevel.tail = node->prev;
         }
 
+        if(priceLevel.head == nullptr) {
+            if(bestBidCursor == bidCursor) bestBidCursor = cursorSeekDown(bidCursor);
+            removeFromBitMap(bidCursor);
+        }
         orderPool.destroy(node);
-        if(priceLevel.head == nullptr) bids.erase(mapItr);
     } else {
-        auto mapItr = asks.find(locatorRef.orderPrice);
-        auto& priceLevel = mapItr->second;
+        CursorType askCursor = locatorRef.orderPrice - TICK_MIN;
+        PriceLevel& priceLevel = priceLadder[askCursor];
         priceLevel.totalQuantity = 
             priceLevel.totalQuantity - node->currentQuantity;
         
@@ -494,9 +543,12 @@ Event LOB::cancelOrder(ID orderID, TimeStamp ts) {
         } else {
             priceLevel.tail = node->prev;
         }
-
+        
+        if(priceLevel.head == nullptr) {
+            if(bestAskCursor == askCursor) bestAskCursor = cursorSeekUp(askCursor);
+            removeFromBitMap(askCursor);
+        } 
         orderPool.destroy(node);
-        if(priceLevel.head == nullptr) asks.erase(mapItr);
     }
     orderLocator.erase(itr);
 
@@ -505,7 +557,7 @@ Event LOB::cancelOrder(ID orderID, TimeStamp ts) {
         0,
         orderPrice,
         orderQuantity,
-        ts,
+        timeStamp,
         EventType::CANCEL,
         RejectReason::NOT_APPLICABLE,
         CancelReason::USER_REQUESTED

@@ -115,7 +115,7 @@ int main() {
             // Market Order
             limitOrderBook.submitOrder(Order {
                 currentID,
-                0,
+                priceDistribution(rng),
                 quantityDistribution(rng),
                 dummyTimeStamp,
                 sideDistribution(rng) ? Side::BUY : Side::SELL,

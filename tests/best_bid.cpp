@@ -11,7 +11,7 @@ TEST_CASE("BEST BID TEST CASE #1", "[get_best_bid]") {
     */
     LOB limitOrderBook = LOB();
 
-    Price testPrice1 = 1250;
+    Price testPrice1 = 12500;
     Quantity testQuantity1 = 5;
     Price testPrice2 = testPrice1 - 200;
     Quantity testQuantity2 = testQuantity1 * 2;
@@ -79,7 +79,7 @@ TEST_CASE("BEST BID TEST CASE #2", "[get_best_bid]") {
     // Best Bid not effect by Sell Side orders
     LOB limitOrderBook = LOB();
 
-    Price testPrice1 = 1250;
+    Price testPrice1 = 12500;
     Quantity testQuantity1 = 5;
     Price testPrice2 = testPrice1 + 200;
     Quantity testQuantity2 = testQuantity1 * 2;

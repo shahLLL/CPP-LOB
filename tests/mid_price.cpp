@@ -10,7 +10,7 @@ TEST_CASE("BID ASK SPREAD TESTCASE #1", "[mid_price]") {
 TEST_CASE("BID ASK SPREAD TESTCASE #2", "[mid_price]") {
     // Check Mid Price for bids and no asks.
     LOB limitOrderBook = LOB();
-    Price testPrice = 3490;
+    Price testPrice = 8490;
     limitOrderBook.submitOrder(Order {
         1,
         testPrice,
@@ -27,7 +27,7 @@ TEST_CASE("BID ASK SPREAD TESTCASE #2", "[mid_price]") {
 TEST_CASE("BID ASK SPREAD TESTCASE #3", "[mid_price]") {
     // Check Mid Price for asks and no bids.
     LOB limitOrderBook = LOB();
-    Price testPrice = 3490;
+    Price testPrice = 8490;
     limitOrderBook.submitOrder(Order {
         1,
         testPrice,
@@ -44,8 +44,8 @@ TEST_CASE("BID ASK SPREAD TESTCASE #3", "[mid_price]") {
 TEST_CASE("BID ASK SPREAD TESTCASE #4", "[mid_price]") {
     // Check Mid Price for asks and bids.
     LOB limitOrderBook = LOB();
-    Price testPriceBid = 3400;
-    Price testPriceAsk = 5400;
+    Price testPriceBid = 8400;
+    Price testPriceAsk = 10400;
     limitOrderBook.submitOrder(Order {
         1,
         testPriceAsk,
@@ -66,5 +66,5 @@ TEST_CASE("BID ASK SPREAD TESTCASE #4", "[mid_price]") {
         TimeInForce::GTC
 
     });
-    REQUIRE(limitOrderBook.getMidPrice() == 4400);
+    REQUIRE(limitOrderBook.getMidPrice() == 9400);
 }

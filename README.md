@@ -15,8 +15,11 @@ This project has been throughly tested with 36 test cases and over 500 assertion
 All tests passed (539 assertions in 36 test cases)
 ```
 
-The following optimisations have been incorporated in this project:
-- **Red-Black Tree:** Used to store bids and asks and efficiently enforce ranking.
+The following optimisations and techniques have been incorporated in this project:
+- **Array-Based Price Ladder:** Used instead of a Red-Black Tree. Removes the need for dynamic allocation on hot paths and reduces cache misses by
+providing sequential memory access.
+- **BitMap and Bit Operations:** Allows for more effecient non-linear traversal of the price ladder for both bids and asks.
+- **Best Bid/Ask Cursors:** Allows for O(1) access to both best bid and ask prices.
 - **Reserving Capacity for Vectors:** Reduces memory overhead for per order dynamic heap allocation.
 - **Intrusive Linked List**: Reduces memory allocations, elimanates cache thrashing, and provides true O(1) deletion. 
 - **Ordered Map:** Used for effecient O(1) order lookup and delete.
@@ -27,12 +30,12 @@ The following optimisations have been incorporated in this project:
 With the optimisations above the following benchmarks have been achieved on a standard MacBook Air with an [Apple M4](https://en.wikipedia.org/wiki/Apple_M4) memory chip and 16GB of memory, compiled with **AppleClang 17.0.0.17000013**:
 
 ```
-Throughput:  7.03445 M ops/sec
-P50 Latency: 125 ns
-P75 Latency: 167 ns
-P90 Latency: 208 ns
-P99 Latency: 333 ns
-p99.9 Latency: 500 ns
+Throughput:  9.07484 M ops/sec
+P50 Latency: 83 ns
+P75 Latency: 125 ns
+P90 Latency: 166 ns
+P99 Latency: 250 ns
+p99.9 Latency: 458 ns
 ```
 
 # 📄 API

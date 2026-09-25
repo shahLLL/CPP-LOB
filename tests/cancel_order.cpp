@@ -32,9 +32,9 @@ TEST_CASE("CANCEL ORDER TESTCASE #2", "[cancel_order]") {
     ID orderID1 = 1;
     ID orderID2 = 2;
     ID orderID3 = 3;
-    Price price1 = 2450;
-    Price price2 = 22450;
-    Price price3 = 1450;
+    Price price1 = 7450;
+    Price price2 = 18450;
+    Price price3 = 5450;
     Quantity quantity1 = 3;
     Quantity quantity2 = 4;
     Quantity quantity3 = 10;

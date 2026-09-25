@@ -10,7 +10,7 @@ TEST_CASE("BID ASK SPREAD TESTCASE #1", "[bid_ask_spread]") {
 TEST_CASE("BID ASK SPREAD TESTCASE #2", "[bid_ask_spread]") {
     // Check Bid Ask Spread for bids and no asks.
     LOB limitOrderBook = LOB();
-    Price testPrice = 3490;
+    Price testPrice = 8490;
     limitOrderBook.submitOrder(Order {
         1,
         testPrice,
@@ -27,7 +27,7 @@ TEST_CASE("BID ASK SPREAD TESTCASE #2", "[bid_ask_spread]") {
 TEST_CASE("BID ASK SPREAD TESTCASE #3", "[bid_ask_spread]") {
     // Check Bid Ask Spread for asks and no bids.
     LOB limitOrderBook = LOB();
-    Price testPrice = 3490;
+    Price testPrice = 8490;
     limitOrderBook.submitOrder(Order {
         1,
         testPrice,
@@ -44,8 +44,8 @@ TEST_CASE("BID ASK SPREAD TESTCASE #3", "[bid_ask_spread]") {
 TEST_CASE("BID ASK SPREAD TESTCASE #4", "[bid_ask_spread]") {
     // Check Bid Ask Spread for asks and bids.
     LOB limitOrderBook = LOB();
-    Price testPriceBid = 3490;
-    Price testPriceAsk = 5470;
+    Price testPriceBid = 8490;
+    Price testPriceAsk = 10470;
     limitOrderBook.submitOrder(Order {
         1,
         testPriceAsk,

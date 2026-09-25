@@ -3,11 +3,11 @@
 
 TEST_CASE("BID ORDER DEPTHS TESTCASE #1", "[get_bid_order_depths]") {
     // Check bid order depth as bids are added lineraly (lowest price -> highest price)
-    Price testPrice1 = 1220;
-    Price testPrice2 = 1330;
-    Price testPrice3 = 1540;
-    Price testPrice4 = 1680;
-    Price testPrice5 = 2890;
+    Price testPrice1 = 5220;
+    Price testPrice2 = 5330;
+    Price testPrice3 = 5540;
+    Price testPrice4 = 5680;
+    Price testPrice5 = 7890;
     Quantity testQuantity1 = 4;
     Quantity testQuantity2 = 2;
     Quantity testQuantity3 = 3;
@@ -79,11 +79,11 @@ TEST_CASE("BID ORDER DEPTHS TESTCASE #1", "[get_bid_order_depths]") {
 
 TEST_CASE("BID ORDER DEPTHS TESTCASE #2", "[get_bid_order_depths]") {
     // Check for empty bid order depth when Sell side orders added
-    Price testPrice1 = 1220;
-    Price testPrice2 = 1330;
-    Price testPrice3 = 1540;
-    Price testPrice4 = 1680;
-    Price testPrice5 = 2890;
+    Price testPrice1 = 5220;
+    Price testPrice2 = 5330;
+    Price testPrice3 = 5540;
+    Price testPrice4 = 5680;
+    Price testPrice5 = 7890;
     Quantity testQuantity1 = 4;
     Quantity testQuantity2 = 2;
     Quantity testQuantity3 = 3;
@@ -145,10 +145,10 @@ TEST_CASE("BID ORDER DEPTHS TESTCASE #2", "[get_bid_order_depths]") {
 TEST_CASE("BID ORDER DEPTHS TESTCASE #3", "[get_bid_order_depths]") {
     // Check bid order depth as bids are added non-lineraly (no preset pattern)
     Price testPrice1 = 12120;
-    Price testPrice2 = 1330;
+    Price testPrice2 = 5330;
     Price testPrice3 = 15240;
-    Price testPrice4 = 1680;
-    Price testPrice5 = 2890;
+    Price testPrice4 = 5680;
+    Price testPrice5 = 7890;
     Quantity testQuantity1 = 4;
     Quantity testQuantity2 = 2;
     Quantity testQuantity3 = 3;

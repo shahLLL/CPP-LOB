@@ -58,8 +58,8 @@ class LOB final {
 #pragma pack(pop)
 
     // Internal Data Members, private by default.
-    CursorType bestBidCursor = -1;
-    CursorType bestAskCursor = -1;
+    CursorType bestBidCursor = NULL_CURSOR;
+    CursorType bestAskCursor = NULL_CURSOR;
     std::array<PriceLevel, TICK_CAPACITY> priceLadder;
     BitMapType bitMap[BITMAP_CAPACITY];
 
